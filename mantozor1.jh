@@ -1,0 +1,46 @@
+
+enum State {
+    ACCEPTED, ANALYSED, CLOSED
+}
+
+enum Status {
+    ACCEPTED, ANALYSED, CLOSED
+}
+
+entity Mantis {
+	number String required   
+    state State 
+    submissionDate Date    
+}
+
+entity Project {
+	name String required
+}
+
+entity Referent {
+	name String
+}
+
+entity MantisStatus{
+	status Status
+    changeDate Date
+}
+
+relationship ManyToOne {
+	MantisStatus{mantis} to Mantis
+}
+
+relationship ManyToOne {
+	Mantis{project} to Project
+    Mantis{referent} to Referent
+}
+
+// Set pagination options
+paginate Project, Referent, Mantis with infinite-scroll
+paginate MantisStatus with pagination
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl except Project, Referent
+
