@@ -1,0 +1,26 @@
+
+{
+    "mantozorApp": {
+        "mantis" : {
+            "home": {
+                "title": "Mantis",
+                "createLabel": "Créer un nouveau Mantis",
+                "createOrEditLabel": "Créer ou éditer un Mantis"
+            },
+            "created": "Un nouveau Mantis a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Mantis avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Mantis avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Mantis {{ id }} ?"
+            },
+            "detail": {
+                "title": "Mantis"
+            },
+            "number": "Number",
+            "state": "State",
+            "submissionDate": "Submission Date",
+            "project": "Project",
+            "referent": "Referent"
+        }
+    }
+}

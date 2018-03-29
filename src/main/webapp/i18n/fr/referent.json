@@ -1,0 +1,22 @@
+
+{
+    "mantozorApp": {
+        "referent" : {
+            "home": {
+                "title": "Referents",
+                "createLabel": "Créer un nouveau Referent",
+                "createOrEditLabel": "Créer ou éditer un Referent"
+            },
+            "created": "Un nouveau Referent a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Referent avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Referent avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Referent {{ id }} ?"
+            },
+            "detail": {
+                "title": "Referent"
+            },
+            "name": "Name"
+        }
+    }
+}

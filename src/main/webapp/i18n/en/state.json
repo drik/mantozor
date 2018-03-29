@@ -1,0 +1,10 @@
+{
+    "mantozorApp": {
+        "State" : {
+            "null": "",
+            "ACCEPTED": "ACCEPTED",
+            "ANALYSED": "ANALYSED",
+            "CLOSED": "CLOSED"
+        }
+    }
+}

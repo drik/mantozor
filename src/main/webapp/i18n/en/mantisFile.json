@@ -1,0 +1,22 @@
+
+{
+    "mantozorApp": {
+        "mantisFile" : {
+            "home": {
+                "title": "Mantis Files",
+                "createLabel": "Create a new Mantis File",
+                "createOrEditLabel": "Create or edit a Mantis File"
+            },
+            "created": "A new Mantis File is created with identifier {{ param }}",
+            "updated": "A Mantis File is updated with identifier {{ param }}",
+            "deleted": "A Mantis File is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Mantis File {{ id }}?"
+            },
+            "detail": {
+                "title": "Mantis File"
+            },
+            "file": "File"
+        }
+    }
+}
