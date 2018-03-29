@@ -1,3 +1,6 @@
+entity MantisFile {
+	file TextBlob 
+}
 
 enum State {
     ACCEPTED, ANALYSED, CLOSED
@@ -10,7 +13,7 @@ enum Status {
 entity Mantis {
 	number String required   
     state State 
-    submissionDate Date    
+    submissionDate LocalDate    
 }
 
 entity Project {
@@ -23,7 +26,7 @@ entity Referent {
 
 entity MantisStatus{
 	status Status
-    changeDate Date
+    changeDate LocalDate
 }
 
 relationship ManyToOne {
