@@ -1,0 +1,28 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "mantis",
+            "otherEntityName": "mantis",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "status",
+            "fieldType": "Status",
+            "fieldValues": "ACCEPTED,ANALYSED,CLOSED"
+        },
+        {
+            "fieldName": "changeDate",
+            "fieldType": "LocalDate"
+        }
+    ],
+    "changelogDate": "20180329071430",
+    "entityTableName": "mantis_status",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

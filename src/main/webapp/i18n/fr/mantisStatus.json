@@ -1,0 +1,24 @@
+
+{
+    "mantozorApp": {
+        "mantisStatus" : {
+            "home": {
+                "title": "MantisStatuses",
+                "createLabel": "Créer un nouveau Mantis Status",
+                "createOrEditLabel": "Créer ou éditer un Mantis Status"
+            },
+            "created": "Un nouveau Mantis Status a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Mantis Status avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Mantis Status avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Mantis Status {{ id }} ?"
+            },
+            "detail": {
+                "title": "Mantis Status"
+            },
+            "status": "Status",
+            "changeDate": "Change Date",
+            "mantis": "Mantis"
+        }
+    }
+}
