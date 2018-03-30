@@ -3,11 +3,14 @@ package com.dirks.cool.web.rest;
 import com.dirks.cool.MantozorApp;
 
 import com.dirks.cool.domain.Mantis;
+import com.dirks.cool.domain.Project;
 import com.dirks.cool.repository.MantisRepository;
 import com.dirks.cool.service.MantisService;
 import com.dirks.cool.service.dto.MantisDTO;
 import com.dirks.cool.service.mapper.MantisMapper;
 import com.dirks.cool.web.rest.errors.ExceptionTranslator;
+import com.dirks.cool.service.dto.MantisCriteria;
+import com.dirks.cool.service.MantisQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -59,6 +62,9 @@ public class MantisResourceIntTest {
     private MantisService mantisService;
 
     @Autowired
+    private MantisQueryService mantisQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -77,7 +83,7 @@ public class MantisResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MantisResource mantisResource = new MantisResource(mantisService);
+        final MantisResource mantisResource = new MantisResource(mantisService, mantisQueryService);
         this.restMantisMockMvc = MockMvcBuilders.standaloneSetup(mantisResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -191,6 +197,153 @@ public class MantisResourceIntTest {
             .andExpect(jsonPath("$.mantisNumber").value(DEFAULT_MANTIS_NUMBER.toString()))
             .andExpect(jsonPath("$.submissionDate").value(DEFAULT_SUBMISSION_DATE.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllMantisByMantisNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        mantisRepository.saveAndFlush(mantis);
+
+        // Get all the mantisList where mantisNumber equals to DEFAULT_MANTIS_NUMBER
+        defaultMantisShouldBeFound("mantisNumber.equals=" + DEFAULT_MANTIS_NUMBER);
+
+        // Get all the mantisList where mantisNumber equals to UPDATED_MANTIS_NUMBER
+        defaultMantisShouldNotBeFound("mantisNumber.equals=" + UPDATED_MANTIS_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisByMantisNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        mantisRepository.saveAndFlush(mantis);
+
+        // Get all the mantisList where mantisNumber in DEFAULT_MANTIS_NUMBER or UPDATED_MANTIS_NUMBER
+        defaultMantisShouldBeFound("mantisNumber.in=" + DEFAULT_MANTIS_NUMBER + "," + UPDATED_MANTIS_NUMBER);
+
+        // Get all the mantisList where mantisNumber equals to UPDATED_MANTIS_NUMBER
+        defaultMantisShouldNotBeFound("mantisNumber.in=" + UPDATED_MANTIS_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisByMantisNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        mantisRepository.saveAndFlush(mantis);
+
+        // Get all the mantisList where mantisNumber is not null
+        defaultMantisShouldBeFound("mantisNumber.specified=true");
+
+        // Get all the mantisList where mantisNumber is null
+        defaultMantisShouldNotBeFound("mantisNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisBySubmissionDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        mantisRepository.saveAndFlush(mantis);
+
+        // Get all the mantisList where submissionDate equals to DEFAULT_SUBMISSION_DATE
+        defaultMantisShouldBeFound("submissionDate.equals=" + DEFAULT_SUBMISSION_DATE);
+
+        // Get all the mantisList where submissionDate equals to UPDATED_SUBMISSION_DATE
+        defaultMantisShouldNotBeFound("submissionDate.equals=" + UPDATED_SUBMISSION_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisBySubmissionDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        mantisRepository.saveAndFlush(mantis);
+
+        // Get all the mantisList where submissionDate in DEFAULT_SUBMISSION_DATE or UPDATED_SUBMISSION_DATE
+        defaultMantisShouldBeFound("submissionDate.in=" + DEFAULT_SUBMISSION_DATE + "," + UPDATED_SUBMISSION_DATE);
+
+        // Get all the mantisList where submissionDate equals to UPDATED_SUBMISSION_DATE
+        defaultMantisShouldNotBeFound("submissionDate.in=" + UPDATED_SUBMISSION_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisBySubmissionDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        mantisRepository.saveAndFlush(mantis);
+
+        // Get all the mantisList where submissionDate is not null
+        defaultMantisShouldBeFound("submissionDate.specified=true");
+
+        // Get all the mantisList where submissionDate is null
+        defaultMantisShouldNotBeFound("submissionDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisBySubmissionDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        mantisRepository.saveAndFlush(mantis);
+
+        // Get all the mantisList where submissionDate greater than or equals to DEFAULT_SUBMISSION_DATE
+        defaultMantisShouldBeFound("submissionDate.greaterOrEqualThan=" + DEFAULT_SUBMISSION_DATE);
+
+        // Get all the mantisList where submissionDate greater than or equals to UPDATED_SUBMISSION_DATE
+        defaultMantisShouldNotBeFound("submissionDate.greaterOrEqualThan=" + UPDATED_SUBMISSION_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisBySubmissionDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        mantisRepository.saveAndFlush(mantis);
+
+        // Get all the mantisList where submissionDate less than or equals to DEFAULT_SUBMISSION_DATE
+        defaultMantisShouldNotBeFound("submissionDate.lessThan=" + DEFAULT_SUBMISSION_DATE);
+
+        // Get all the mantisList where submissionDate less than or equals to UPDATED_SUBMISSION_DATE
+        defaultMantisShouldBeFound("submissionDate.lessThan=" + UPDATED_SUBMISSION_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllMantisByProjectIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Project project = ProjectResourceIntTest.createEntity(em);
+        em.persist(project);
+        em.flush();
+        mantis.setProject(project);
+        mantisRepository.saveAndFlush(mantis);
+        Long projectId = project.getId();
+
+        // Get all the mantisList where project equals to projectId
+        defaultMantisShouldBeFound("projectId.equals=" + projectId);
+
+        // Get all the mantisList where project equals to projectId + 1
+        defaultMantisShouldNotBeFound("projectId.equals=" + (projectId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultMantisShouldBeFound(String filter) throws Exception {
+        restMantisMockMvc.perform(get("/api/mantis?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(mantis.getId().intValue())))
+            .andExpect(jsonPath("$.[*].mantisNumber").value(hasItem(DEFAULT_MANTIS_NUMBER.toString())))
+            .andExpect(jsonPath("$.[*].submissionDate").value(hasItem(DEFAULT_SUBMISSION_DATE.toString())));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultMantisShouldNotBeFound(String filter) throws Exception {
+        restMantisMockMvc.perform(get("/api/mantis?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+    }
+
 
     @Test
     @Transactional

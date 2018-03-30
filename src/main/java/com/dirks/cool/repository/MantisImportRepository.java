@@ -11,7 +11,7 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MantisImportRepository extends JpaRepository<MantisImport, Long> {
+public interface MantisImportRepository extends JpaRepository<MantisImport, Long>, JpaSpecificationExecutor<MantisImport> {
 
     @Query("select mantis_import from MantisImport mantis_import where mantis_import.user.login = ?#{principal.username}")
     List<MantisImport> findByUserIsCurrentUser();

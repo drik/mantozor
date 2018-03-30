@@ -34,6 +34,7 @@
     "jhipsterVersion": "4.14.1",
     "packageFolder": "com/dirks/cool",
     "jwtSecretKey": "baa4c43fcd05e33a4f009a4f2efce04cd4222c2e",
-    "jhiPrefix": "jhi"
+    "jhiPrefix": "jhi",
+	"jpaMetamodelFiltering":true
   }
 }

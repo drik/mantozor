@@ -3,11 +3,14 @@ package com.dirks.cool.web.rest;
 import com.dirks.cool.MantozorApp;
 
 import com.dirks.cool.domain.MantisImport;
+import com.dirks.cool.domain.User;
 import com.dirks.cool.repository.MantisImportRepository;
 import com.dirks.cool.service.MantisImportService;
 import com.dirks.cool.service.dto.MantisImportDTO;
 import com.dirks.cool.service.mapper.MantisImportMapper;
 import com.dirks.cool.web.rest.errors.ExceptionTranslator;
+import com.dirks.cool.service.dto.MantisImportCriteria;
+import com.dirks.cool.service.MantisImportQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -65,6 +68,9 @@ public class MantisImportResourceIntTest {
     private MantisImportService mantisImportService;
 
     @Autowired
+    private MantisImportQueryService mantisImportQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -83,7 +89,7 @@ public class MantisImportResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MantisImportResource mantisImportResource = new MantisImportResource(mantisImportService);
+        final MantisImportResource mantisImportResource = new MantisImportResource(mantisImportService, mantisImportQueryService);
         this.restMantisImportMockMvc = MockMvcBuilders.standaloneSetup(mantisImportResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -186,6 +192,155 @@ public class MantisImportResourceIntTest {
             .andExpect(jsonPath("$.fileContentType").value(DEFAULT_FILE_CONTENT_TYPE))
             .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)));
     }
+
+    @Test
+    @Transactional
+    public void getAllMantisImportsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        mantisImportRepository.saveAndFlush(mantisImport);
+
+        // Get all the mantisImportList where name equals to DEFAULT_NAME
+        defaultMantisImportShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the mantisImportList where name equals to UPDATED_NAME
+        defaultMantisImportShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisImportsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        mantisImportRepository.saveAndFlush(mantisImport);
+
+        // Get all the mantisImportList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultMantisImportShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the mantisImportList where name equals to UPDATED_NAME
+        defaultMantisImportShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisImportsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        mantisImportRepository.saveAndFlush(mantisImport);
+
+        // Get all the mantisImportList where name is not null
+        defaultMantisImportShouldBeFound("name.specified=true");
+
+        // Get all the mantisImportList where name is null
+        defaultMantisImportShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisImportsByImportDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        mantisImportRepository.saveAndFlush(mantisImport);
+
+        // Get all the mantisImportList where importDate equals to DEFAULT_IMPORT_DATE
+        defaultMantisImportShouldBeFound("importDate.equals=" + DEFAULT_IMPORT_DATE);
+
+        // Get all the mantisImportList where importDate equals to UPDATED_IMPORT_DATE
+        defaultMantisImportShouldNotBeFound("importDate.equals=" + UPDATED_IMPORT_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisImportsByImportDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        mantisImportRepository.saveAndFlush(mantisImport);
+
+        // Get all the mantisImportList where importDate in DEFAULT_IMPORT_DATE or UPDATED_IMPORT_DATE
+        defaultMantisImportShouldBeFound("importDate.in=" + DEFAULT_IMPORT_DATE + "," + UPDATED_IMPORT_DATE);
+
+        // Get all the mantisImportList where importDate equals to UPDATED_IMPORT_DATE
+        defaultMantisImportShouldNotBeFound("importDate.in=" + UPDATED_IMPORT_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisImportsByImportDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        mantisImportRepository.saveAndFlush(mantisImport);
+
+        // Get all the mantisImportList where importDate is not null
+        defaultMantisImportShouldBeFound("importDate.specified=true");
+
+        // Get all the mantisImportList where importDate is null
+        defaultMantisImportShouldNotBeFound("importDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisImportsByImportDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        mantisImportRepository.saveAndFlush(mantisImport);
+
+        // Get all the mantisImportList where importDate greater than or equals to DEFAULT_IMPORT_DATE
+        defaultMantisImportShouldBeFound("importDate.greaterOrEqualThan=" + DEFAULT_IMPORT_DATE);
+
+        // Get all the mantisImportList where importDate greater than or equals to UPDATED_IMPORT_DATE
+        defaultMantisImportShouldNotBeFound("importDate.greaterOrEqualThan=" + UPDATED_IMPORT_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisImportsByImportDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        mantisImportRepository.saveAndFlush(mantisImport);
+
+        // Get all the mantisImportList where importDate less than or equals to DEFAULT_IMPORT_DATE
+        defaultMantisImportShouldNotBeFound("importDate.lessThan=" + DEFAULT_IMPORT_DATE);
+
+        // Get all the mantisImportList where importDate less than or equals to UPDATED_IMPORT_DATE
+        defaultMantisImportShouldBeFound("importDate.lessThan=" + UPDATED_IMPORT_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllMantisImportsByUserIsEqualToSomething() throws Exception {
+        // Initialize the database
+        User user = UserResourceIntTest.createEntity(em);
+        em.persist(user);
+        em.flush();
+        mantisImport.setUser(user);
+        mantisImportRepository.saveAndFlush(mantisImport);
+        Long userId = user.getId();
+
+        // Get all the mantisImportList where user equals to userId
+        defaultMantisImportShouldBeFound("userId.equals=" + userId);
+
+        // Get all the mantisImportList where user equals to userId + 1
+        defaultMantisImportShouldNotBeFound("userId.equals=" + (userId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultMantisImportShouldBeFound(String filter) throws Exception {
+        restMantisImportMockMvc.perform(get("/api/mantis-imports?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(mantisImport.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].importDate").value(hasItem(DEFAULT_IMPORT_DATE.toString())))
+            .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultMantisImportShouldNotBeFound(String filter) throws Exception {
+        restMantisImportMockMvc.perform(get("/api/mantis-imports?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+    }
+
 
     @Test
     @Transactional

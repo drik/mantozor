@@ -6,6 +6,8 @@ import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
 import com.dirks.cool.web.rest.util.PaginationUtil;
 import com.dirks.cool.service.dto.MantisStatusDTO;
+import com.dirks.cool.service.dto.MantisStatusCriteria;
+import com.dirks.cool.service.MantisStatusQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,8 +37,11 @@ public class MantisStatusResource {
 
     private final MantisStatusService mantisStatusService;
 
-    public MantisStatusResource(MantisStatusService mantisStatusService) {
+    private final MantisStatusQueryService mantisStatusQueryService;
+
+    public MantisStatusResource(MantisStatusService mantisStatusService, MantisStatusQueryService mantisStatusQueryService) {
         this.mantisStatusService = mantisStatusService;
+        this.mantisStatusQueryService = mantisStatusQueryService;
     }
 
     /**
@@ -85,13 +90,14 @@ public class MantisStatusResource {
      * GET  /mantis-statuses : get all the mantisStatuses.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of mantisStatuses in body
      */
     @GetMapping("/mantis-statuses")
     @Timed
-    public ResponseEntity<List<MantisStatusDTO>> getAllMantisStatuses(Pageable pageable) {
-        log.debug("REST request to get a page of MantisStatuses");
-        Page<MantisStatusDTO> page = mantisStatusService.findAll(pageable);
+    public ResponseEntity<List<MantisStatusDTO>> getAllMantisStatuses(MantisStatusCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get MantisStatuses by criteria: {}", criteria);
+        Page<MantisStatusDTO> page = mantisStatusQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mantis-statuses");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }

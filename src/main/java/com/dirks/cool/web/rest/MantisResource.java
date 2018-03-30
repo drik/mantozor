@@ -5,6 +5,8 @@ import com.dirks.cool.service.MantisService;
 import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
 import com.dirks.cool.service.dto.MantisDTO;
+import com.dirks.cool.service.dto.MantisCriteria;
+import com.dirks.cool.service.MantisQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +33,11 @@ public class MantisResource {
 
     private final MantisService mantisService;
 
-    public MantisResource(MantisService mantisService) {
+    private final MantisQueryService mantisQueryService;
+
+    public MantisResource(MantisService mantisService, MantisQueryService mantisQueryService) {
         this.mantisService = mantisService;
+        this.mantisQueryService = mantisQueryService;
     }
 
     /**
@@ -80,14 +85,16 @@ public class MantisResource {
     /**
      * GET  /mantis : get all the mantis.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of mantis in body
      */
     @GetMapping("/mantis")
     @Timed
-    public List<MantisDTO> getAllMantis() {
-        log.debug("REST request to get all Mantis");
-        return mantisService.findAll();
-        }
+    public ResponseEntity<List<MantisDTO>> getAllMantis(MantisCriteria criteria) {
+        log.debug("REST request to get Mantis by criteria: {}", criteria);
+        List<MantisDTO> entityList = mantisQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
 
     /**
      * GET  /mantis/:id : get the "id" mantis.

@@ -3,11 +3,17 @@ package com.dirks.cool.web.rest;
 import com.dirks.cool.MantozorApp;
 
 import com.dirks.cool.domain.MantisStatus;
+import com.dirks.cool.domain.Mantis;
+import com.dirks.cool.domain.Status;
+import com.dirks.cool.domain.User;
+import com.dirks.cool.domain.MantisApprover;
 import com.dirks.cool.repository.MantisStatusRepository;
 import com.dirks.cool.service.MantisStatusService;
 import com.dirks.cool.service.dto.MantisStatusDTO;
 import com.dirks.cool.service.mapper.MantisStatusMapper;
 import com.dirks.cool.web.rest.errors.ExceptionTranslator;
+import com.dirks.cool.service.dto.MantisStatusCriteria;
+import com.dirks.cool.service.MantisStatusQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -56,6 +62,9 @@ public class MantisStatusResourceIntTest {
     private MantisStatusService mantisStatusService;
 
     @Autowired
+    private MantisStatusQueryService mantisStatusQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -74,7 +83,7 @@ public class MantisStatusResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MantisStatusResource mantisStatusResource = new MantisStatusResource(mantisStatusService);
+        final MantisStatusResource mantisStatusResource = new MantisStatusResource(mantisStatusService, mantisStatusQueryService);
         this.restMantisStatusMockMvc = MockMvcBuilders.standaloneSetup(mantisStatusResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -165,6 +174,170 @@ public class MantisStatusResourceIntTest {
             .andExpect(jsonPath("$.id").value(mantisStatus.getId().intValue()))
             .andExpect(jsonPath("$.changeDate").value(DEFAULT_CHANGE_DATE.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllMantisStatusesByChangeDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        mantisStatusRepository.saveAndFlush(mantisStatus);
+
+        // Get all the mantisStatusList where changeDate equals to DEFAULT_CHANGE_DATE
+        defaultMantisStatusShouldBeFound("changeDate.equals=" + DEFAULT_CHANGE_DATE);
+
+        // Get all the mantisStatusList where changeDate equals to UPDATED_CHANGE_DATE
+        defaultMantisStatusShouldNotBeFound("changeDate.equals=" + UPDATED_CHANGE_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisStatusesByChangeDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        mantisStatusRepository.saveAndFlush(mantisStatus);
+
+        // Get all the mantisStatusList where changeDate in DEFAULT_CHANGE_DATE or UPDATED_CHANGE_DATE
+        defaultMantisStatusShouldBeFound("changeDate.in=" + DEFAULT_CHANGE_DATE + "," + UPDATED_CHANGE_DATE);
+
+        // Get all the mantisStatusList where changeDate equals to UPDATED_CHANGE_DATE
+        defaultMantisStatusShouldNotBeFound("changeDate.in=" + UPDATED_CHANGE_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisStatusesByChangeDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        mantisStatusRepository.saveAndFlush(mantisStatus);
+
+        // Get all the mantisStatusList where changeDate is not null
+        defaultMantisStatusShouldBeFound("changeDate.specified=true");
+
+        // Get all the mantisStatusList where changeDate is null
+        defaultMantisStatusShouldNotBeFound("changeDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisStatusesByChangeDateIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        mantisStatusRepository.saveAndFlush(mantisStatus);
+
+        // Get all the mantisStatusList where changeDate greater than or equals to DEFAULT_CHANGE_DATE
+        defaultMantisStatusShouldBeFound("changeDate.greaterOrEqualThan=" + DEFAULT_CHANGE_DATE);
+
+        // Get all the mantisStatusList where changeDate greater than or equals to UPDATED_CHANGE_DATE
+        defaultMantisStatusShouldNotBeFound("changeDate.greaterOrEqualThan=" + UPDATED_CHANGE_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisStatusesByChangeDateIsLessThanSomething() throws Exception {
+        // Initialize the database
+        mantisStatusRepository.saveAndFlush(mantisStatus);
+
+        // Get all the mantisStatusList where changeDate less than or equals to DEFAULT_CHANGE_DATE
+        defaultMantisStatusShouldNotBeFound("changeDate.lessThan=" + DEFAULT_CHANGE_DATE);
+
+        // Get all the mantisStatusList where changeDate less than or equals to UPDATED_CHANGE_DATE
+        defaultMantisStatusShouldBeFound("changeDate.lessThan=" + UPDATED_CHANGE_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllMantisStatusesByMantisIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Mantis mantis = MantisResourceIntTest.createEntity(em);
+        em.persist(mantis);
+        em.flush();
+        mantisStatus.setMantis(mantis);
+        mantisStatusRepository.saveAndFlush(mantisStatus);
+        Long mantisId = mantis.getId();
+
+        // Get all the mantisStatusList where mantis equals to mantisId
+        defaultMantisStatusShouldBeFound("mantisId.equals=" + mantisId);
+
+        // Get all the mantisStatusList where mantis equals to mantisId + 1
+        defaultMantisStatusShouldNotBeFound("mantisId.equals=" + (mantisId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllMantisStatusesByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Status status = StatusResourceIntTest.createEntity(em);
+        em.persist(status);
+        em.flush();
+        mantisStatus.setStatus(status);
+        mantisStatusRepository.saveAndFlush(mantisStatus);
+        Long statusId = status.getId();
+
+        // Get all the mantisStatusList where status equals to statusId
+        defaultMantisStatusShouldBeFound("statusId.equals=" + statusId);
+
+        // Get all the mantisStatusList where status equals to statusId + 1
+        defaultMantisStatusShouldNotBeFound("statusId.equals=" + (statusId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllMantisStatusesByUserIsEqualToSomething() throws Exception {
+        // Initialize the database
+        User user = UserResourceIntTest.createEntity(em);
+        em.persist(user);
+        em.flush();
+        mantisStatus.setUser(user);
+        mantisStatusRepository.saveAndFlush(mantisStatus);
+        Long userId = user.getId();
+
+        // Get all the mantisStatusList where user equals to userId
+        defaultMantisStatusShouldBeFound("userId.equals=" + userId);
+
+        // Get all the mantisStatusList where user equals to userId + 1
+        defaultMantisStatusShouldNotBeFound("userId.equals=" + (userId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllMantisStatusesByApproverIsEqualToSomething() throws Exception {
+        // Initialize the database
+        MantisApprover approver = MantisApproverResourceIntTest.createEntity(em);
+        em.persist(approver);
+        em.flush();
+        mantisStatus.setApprover(approver);
+        mantisStatusRepository.saveAndFlush(mantisStatus);
+        Long approverId = approver.getId();
+
+        // Get all the mantisStatusList where approver equals to approverId
+        defaultMantisStatusShouldBeFound("approverId.equals=" + approverId);
+
+        // Get all the mantisStatusList where approver equals to approverId + 1
+        defaultMantisStatusShouldNotBeFound("approverId.equals=" + (approverId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultMantisStatusShouldBeFound(String filter) throws Exception {
+        restMantisStatusMockMvc.perform(get("/api/mantis-statuses?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(mantisStatus.getId().intValue())))
+            .andExpect(jsonPath("$.[*].changeDate").value(hasItem(DEFAULT_CHANGE_DATE.toString())));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultMantisStatusShouldNotBeFound(String filter) throws Exception {
+        restMantisStatusMockMvc.perform(get("/api/mantis-statuses?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+    }
+
 
     @Test
     @Transactional

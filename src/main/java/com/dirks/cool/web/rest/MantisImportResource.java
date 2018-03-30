@@ -5,6 +5,8 @@ import com.dirks.cool.service.MantisImportService;
 import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
 import com.dirks.cool.service.dto.MantisImportDTO;
+import com.dirks.cool.service.dto.MantisImportCriteria;
+import com.dirks.cool.service.MantisImportQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +32,11 @@ public class MantisImportResource {
 
     private final MantisImportService mantisImportService;
 
-    public MantisImportResource(MantisImportService mantisImportService) {
+    private final MantisImportQueryService mantisImportQueryService;
+
+    public MantisImportResource(MantisImportService mantisImportService, MantisImportQueryService mantisImportQueryService) {
         this.mantisImportService = mantisImportService;
+        this.mantisImportQueryService = mantisImportQueryService;
     }
 
     /**
@@ -79,14 +84,16 @@ public class MantisImportResource {
     /**
      * GET  /mantis-imports : get all the mantisImports.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of mantisImports in body
      */
     @GetMapping("/mantis-imports")
     @Timed
-    public List<MantisImportDTO> getAllMantisImports() {
-        log.debug("REST request to get all MantisImports");
-        return mantisImportService.findAll();
-        }
+    public ResponseEntity<List<MantisImportDTO>> getAllMantisImports(MantisImportCriteria criteria) {
+        log.debug("REST request to get MantisImports by criteria: {}", criteria);
+        List<MantisImportDTO> entityList = mantisImportQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
 
     /**
      * GET  /mantis-imports/:id : get the "id" mantisImport.
