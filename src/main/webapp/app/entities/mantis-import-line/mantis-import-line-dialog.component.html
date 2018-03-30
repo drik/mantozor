@@ -1,0 +1,207 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myMantisImportLineLabel" jhiTranslate="mantozorApp.mantisImportLine.home.createOrEditLabel">Create or edit a Mantis Import Line</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!mantisImportLine.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="mantisImportLine.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.mantisNumber" for="field_mantisNumber">Mantis Number</label>
+            <input type="text" class="form-control" name="mantisNumber" id="field_mantisNumber"
+                [(ngModel)]="mantisImportLine.mantisNumber" required/>
+            <div [hidden]="!(editForm.controls.mantisNumber?.dirty && editForm.controls.mantisNumber?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.mantisNumber?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.validationStatus" for="field_validationStatus">Validation Status</label>
+            <input type="text" class="form-control" name="validationStatus" id="field_validationStatus"
+                [(ngModel)]="mantisImportLine.validationStatus" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.project" for="field_project">Project</label>
+            <input type="text" class="form-control" name="project" id="field_project"
+                [(ngModel)]="mantisImportLine.project" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.updateDate" for="field_updateDate">Update Date</label>
+            <div class="input-group">
+                <input id="field_updateDate" type="text" class="form-control" name="updateDate" ngbDatepicker  #updateDateDp="ngbDatepicker" [(ngModel)]="mantisImportLine.updateDate"
+                />
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="updateDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.category" for="field_category">Category</label>
+            <input type="text" class="form-control" name="category" id="field_category"
+                [(ngModel)]="mantisImportLine.category" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.gravity" for="field_gravity">Gravity</label>
+            <input type="text" class="form-control" name="gravity" id="field_gravity"
+                [(ngModel)]="mantisImportLine.gravity" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.augeoReference" for="field_augeoReference">Augeo Reference</label>
+            <input type="text" class="form-control" name="augeoReference" id="field_augeoReference"
+                [(ngModel)]="mantisImportLine.augeoReference" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.technicalReference" for="field_technicalReference">Technical Reference</label>
+            <input type="text" class="form-control" name="technicalReference" id="field_technicalReference"
+                [(ngModel)]="mantisImportLine.technicalReference" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.state" for="field_state">State</label>
+            <input type="text" class="form-control" name="state" id="field_state"
+                [(ngModel)]="mantisImportLine.state" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.description" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                [(ngModel)]="mantisImportLine.description" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.submissionDate" for="field_submissionDate">Submission Date</label>
+            <div class="input-group">
+                <input id="field_submissionDate" type="text" class="form-control" name="submissionDate" ngbDatepicker  #submissionDateDp="ngbDatepicker" [(ngModel)]="mantisImportLine.submissionDate"
+                />
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="submissionDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.desiredCommitmentDate" for="field_desiredCommitmentDate">Desired Commitment Date</label>
+            <div class="input-group">
+                <input id="field_desiredCommitmentDate" type="text" class="form-control" name="desiredCommitmentDate" ngbDatepicker  #desiredCommitmentDateDp="ngbDatepicker" [(ngModel)]="mantisImportLine.desiredCommitmentDate"
+                />
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="desiredCommitmentDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.estimatedChargeCACF" for="field_estimatedChargeCACF">Estimated Charge CACF</label>
+            <input type="number" class="form-control" name="estimatedChargeCACF" id="field_estimatedChargeCACF"
+                [(ngModel)]="mantisImportLine.estimatedChargeCACF" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.commitmentDateCDS" for="field_commitmentDateCDS">Commitment Date CDS</label>
+            <div class="input-group">
+                <input id="field_commitmentDateCDS" type="text" class="form-control" name="commitmentDateCDS" ngbDatepicker  #commitmentDateCDSDp="ngbDatepicker" [(ngModel)]="mantisImportLine.commitmentDateCDS"
+                />
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="commitmentDateCDSDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.estimatedChargeCDS" for="field_estimatedChargeCDS">Estimated Charge CDS</label>
+            <input type="number" class="form-control" name="estimatedChargeCDS" id="field_estimatedChargeCDS"
+                [(ngModel)]="mantisImportLine.estimatedChargeCDS" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.estimatedDSTDelivreryDate" for="field_estimatedDSTDelivreryDate">Estimated DST Delivrery Date</label>
+            <div class="input-group">
+                <input id="field_estimatedDSTDelivreryDate" type="text" class="form-control" name="estimatedDSTDelivreryDate" ngbDatepicker  #estimatedDSTDelivreryDateDp="ngbDatepicker" [(ngModel)]="mantisImportLine.estimatedDSTDelivreryDate"
+                />
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="estimatedDSTDelivreryDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.recipeDate" for="field_recipeDate">Recipe Date</label>
+            <div class="input-group">
+                <input id="field_recipeDate" type="text" class="form-control" name="recipeDate" ngbDatepicker  #recipeDateDp="ngbDatepicker" [(ngModel)]="mantisImportLine.recipeDate"
+                />
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="recipeDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.productionDate" for="field_productionDate">Production Date</label>
+            <div class="input-group">
+                <input id="field_productionDate" type="text" class="form-control" name="productionDate" ngbDatepicker  #productionDateDp="ngbDatepicker" [(ngModel)]="mantisImportLine.productionDate"
+                />
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="productionDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.devStandardsComplianceScore" for="field_devStandardsComplianceScore">Dev Standards Compliance Score</label>
+            <input type="text" class="form-control" name="devStandardsComplianceScore" id="field_devStandardsComplianceScore"
+                [(ngModel)]="mantisImportLine.devStandardsComplianceScore" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.devStandardsComplianceScoreComment" for="field_devStandardsComplianceScoreComment">Dev Standards Compliance Score Comment</label>
+            <input type="text" class="form-control" name="devStandardsComplianceScoreComment" id="field_devStandardsComplianceScoreComment"
+                [(ngModel)]="mantisImportLine.devStandardsComplianceScoreComment" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.expressedNeedsComplianceScore" for="field_expressedNeedsComplianceScore">Expressed Needs Compliance Score</label>
+            <input type="text" class="form-control" name="expressedNeedsComplianceScore" id="field_expressedNeedsComplianceScore"
+                [(ngModel)]="mantisImportLine.expressedNeedsComplianceScore" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.expressedNeedsComplianceScoreComment" for="field_expressedNeedsComplianceScoreComment">Expressed Needs Compliance Score Comment</label>
+            <input type="text" class="form-control" name="expressedNeedsComplianceScoreComment" id="field_expressedNeedsComplianceScoreComment"
+                [(ngModel)]="mantisImportLine.expressedNeedsComplianceScoreComment" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.overallDeadlineRespectScore" for="field_overallDeadlineRespectScore">Overall Deadline Respect Score</label>
+            <input type="text" class="form-control" name="overallDeadlineRespectScore" id="field_overallDeadlineRespectScore"
+                [(ngModel)]="mantisImportLine.overallDeadlineRespectScore" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.overallDeadlineRespectScoreComment" for="field_overallDeadlineRespectScoreComment">Overall Deadline Respect Score Comment</label>
+            <input type="text" class="form-control" name="overallDeadlineRespectScoreComment" id="field_overallDeadlineRespectScoreComment"
+                [(ngModel)]="mantisImportLine.overallDeadlineRespectScoreComment" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.state" for="field_state">State</label>
+            <select class="form-control" id="field_state" name="state" [(ngModel)]="mantisImportLine.stateId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="stateOption.id" *ngFor="let stateOption of states; trackBy: trackStateById">{{stateOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.mantisImport" for="field_mantisImport">Mantis Import</label>
+            <select class="form-control" id="field_mantisImport" name="mantisImport" [(ngModel)]="mantisImportLine.mantisImportId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="mantisImportOption.id" *ngFor="let mantisImportOption of mantisimports; trackBy: trackMantisImportById">{{mantisImportOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisImportLine.mantis" for="field_mantis">Mantis</label>
+            <select class="form-control" id="field_mantis" name="mantis" [(ngModel)]="mantisImportLine.mantisId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="mantisOption.id" *ngFor="let mantisOption of mantis; trackBy: trackMantisById">{{mantisOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

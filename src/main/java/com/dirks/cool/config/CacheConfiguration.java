@@ -42,6 +42,15 @@ public class CacheConfiguration {
             cm.createCache(com.dirks.cool.domain.User.class.getName(), jcacheConfiguration);
             cm.createCache(com.dirks.cool.domain.Authority.class.getName(), jcacheConfiguration);
             cm.createCache(com.dirks.cool.domain.User.class.getName() + ".authorities", jcacheConfiguration);
+            cm.createCache(com.dirks.cool.domain.MantisImport.class.getName(), jcacheConfiguration);
+            cm.createCache(com.dirks.cool.domain.MantisApprover.class.getName(), jcacheConfiguration);
+            cm.createCache(com.dirks.cool.domain.State.class.getName(), jcacheConfiguration);
+            cm.createCache(com.dirks.cool.domain.Status.class.getName(), jcacheConfiguration);
+            cm.createCache(com.dirks.cool.domain.Mantis.class.getName(), jcacheConfiguration);
+            cm.createCache(com.dirks.cool.domain.MantisImportLine.class.getName(), jcacheConfiguration);
+            cm.createCache(com.dirks.cool.domain.Project.class.getName(), jcacheConfiguration);
+            cm.createCache(com.dirks.cool.domain.Referent.class.getName(), jcacheConfiguration);
+            cm.createCache(com.dirks.cool.domain.MantisStatus.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

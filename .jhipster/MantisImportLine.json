@@ -1,0 +1,130 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "state",
+            "otherEntityName": "state",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "mantisImport",
+            "otherEntityName": "mantisImport",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "mantis",
+            "otherEntityName": "mantis",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "mantisNumber",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "validationStatus",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "project",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "updateDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "category",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "gravity",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "augeoReference",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "technicalReference",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "state",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "submissionDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "desiredCommitmentDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "estimatedChargeCACF",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "commitmentDateCDS",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "estimatedChargeCDS",
+            "fieldType": "Double"
+        },
+        {
+            "fieldName": "estimatedDSTDelivreryDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "recipeDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "productionDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "devStandardsComplianceScore",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "devStandardsComplianceScoreComment",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "expressedNeedsComplianceScore",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "expressedNeedsComplianceScoreComment",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "overallDeadlineRespectScore",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "overallDeadlineRespectScoreComment",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180330030205",
+    "entityTableName": "mantis_import_line",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

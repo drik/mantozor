@@ -1,0 +1,41 @@
+
+<div *ngIf="mantisImport">
+    <h2><span jhiTranslate="mantozorApp.mantisImport.detail.title">Mantis Import</span> {{mantisImport.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="mantozorApp.mantisImport.name">Name</span></dt>
+        <dd>
+            <span>{{mantisImport.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="mantozorApp.mantisImport.importDate">Import Date</span></dt>
+        <dd>
+            <span>{{mantisImport.importDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="mantozorApp.mantisImport.file">File</span></dt>
+        <dd>
+            <div *ngIf="mantisImport.file">
+                <a (click)="openFile(mantisImport.fileContentType, mantisImport.file)" jhiTranslate="entity.action.open">open</a>
+                {{mantisImport.fileContentType}}, {{byteSize(mantisImport.file)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="mantozorApp.mantisImport.user">User</span></dt>
+        <dd>
+            {{mantisImport.userId}}
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'mantis-import/'+ mantisImport.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,48 @@
+
+{
+    "mantozorApp": {
+        "mantisImportLine" : {
+            "home": {
+                "title": "MantisImportLines",
+                "createLabel": "Créer un nouveau Mantis Import Line",
+                "createOrEditLabel": "Créer ou éditer un Mantis Import Line"
+            },
+            "created": "Un nouveau Mantis Import Line a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Mantis Import Line avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Mantis Import Line avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Mantis Import Line {{ id }} ?"
+            },
+            "detail": {
+                "title": "Mantis Import Line"
+            },
+            "mantisNumber": "Mantis Number",
+            "validationStatus": "Validation Status",
+            "project": "Project",
+            "updateDate": "Update Date",
+            "category": "Category",
+            "gravity": "Gravity",
+            "augeoReference": "Augeo Reference",
+            "technicalReference": "Technical Reference",
+            "state": "State",
+            "description": "Description",
+            "submissionDate": "Submission Date",
+            "desiredCommitmentDate": "Desired Commitment Date",
+            "estimatedChargeCACF": "Estimated Charge CACF",
+            "commitmentDateCDS": "Commitment Date CDS",
+            "estimatedChargeCDS": "Estimated Charge CDS",
+            "estimatedDSTDelivreryDate": "Estimated DST Delivrery Date",
+            "recipeDate": "Recipe Date",
+            "productionDate": "Production Date",
+            "devStandardsComplianceScore": "Dev Standards Compliance Score",
+            "devStandardsComplianceScoreComment": "Dev Standards Compliance Score Comment",
+            "expressedNeedsComplianceScore": "Expressed Needs Compliance Score",
+            "expressedNeedsComplianceScoreComment": "Expressed Needs Compliance Score Comment",
+            "overallDeadlineRespectScore": "Overall Deadline Respect Score",
+            "overallDeadlineRespectScoreComment": "Overall Deadline Respect Score Comment",
+            "state": "State",
+            "mantisImport": "Mantis Import",
+            "mantis": "Mantis"
+        }
+    }
+}

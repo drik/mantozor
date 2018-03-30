@@ -1,0 +1,25 @@
+
+{
+    "mantozorApp": {
+        "mantisImport" : {
+            "home": {
+                "title": "MantisImports",
+                "createLabel": "Créer un nouveau Mantis Import",
+                "createOrEditLabel": "Créer ou éditer un Mantis Import"
+            },
+            "created": "Un nouveau Mantis Import a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Mantis Import avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Mantis Import avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Mantis Import {{ id }} ?"
+            },
+            "detail": {
+                "title": "Mantis Import"
+            },
+            "name": "Name",
+            "importDate": "Import Date",
+            "file": "File",
+            "user": "User"
+        }
+    }
+}
