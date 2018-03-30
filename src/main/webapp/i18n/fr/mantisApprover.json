@@ -1,0 +1,22 @@
+
+{
+    "mantozorApp": {
+        "mantisApprover" : {
+            "home": {
+                "title": "MantisApprovers",
+                "createLabel": "Créer un nouveau Mantis Approver",
+                "createOrEditLabel": "Créer ou éditer un Mantis Approver"
+            },
+            "created": "Un nouveau Mantis Approver a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Mantis Approver avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Mantis Approver avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Mantis Approver {{ id }} ?"
+            },
+            "detail": {
+                "title": "Mantis Approver"
+            },
+            "fullName": "Full Name"
+        }
+    }
+}

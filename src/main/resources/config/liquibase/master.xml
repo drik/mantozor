@@ -5,6 +5,20 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030200_added_entity_MantisImport.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030201_added_entity_MantisApprover.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030202_added_entity_State.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030203_added_entity_Status.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030204_added_entity_Mantis.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030205_added_entity_MantisImportLine.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030206_added_entity_Project.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030207_added_entity_Referent.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030208_added_entity_MantisStatus.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20180330030200_added_entity_constraints_MantisImport.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030204_added_entity_constraints_Mantis.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030205_added_entity_constraints_MantisImportLine.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030206_added_entity_constraints_Project.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030208_added_entity_constraints_MantisStatus.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

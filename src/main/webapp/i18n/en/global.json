@@ -7,6 +7,15 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entities",
+                "mantisImport": "Mantis Import",
+                "mantisApprover": "Mantis Approver",
+                "state": "State",
+                "status": "Status",
+                "mantis": "Mantis",
+                "mantisImportLine": "Mantis Import Line",
+                "project": "Project",
+                "referent": "Referent",
+                "mantisStatus": "Mantis Status",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
