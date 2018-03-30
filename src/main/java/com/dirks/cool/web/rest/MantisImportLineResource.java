@@ -5,6 +5,8 @@ import com.dirks.cool.service.MantisImportLineService;
 import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
 import com.dirks.cool.service.dto.MantisImportLineDTO;
+import com.dirks.cool.service.dto.MantisImportLineCriteria;
+import com.dirks.cool.service.MantisImportLineQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,8 +33,11 @@ public class MantisImportLineResource {
 
     private final MantisImportLineService mantisImportLineService;
 
-    public MantisImportLineResource(MantisImportLineService mantisImportLineService) {
+    private final MantisImportLineQueryService mantisImportLineQueryService;
+
+    public MantisImportLineResource(MantisImportLineService mantisImportLineService, MantisImportLineQueryService mantisImportLineQueryService) {
         this.mantisImportLineService = mantisImportLineService;
+        this.mantisImportLineQueryService = mantisImportLineQueryService;
     }
 
     /**
@@ -80,14 +85,16 @@ public class MantisImportLineResource {
     /**
      * GET  /mantis-import-lines : get all the mantisImportLines.
      *
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of mantisImportLines in body
      */
     @GetMapping("/mantis-import-lines")
     @Timed
-    public List<MantisImportLineDTO> getAllMantisImportLines() {
-        log.debug("REST request to get all MantisImportLines");
-        return mantisImportLineService.findAll();
-        }
+    public ResponseEntity<List<MantisImportLineDTO>> getAllMantisImportLines(MantisImportLineCriteria criteria) {
+        log.debug("REST request to get MantisImportLines by criteria: {}", criteria);
+        List<MantisImportLineDTO> entityList = mantisImportLineQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
 
     /**
      * GET  /mantis-import-lines/:id : get the "id" mantisImportLine.

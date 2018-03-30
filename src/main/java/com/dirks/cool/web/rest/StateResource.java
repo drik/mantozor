@@ -1,14 +1,13 @@
 package com.dirks.cool.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.dirks.cool.domain.State;
-
-import com.dirks.cool.repository.StateRepository;
+import com.dirks.cool.service.StateService;
 import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
 import com.dirks.cool.web.rest.util.PaginationUtil;
 import com.dirks.cool.service.dto.StateDTO;
-import com.dirks.cool.service.mapper.StateMapper;
+import com.dirks.cool.service.dto.StateCriteria;
+import com.dirks.cool.service.StateQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +35,13 @@ public class StateResource {
 
     private static final String ENTITY_NAME = "state";
 
-    private final StateRepository stateRepository;
+    private final StateService stateService;
 
-    private final StateMapper stateMapper;
+    private final StateQueryService stateQueryService;
 
-    public StateResource(StateRepository stateRepository, StateMapper stateMapper) {
-        this.stateRepository = stateRepository;
-        this.stateMapper = stateMapper;
+    public StateResource(StateService stateService, StateQueryService stateQueryService) {
+        this.stateService = stateService;
+        this.stateQueryService = stateQueryService;
     }
 
     /**
@@ -59,9 +58,7 @@ public class StateResource {
         if (stateDTO.getId() != null) {
             throw new BadRequestAlertException("A new state cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        State state = stateMapper.toEntity(stateDTO);
-        state = stateRepository.save(state);
-        StateDTO result = stateMapper.toDto(state);
+        StateDTO result = stateService.save(stateDTO);
         return ResponseEntity.created(new URI("/api/states/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -83,9 +80,7 @@ public class StateResource {
         if (stateDTO.getId() == null) {
             return createState(stateDTO);
         }
-        State state = stateMapper.toEntity(stateDTO);
-        state = stateRepository.save(state);
-        StateDTO result = stateMapper.toDto(state);
+        StateDTO result = stateService.save(stateDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, stateDTO.getId().toString()))
             .body(result);
@@ -95,15 +90,16 @@ public class StateResource {
      * GET  /states : get all the states.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of states in body
      */
     @GetMapping("/states")
     @Timed
-    public ResponseEntity<List<StateDTO>> getAllStates(Pageable pageable) {
-        log.debug("REST request to get a page of States");
-        Page<State> page = stateRepository.findAll(pageable);
+    public ResponseEntity<List<StateDTO>> getAllStates(StateCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get States by criteria: {}", criteria);
+        Page<StateDTO> page = stateQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/states");
-        return new ResponseEntity<>(stateMapper.toDto(page.getContent()), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -116,8 +112,7 @@ public class StateResource {
     @Timed
     public ResponseEntity<StateDTO> getState(@PathVariable Long id) {
         log.debug("REST request to get State : {}", id);
-        State state = stateRepository.findOne(id);
-        StateDTO stateDTO = stateMapper.toDto(state);
+        StateDTO stateDTO = stateService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(stateDTO));
     }
 
@@ -131,7 +126,7 @@ public class StateResource {
     @Timed
     public ResponseEntity<Void> deleteState(@PathVariable Long id) {
         log.debug("REST request to delete State : {}", id);
-        stateRepository.delete(id);
+        stateService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

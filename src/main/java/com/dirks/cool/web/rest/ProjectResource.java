@@ -1,14 +1,13 @@
 package com.dirks.cool.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.dirks.cool.domain.Project;
-
-import com.dirks.cool.repository.ProjectRepository;
+import com.dirks.cool.service.ProjectService;
 import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
 import com.dirks.cool.web.rest.util.PaginationUtil;
 import com.dirks.cool.service.dto.ProjectDTO;
-import com.dirks.cool.service.mapper.ProjectMapper;
+import com.dirks.cool.service.dto.ProjectCriteria;
+import com.dirks.cool.service.ProjectQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,13 +36,13 @@ public class ProjectResource {
 
     private static final String ENTITY_NAME = "project";
 
-    private final ProjectRepository projectRepository;
+    private final ProjectService projectService;
 
-    private final ProjectMapper projectMapper;
+    private final ProjectQueryService projectQueryService;
 
-    public ProjectResource(ProjectRepository projectRepository, ProjectMapper projectMapper) {
-        this.projectRepository = projectRepository;
-        this.projectMapper = projectMapper;
+    public ProjectResource(ProjectService projectService, ProjectQueryService projectQueryService) {
+        this.projectService = projectService;
+        this.projectQueryService = projectQueryService;
     }
 
     /**
@@ -60,9 +59,7 @@ public class ProjectResource {
         if (projectDTO.getId() != null) {
             throw new BadRequestAlertException("A new project cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Project project = projectMapper.toEntity(projectDTO);
-        project = projectRepository.save(project);
-        ProjectDTO result = projectMapper.toDto(project);
+        ProjectDTO result = projectService.save(projectDTO);
         return ResponseEntity.created(new URI("/api/projects/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -84,9 +81,7 @@ public class ProjectResource {
         if (projectDTO.getId() == null) {
             return createProject(projectDTO);
         }
-        Project project = projectMapper.toEntity(projectDTO);
-        project = projectRepository.save(project);
-        ProjectDTO result = projectMapper.toDto(project);
+        ProjectDTO result = projectService.save(projectDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, projectDTO.getId().toString()))
             .body(result);
@@ -96,15 +91,16 @@ public class ProjectResource {
      * GET  /projects : get all the projects.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of projects in body
      */
     @GetMapping("/projects")
     @Timed
-    public ResponseEntity<List<ProjectDTO>> getAllProjects(Pageable pageable) {
-        log.debug("REST request to get a page of Projects");
-        Page<Project> page = projectRepository.findAll(pageable);
+    public ResponseEntity<List<ProjectDTO>> getAllProjects(ProjectCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Projects by criteria: {}", criteria);
+        Page<ProjectDTO> page = projectQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/projects");
-        return new ResponseEntity<>(projectMapper.toDto(page.getContent()), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -117,8 +113,7 @@ public class ProjectResource {
     @Timed
     public ResponseEntity<ProjectDTO> getProject(@PathVariable Long id) {
         log.debug("REST request to get Project : {}", id);
-        Project project = projectRepository.findOne(id);
-        ProjectDTO projectDTO = projectMapper.toDto(project);
+        ProjectDTO projectDTO = projectService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(projectDTO));
     }
 
@@ -132,7 +127,7 @@ public class ProjectResource {
     @Timed
     public ResponseEntity<Void> deleteProject(@PathVariable Long id) {
         log.debug("REST request to delete Project : {}", id);
-        projectRepository.delete(id);
+        projectService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

@@ -4,9 +4,12 @@ import com.dirks.cool.MantozorApp;
 
 import com.dirks.cool.domain.Referent;
 import com.dirks.cool.repository.ReferentRepository;
+import com.dirks.cool.service.ReferentService;
 import com.dirks.cool.service.dto.ReferentDTO;
 import com.dirks.cool.service.mapper.ReferentMapper;
 import com.dirks.cool.web.rest.errors.ExceptionTranslator;
+import com.dirks.cool.service.dto.ReferentCriteria;
+import com.dirks.cool.service.ReferentQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +53,12 @@ public class ReferentResourceIntTest {
     private ReferentMapper referentMapper;
 
     @Autowired
+    private ReferentService referentService;
+
+    @Autowired
+    private ReferentQueryService referentQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -68,7 +77,7 @@ public class ReferentResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ReferentResource referentResource = new ReferentResource(referentRepository, referentMapper);
+        final ReferentResource referentResource = new ReferentResource(referentService, referentQueryService);
         this.restReferentMockMvc = MockMvcBuilders.standaloneSetup(referentResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -159,6 +168,67 @@ public class ReferentResourceIntTest {
             .andExpect(jsonPath("$.id").value(referent.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllReferentsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        referentRepository.saveAndFlush(referent);
+
+        // Get all the referentList where name equals to DEFAULT_NAME
+        defaultReferentShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the referentList where name equals to UPDATED_NAME
+        defaultReferentShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferentsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        referentRepository.saveAndFlush(referent);
+
+        // Get all the referentList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultReferentShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the referentList where name equals to UPDATED_NAME
+        defaultReferentShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllReferentsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        referentRepository.saveAndFlush(referent);
+
+        // Get all the referentList where name is not null
+        defaultReferentShouldBeFound("name.specified=true");
+
+        // Get all the referentList where name is null
+        defaultReferentShouldNotBeFound("name.specified=false");
+    }
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultReferentShouldBeFound(String filter) throws Exception {
+        restReferentMockMvc.perform(get("/api/referents?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(referent.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultReferentShouldNotBeFound(String filter) throws Exception {
+        restReferentMockMvc.perform(get("/api/referents?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+    }
+
 
     @Test
     @Transactional

@@ -11,6 +11,6 @@
     "entityTableName": "status",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "no",
-    "jpaMetamodelFiltering": false
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true
 }

@@ -1,14 +1,13 @@
 package com.dirks.cool.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.dirks.cool.domain.Status;
-
-import com.dirks.cool.repository.StatusRepository;
+import com.dirks.cool.service.StatusService;
 import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
 import com.dirks.cool.web.rest.util.PaginationUtil;
 import com.dirks.cool.service.dto.StatusDTO;
-import com.dirks.cool.service.mapper.StatusMapper;
+import com.dirks.cool.service.dto.StatusCriteria;
+import com.dirks.cool.service.StatusQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +35,13 @@ public class StatusResource {
 
     private static final String ENTITY_NAME = "status";
 
-    private final StatusRepository statusRepository;
+    private final StatusService statusService;
 
-    private final StatusMapper statusMapper;
+    private final StatusQueryService statusQueryService;
 
-    public StatusResource(StatusRepository statusRepository, StatusMapper statusMapper) {
-        this.statusRepository = statusRepository;
-        this.statusMapper = statusMapper;
+    public StatusResource(StatusService statusService, StatusQueryService statusQueryService) {
+        this.statusService = statusService;
+        this.statusQueryService = statusQueryService;
     }
 
     /**
@@ -59,9 +58,7 @@ public class StatusResource {
         if (statusDTO.getId() != null) {
             throw new BadRequestAlertException("A new status cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Status status = statusMapper.toEntity(statusDTO);
-        status = statusRepository.save(status);
-        StatusDTO result = statusMapper.toDto(status);
+        StatusDTO result = statusService.save(statusDTO);
         return ResponseEntity.created(new URI("/api/statuses/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -83,9 +80,7 @@ public class StatusResource {
         if (statusDTO.getId() == null) {
             return createStatus(statusDTO);
         }
-        Status status = statusMapper.toEntity(statusDTO);
-        status = statusRepository.save(status);
-        StatusDTO result = statusMapper.toDto(status);
+        StatusDTO result = statusService.save(statusDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, statusDTO.getId().toString()))
             .body(result);
@@ -95,15 +90,16 @@ public class StatusResource {
      * GET  /statuses : get all the statuses.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of statuses in body
      */
     @GetMapping("/statuses")
     @Timed
-    public ResponseEntity<List<StatusDTO>> getAllStatuses(Pageable pageable) {
-        log.debug("REST request to get a page of Statuses");
-        Page<Status> page = statusRepository.findAll(pageable);
+    public ResponseEntity<List<StatusDTO>> getAllStatuses(StatusCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get Statuses by criteria: {}", criteria);
+        Page<StatusDTO> page = statusQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/statuses");
-        return new ResponseEntity<>(statusMapper.toDto(page.getContent()), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -116,8 +112,7 @@ public class StatusResource {
     @Timed
     public ResponseEntity<StatusDTO> getStatus(@PathVariable Long id) {
         log.debug("REST request to get Status : {}", id);
-        Status status = statusRepository.findOne(id);
-        StatusDTO statusDTO = statusMapper.toDto(status);
+        StatusDTO statusDTO = statusService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(statusDTO));
     }
 
@@ -131,7 +126,7 @@ public class StatusResource {
     @Timed
     public ResponseEntity<Void> deleteStatus(@PathVariable Long id) {
         log.debug("REST request to delete Status : {}", id);
-        statusRepository.delete(id);
+        statusService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

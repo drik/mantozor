@@ -11,6 +11,6 @@
     "entityTableName": "mantis_approver",
     "dto": "mapstruct",
     "pagination": "infinite-scroll",
-    "service": "no",
-    "jpaMetamodelFiltering": false
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": true
 }

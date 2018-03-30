@@ -49,9 +49,6 @@ public class MantisImportLine implements Serializable {
     @Column(name = "technical_reference")
     private String technicalReference;
 
-    @Column(name = "state")
-    private String state;
-
     @Column(name = "description")
     private String description;
 
@@ -217,19 +214,6 @@ public class MantisImportLine implements Serializable {
 
     public void setTechnicalReference(String technicalReference) {
         this.technicalReference = technicalReference;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public MantisImportLine state(String state) {
-        this.state = state;
-        return this;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public String getDescription() {
@@ -499,7 +483,6 @@ public class MantisImportLine implements Serializable {
             ", gravity='" + getGravity() + "'" +
             ", augeoReference='" + getAugeoReference() + "'" +
             ", technicalReference='" + getTechnicalReference() + "'" +
-            ", state='" + getState() + "'" +
             ", description='" + getDescription() + "'" +
             ", submissionDate='" + getSubmissionDate() + "'" +
             ", desiredCommitmentDate='" + getDesiredCommitmentDate() + "'" +

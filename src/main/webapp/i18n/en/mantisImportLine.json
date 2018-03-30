@@ -24,7 +24,6 @@
             "gravity": "Gravity",
             "augeoReference": "Augeo Reference",
             "technicalReference": "Technical Reference",
-            "state": "State",
             "description": "Description",
             "submissionDate": "Submission Date",
             "desiredCommitmentDate": "Desired Commitment Date",

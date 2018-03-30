@@ -4,9 +4,12 @@ import com.dirks.cool.MantozorApp;
 
 import com.dirks.cool.domain.MantisApprover;
 import com.dirks.cool.repository.MantisApproverRepository;
+import com.dirks.cool.service.MantisApproverService;
 import com.dirks.cool.service.dto.MantisApproverDTO;
 import com.dirks.cool.service.mapper.MantisApproverMapper;
 import com.dirks.cool.web.rest.errors.ExceptionTranslator;
+import com.dirks.cool.service.dto.MantisApproverCriteria;
+import com.dirks.cool.service.MantisApproverQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +53,12 @@ public class MantisApproverResourceIntTest {
     private MantisApproverMapper mantisApproverMapper;
 
     @Autowired
+    private MantisApproverService mantisApproverService;
+
+    @Autowired
+    private MantisApproverQueryService mantisApproverQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -68,7 +77,7 @@ public class MantisApproverResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final MantisApproverResource mantisApproverResource = new MantisApproverResource(mantisApproverRepository, mantisApproverMapper);
+        final MantisApproverResource mantisApproverResource = new MantisApproverResource(mantisApproverService, mantisApproverQueryService);
         this.restMantisApproverMockMvc = MockMvcBuilders.standaloneSetup(mantisApproverResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -159,6 +168,67 @@ public class MantisApproverResourceIntTest {
             .andExpect(jsonPath("$.id").value(mantisApprover.getId().intValue()))
             .andExpect(jsonPath("$.fullName").value(DEFAULT_FULL_NAME.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllMantisApproversByFullNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        mantisApproverRepository.saveAndFlush(mantisApprover);
+
+        // Get all the mantisApproverList where fullName equals to DEFAULT_FULL_NAME
+        defaultMantisApproverShouldBeFound("fullName.equals=" + DEFAULT_FULL_NAME);
+
+        // Get all the mantisApproverList where fullName equals to UPDATED_FULL_NAME
+        defaultMantisApproverShouldNotBeFound("fullName.equals=" + UPDATED_FULL_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisApproversByFullNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        mantisApproverRepository.saveAndFlush(mantisApprover);
+
+        // Get all the mantisApproverList where fullName in DEFAULT_FULL_NAME or UPDATED_FULL_NAME
+        defaultMantisApproverShouldBeFound("fullName.in=" + DEFAULT_FULL_NAME + "," + UPDATED_FULL_NAME);
+
+        // Get all the mantisApproverList where fullName equals to UPDATED_FULL_NAME
+        defaultMantisApproverShouldNotBeFound("fullName.in=" + UPDATED_FULL_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMantisApproversByFullNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        mantisApproverRepository.saveAndFlush(mantisApprover);
+
+        // Get all the mantisApproverList where fullName is not null
+        defaultMantisApproverShouldBeFound("fullName.specified=true");
+
+        // Get all the mantisApproverList where fullName is null
+        defaultMantisApproverShouldNotBeFound("fullName.specified=false");
+    }
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultMantisApproverShouldBeFound(String filter) throws Exception {
+        restMantisApproverMockMvc.perform(get("/api/mantis-approvers?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(mantisApprover.getId().intValue())))
+            .andExpect(jsonPath("$.[*].fullName").value(hasItem(DEFAULT_FULL_NAME.toString())));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultMantisApproverShouldNotBeFound(String filter) throws Exception {
+        restMantisApproverMockMvc.perform(get("/api/mantis-approvers?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+    }
+
 
     @Test
     @Transactional

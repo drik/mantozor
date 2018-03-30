@@ -3,10 +3,14 @@ package com.dirks.cool.web.rest;
 import com.dirks.cool.MantozorApp;
 
 import com.dirks.cool.domain.Project;
+import com.dirks.cool.domain.Referent;
 import com.dirks.cool.repository.ProjectRepository;
+import com.dirks.cool.service.ProjectService;
 import com.dirks.cool.service.dto.ProjectDTO;
 import com.dirks.cool.service.mapper.ProjectMapper;
 import com.dirks.cool.web.rest.errors.ExceptionTranslator;
+import com.dirks.cool.service.dto.ProjectCriteria;
+import com.dirks.cool.service.ProjectQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +54,12 @@ public class ProjectResourceIntTest {
     private ProjectMapper projectMapper;
 
     @Autowired
+    private ProjectService projectService;
+
+    @Autowired
+    private ProjectQueryService projectQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -68,7 +78,7 @@ public class ProjectResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ProjectResource projectResource = new ProjectResource(projectRepository, projectMapper);
+        final ProjectResource projectResource = new ProjectResource(projectService, projectQueryService);
         this.restProjectMockMvc = MockMvcBuilders.standaloneSetup(projectResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -178,6 +188,86 @@ public class ProjectResourceIntTest {
             .andExpect(jsonPath("$.id").value(project.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where name equals to DEFAULT_NAME
+        defaultProjectShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the projectList where name equals to UPDATED_NAME
+        defaultProjectShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultProjectShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the projectList where name equals to UPDATED_NAME
+        defaultProjectShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        projectRepository.saveAndFlush(project);
+
+        // Get all the projectList where name is not null
+        defaultProjectShouldBeFound("name.specified=true");
+
+        // Get all the projectList where name is null
+        defaultProjectShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllProjectsByReferentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Referent referent = ReferentResourceIntTest.createEntity(em);
+        em.persist(referent);
+        em.flush();
+        project.setReferent(referent);
+        projectRepository.saveAndFlush(project);
+        Long referentId = referent.getId();
+
+        // Get all the projectList where referent equals to referentId
+        defaultProjectShouldBeFound("referentId.equals=" + referentId);
+
+        // Get all the projectList where referent equals to referentId + 1
+        defaultProjectShouldNotBeFound("referentId.equals=" + (referentId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultProjectShouldBeFound(String filter) throws Exception {
+        restProjectMockMvc.perform(get("/api/projects?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(project.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultProjectShouldNotBeFound(String filter) throws Exception {
+        restProjectMockMvc.perform(get("/api/projects?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+    }
+
 
     @Test
     @Transactional

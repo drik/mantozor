@@ -4,9 +4,12 @@ import com.dirks.cool.MantozorApp;
 
 import com.dirks.cool.domain.Status;
 import com.dirks.cool.repository.StatusRepository;
+import com.dirks.cool.service.StatusService;
 import com.dirks.cool.service.dto.StatusDTO;
 import com.dirks.cool.service.mapper.StatusMapper;
 import com.dirks.cool.web.rest.errors.ExceptionTranslator;
+import com.dirks.cool.service.dto.StatusCriteria;
+import com.dirks.cool.service.StatusQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +53,12 @@ public class StatusResourceIntTest {
     private StatusMapper statusMapper;
 
     @Autowired
+    private StatusService statusService;
+
+    @Autowired
+    private StatusQueryService statusQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -68,7 +77,7 @@ public class StatusResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final StatusResource statusResource = new StatusResource(statusRepository, statusMapper);
+        final StatusResource statusResource = new StatusResource(statusService, statusQueryService);
         this.restStatusMockMvc = MockMvcBuilders.standaloneSetup(statusResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -159,6 +168,67 @@ public class StatusResourceIntTest {
             .andExpect(jsonPath("$.id").value(status.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllStatusesByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        statusRepository.saveAndFlush(status);
+
+        // Get all the statusList where name equals to DEFAULT_NAME
+        defaultStatusShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the statusList where name equals to UPDATED_NAME
+        defaultStatusShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStatusesByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        statusRepository.saveAndFlush(status);
+
+        // Get all the statusList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultStatusShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the statusList where name equals to UPDATED_NAME
+        defaultStatusShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStatusesByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        statusRepository.saveAndFlush(status);
+
+        // Get all the statusList where name is not null
+        defaultStatusShouldBeFound("name.specified=true");
+
+        // Get all the statusList where name is null
+        defaultStatusShouldNotBeFound("name.specified=false");
+    }
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultStatusShouldBeFound(String filter) throws Exception {
+        restStatusMockMvc.perform(get("/api/statuses?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(status.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultStatusShouldNotBeFound(String filter) throws Exception {
+        restStatusMockMvc.perform(get("/api/statuses?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+    }
+
 
     @Test
     @Transactional

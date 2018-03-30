@@ -32,8 +32,6 @@ public class MantisImportLineDTO implements Serializable {
 
     private String technicalReference;
 
-    private String state;
-
     private String description;
 
     private LocalDate submissionDate;
@@ -140,14 +138,6 @@ public class MantisImportLineDTO implements Serializable {
 
     public void setTechnicalReference(String technicalReference) {
         this.technicalReference = technicalReference;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
     }
 
     public String getDescription() {
@@ -327,7 +317,6 @@ public class MantisImportLineDTO implements Serializable {
             ", gravity='" + getGravity() + "'" +
             ", augeoReference='" + getAugeoReference() + "'" +
             ", technicalReference='" + getTechnicalReference() + "'" +
-            ", state='" + getState() + "'" +
             ", description='" + getDescription() + "'" +
             ", submissionDate='" + getSubmissionDate() + "'" +
             ", desiredCommitmentDate='" + getDesiredCommitmentDate() + "'" +

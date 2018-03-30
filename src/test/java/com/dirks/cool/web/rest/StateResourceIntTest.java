@@ -4,9 +4,12 @@ import com.dirks.cool.MantozorApp;
 
 import com.dirks.cool.domain.State;
 import com.dirks.cool.repository.StateRepository;
+import com.dirks.cool.service.StateService;
 import com.dirks.cool.service.dto.StateDTO;
 import com.dirks.cool.service.mapper.StateMapper;
 import com.dirks.cool.web.rest.errors.ExceptionTranslator;
+import com.dirks.cool.service.dto.StateCriteria;
+import com.dirks.cool.service.StateQueryService;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -50,6 +53,12 @@ public class StateResourceIntTest {
     private StateMapper stateMapper;
 
     @Autowired
+    private StateService stateService;
+
+    @Autowired
+    private StateQueryService stateQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -68,7 +77,7 @@ public class StateResourceIntTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final StateResource stateResource = new StateResource(stateRepository, stateMapper);
+        final StateResource stateResource = new StateResource(stateService, stateQueryService);
         this.restStateMockMvc = MockMvcBuilders.standaloneSetup(stateResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -159,6 +168,67 @@ public class StateResourceIntTest {
             .andExpect(jsonPath("$.id").value(state.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllStatesByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        stateRepository.saveAndFlush(state);
+
+        // Get all the stateList where name equals to DEFAULT_NAME
+        defaultStateShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the stateList where name equals to UPDATED_NAME
+        defaultStateShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStatesByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        stateRepository.saveAndFlush(state);
+
+        // Get all the stateList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultStateShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the stateList where name equals to UPDATED_NAME
+        defaultStateShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllStatesByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        stateRepository.saveAndFlush(state);
+
+        // Get all the stateList where name is not null
+        defaultStateShouldBeFound("name.specified=true");
+
+        // Get all the stateList where name is null
+        defaultStateShouldNotBeFound("name.specified=false");
+    }
+    /**
+     * Executes the search, and checks that the default entity is returned
+     */
+    private void defaultStateShouldBeFound(String filter) throws Exception {
+        restStateMockMvc.perform(get("/api/states?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(state.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned
+     */
+    private void defaultStateShouldNotBeFound(String filter) throws Exception {
+        restStateMockMvc.perform(get("/api/states?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+    }
+
 
     @Test
     @Transactional

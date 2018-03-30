@@ -1,14 +1,13 @@
 package com.dirks.cool.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.dirks.cool.domain.MantisApprover;
-
-import com.dirks.cool.repository.MantisApproverRepository;
+import com.dirks.cool.service.MantisApproverService;
 import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
 import com.dirks.cool.web.rest.util.PaginationUtil;
 import com.dirks.cool.service.dto.MantisApproverDTO;
-import com.dirks.cool.service.mapper.MantisApproverMapper;
+import com.dirks.cool.service.dto.MantisApproverCriteria;
+import com.dirks.cool.service.MantisApproverQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,13 +35,13 @@ public class MantisApproverResource {
 
     private static final String ENTITY_NAME = "mantisApprover";
 
-    private final MantisApproverRepository mantisApproverRepository;
+    private final MantisApproverService mantisApproverService;
 
-    private final MantisApproverMapper mantisApproverMapper;
+    private final MantisApproverQueryService mantisApproverQueryService;
 
-    public MantisApproverResource(MantisApproverRepository mantisApproverRepository, MantisApproverMapper mantisApproverMapper) {
-        this.mantisApproverRepository = mantisApproverRepository;
-        this.mantisApproverMapper = mantisApproverMapper;
+    public MantisApproverResource(MantisApproverService mantisApproverService, MantisApproverQueryService mantisApproverQueryService) {
+        this.mantisApproverService = mantisApproverService;
+        this.mantisApproverQueryService = mantisApproverQueryService;
     }
 
     /**
@@ -59,9 +58,7 @@ public class MantisApproverResource {
         if (mantisApproverDTO.getId() != null) {
             throw new BadRequestAlertException("A new mantisApprover cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        MantisApprover mantisApprover = mantisApproverMapper.toEntity(mantisApproverDTO);
-        mantisApprover = mantisApproverRepository.save(mantisApprover);
-        MantisApproverDTO result = mantisApproverMapper.toDto(mantisApprover);
+        MantisApproverDTO result = mantisApproverService.save(mantisApproverDTO);
         return ResponseEntity.created(new URI("/api/mantis-approvers/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -83,9 +80,7 @@ public class MantisApproverResource {
         if (mantisApproverDTO.getId() == null) {
             return createMantisApprover(mantisApproverDTO);
         }
-        MantisApprover mantisApprover = mantisApproverMapper.toEntity(mantisApproverDTO);
-        mantisApprover = mantisApproverRepository.save(mantisApprover);
-        MantisApproverDTO result = mantisApproverMapper.toDto(mantisApprover);
+        MantisApproverDTO result = mantisApproverService.save(mantisApproverDTO);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, mantisApproverDTO.getId().toString()))
             .body(result);
@@ -95,15 +90,16 @@ public class MantisApproverResource {
      * GET  /mantis-approvers : get all the mantisApprovers.
      *
      * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of mantisApprovers in body
      */
     @GetMapping("/mantis-approvers")
     @Timed
-    public ResponseEntity<List<MantisApproverDTO>> getAllMantisApprovers(Pageable pageable) {
-        log.debug("REST request to get a page of MantisApprovers");
-        Page<MantisApprover> page = mantisApproverRepository.findAll(pageable);
+    public ResponseEntity<List<MantisApproverDTO>> getAllMantisApprovers(MantisApproverCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get MantisApprovers by criteria: {}", criteria);
+        Page<MantisApproverDTO> page = mantisApproverQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mantis-approvers");
-        return new ResponseEntity<>(mantisApproverMapper.toDto(page.getContent()), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**
@@ -116,8 +112,7 @@ public class MantisApproverResource {
     @Timed
     public ResponseEntity<MantisApproverDTO> getMantisApprover(@PathVariable Long id) {
         log.debug("REST request to get MantisApprover : {}", id);
-        MantisApprover mantisApprover = mantisApproverRepository.findOne(id);
-        MantisApproverDTO mantisApproverDTO = mantisApproverMapper.toDto(mantisApprover);
+        MantisApproverDTO mantisApproverDTO = mantisApproverService.findOne(id);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(mantisApproverDTO));
     }
 
@@ -131,7 +126,7 @@ public class MantisApproverResource {
     @Timed
     public ResponseEntity<Void> deleteMantisApprover(@PathVariable Long id) {
         log.debug("REST request to delete MantisApprover : {}", id);
-        mantisApproverRepository.delete(id);
+        mantisApproverService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
 }

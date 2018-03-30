@@ -11,7 +11,6 @@ export class MantisImportLine implements BaseEntity {
         public gravity?: string,
         public augeoReference?: string,
         public technicalReference?: string,
-        public state?: string,
         public description?: string,
         public submissionDate?: any,
         public desiredCommitmentDate?: any,

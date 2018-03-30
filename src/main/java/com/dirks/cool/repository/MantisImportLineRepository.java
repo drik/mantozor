@@ -11,6 +11,6 @@ import org.springframework.data.jpa.repository.*;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MantisImportLineRepository extends JpaRepository<MantisImportLine, Long> {
+public interface MantisImportLineRepository extends JpaRepository<MantisImportLine, Long>, JpaSpecificationExecutor<MantisImportLine> {
 
 }

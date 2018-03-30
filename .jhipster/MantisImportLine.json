@@ -57,10 +57,6 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "state",
-            "fieldType": "String"
-        },
-        {
             "fieldName": "description",
             "fieldType": "String"
         },
@@ -126,5 +122,5 @@
     "dto": "mapstruct",
     "pagination": "no",
     "service": "serviceImpl",
-    "jpaMetamodelFiltering": false
+    "jpaMetamodelFiltering": true
 }
