@@ -15,7 +15,13 @@
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisApprover.fullName" for="field_fullName">Full Name</label>
             <input type="text" class="form-control" name="fullName" id="field_fullName"
-                [(ngModel)]="mantisApprover.fullName" />
+                [(ngModel)]="mantisApprover.fullName" required/>
+            <div [hidden]="!(editForm.controls.fullName?.dirty && editForm.controls.fullName?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.fullName?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
         </div>
 
     </div>

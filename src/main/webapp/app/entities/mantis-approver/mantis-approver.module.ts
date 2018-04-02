@@ -13,6 +13,7 @@ import {
     MantisApproverDeleteDialogComponent,
     mantisApproverRoute,
     mantisApproverPopupRoute,
+    MantisApproverResolvePagingParams,
 } from './';
 
 const ENTITY_STATES = [
@@ -43,6 +44,7 @@ const ENTITY_STATES = [
     providers: [
         MantisApproverService,
         MantisApproverPopupService,
+        MantisApproverResolvePagingParams,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

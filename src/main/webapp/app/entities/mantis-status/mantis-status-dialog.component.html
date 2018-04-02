@@ -16,10 +16,16 @@
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.changeDate" for="field_changeDate">Change Date</label>
             <div class="input-group">
                 <input id="field_changeDate" type="text" class="form-control" name="changeDate" ngbDatepicker  #changeDateDp="ngbDatepicker" [(ngModel)]="mantisStatus.changeDate"
-                />
+                required/>
                 <span class="input-group-append">
                     <button type="button" class="btn btn-secondary" (click)="changeDateDp.toggle()"><i class="fa fa-calendar"></i></button>
                 </span>
+            </div>
+            <div [hidden]="!(editForm.controls.changeDate?.dirty && editForm.controls.changeDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.changeDate?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
             </div>
         </div>
 

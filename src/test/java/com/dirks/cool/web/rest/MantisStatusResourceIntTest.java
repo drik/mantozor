@@ -149,6 +149,25 @@ public class MantisStatusResourceIntTest {
 
     @Test
     @Transactional
+    public void checkChangeDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = mantisStatusRepository.findAll().size();
+        // set the field null
+        mantisStatus.setChangeDate(null);
+
+        // Create the MantisStatus, which fails.
+        MantisStatusDTO mantisStatusDTO = mantisStatusMapper.toDto(mantisStatus);
+
+        restMantisStatusMockMvc.perform(post("/api/mantis-statuses")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(mantisStatusDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<MantisStatus> mantisStatusList = mantisStatusRepository.findAll();
+        assertThat(mantisStatusList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllMantisStatuses() throws Exception {
         // Initialize the database
         mantisStatusRepository.saveAndFlush(mantisStatus);

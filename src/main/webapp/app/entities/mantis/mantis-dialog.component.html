@@ -27,10 +27,16 @@
             <label class="form-control-label" jhiTranslate="mantozorApp.mantis.submissionDate" for="field_submissionDate">Submission Date</label>
             <div class="input-group">
                 <input id="field_submissionDate" type="text" class="form-control" name="submissionDate" ngbDatepicker  #submissionDateDp="ngbDatepicker" [(ngModel)]="mantis.submissionDate"
-                />
+                required/>
                 <span class="input-group-append">
                     <button type="button" class="btn btn-secondary" (click)="submissionDateDp.toggle()"><i class="fa fa-calendar"></i></button>
                 </span>
+            </div>
+            <div [hidden]="!(editForm.controls.submissionDate?.dirty && editForm.controls.submissionDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.submissionDate?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
             </div>
         </div>
 

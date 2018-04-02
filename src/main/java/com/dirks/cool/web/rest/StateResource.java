@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -53,7 +54,7 @@ public class StateResource {
      */
     @PostMapping("/states")
     @Timed
-    public ResponseEntity<StateDTO> createState(@RequestBody StateDTO stateDTO) throws URISyntaxException {
+    public ResponseEntity<StateDTO> createState(@Valid @RequestBody StateDTO stateDTO) throws URISyntaxException {
         log.debug("REST request to save State : {}", stateDTO);
         if (stateDTO.getId() != null) {
             throw new BadRequestAlertException("A new state cannot already have an ID", ENTITY_NAME, "idexists");
@@ -75,7 +76,7 @@ public class StateResource {
      */
     @PutMapping("/states")
     @Timed
-    public ResponseEntity<StateDTO> updateState(@RequestBody StateDTO stateDTO) throws URISyntaxException {
+    public ResponseEntity<StateDTO> updateState(@Valid @RequestBody StateDTO stateDTO) throws URISyntaxException {
         log.debug("REST request to update State : {}", stateDTO);
         if (stateDTO.getId() == null) {
             return createState(stateDTO);

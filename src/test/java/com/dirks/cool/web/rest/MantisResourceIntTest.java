@@ -170,6 +170,25 @@ public class MantisResourceIntTest {
 
     @Test
     @Transactional
+    public void checkSubmissionDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = mantisRepository.findAll().size();
+        // set the field null
+        mantis.setSubmissionDate(null);
+
+        // Create the Mantis, which fails.
+        MantisDTO mantisDTO = mantisMapper.toDto(mantis);
+
+        restMantisMockMvc.perform(post("/api/mantis")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(mantisDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Mantis> mantisList = mantisRepository.findAll();
+        assertThat(mantisList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllMantis() throws Exception {
         // Initialize the database
         mantisRepository.saveAndFlush(mantis);

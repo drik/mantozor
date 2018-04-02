@@ -143,6 +143,25 @@ public class StateResourceIntTest {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = stateRepository.findAll().size();
+        // set the field null
+        state.setName(null);
+
+        // Create the State, which fails.
+        StateDTO stateDTO = stateMapper.toDto(state);
+
+        restStateMockMvc.perform(post("/api/states")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(stateDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<State> stateList = stateRepository.findAll();
+        assertThat(stateList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllStates() throws Exception {
         // Initialize the database
         stateRepository.saveAndFlush(state);

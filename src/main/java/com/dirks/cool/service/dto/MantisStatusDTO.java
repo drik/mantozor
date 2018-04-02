@@ -2,6 +2,7 @@ package com.dirks.cool.service.dto;
 
 
 import java.time.LocalDate;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class MantisStatusDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private LocalDate changeDate;
 
     private Long mantisId;

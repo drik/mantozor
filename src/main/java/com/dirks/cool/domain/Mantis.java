@@ -28,7 +28,8 @@ public class Mantis implements Serializable {
     @Column(name = "mantis_number", nullable = false)
     private String mantisNumber;
 
-    @Column(name = "submission_date")
+    @NotNull
+    @Column(name = "submission_date", nullable = false)
     private LocalDate submissionDate;
 
     @ManyToOne

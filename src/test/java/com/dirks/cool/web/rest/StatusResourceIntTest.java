@@ -143,6 +143,25 @@ public class StatusResourceIntTest {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = statusRepository.findAll().size();
+        // set the field null
+        status.setName(null);
+
+        // Create the Status, which fails.
+        StatusDTO statusDTO = statusMapper.toDto(status);
+
+        restStatusMockMvc.perform(post("/api/statuses")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(statusDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Status> statusList = statusRepository.findAll();
+        assertThat(statusList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllStatuses() throws Exception {
         // Initialize the database
         statusRepository.saveAndFlush(status);

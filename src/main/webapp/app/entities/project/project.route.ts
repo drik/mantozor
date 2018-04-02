@@ -1,4 +1,6 @@
-import { Routes } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { UserRouteAccessService } from '../../shared';
 import { ProjectComponent } from './project.component';
@@ -6,10 +8,29 @@ import { ProjectDetailComponent } from './project-detail.component';
 import { ProjectPopupComponent } from './project-dialog.component';
 import { ProjectDeletePopupComponent } from './project-delete-dialog.component';
 
+@Injectable()
+export class ProjectResolvePagingParams implements Resolve<any> {
+
+    constructor(private paginationUtil: JhiPaginationUtil) {}
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
+        const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
+        return {
+            page: this.paginationUtil.parsePage(page),
+            predicate: this.paginationUtil.parsePredicate(sort),
+            ascending: this.paginationUtil.parseAscending(sort)
+      };
+    }
+}
+
 export const projectRoute: Routes = [
     {
         path: 'project',
         component: ProjectComponent,
+        resolve: {
+            'pagingParams': ProjectResolvePagingParams
+        },
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'mantozorApp.project.home.title'

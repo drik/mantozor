@@ -18,13 +18,16 @@
         },
         {
             "fieldName": "submissionDate",
-            "fieldType": "LocalDate"
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20180330030204",
     "entityTableName": "mantis",
     "dto": "mapstruct",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": true
 }

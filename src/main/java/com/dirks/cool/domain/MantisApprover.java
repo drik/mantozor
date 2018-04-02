@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -22,7 +23,8 @@ public class MantisApprover implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "full_name")
+    @NotNull
+    @Column(name = "full_name", nullable = false)
     private String fullName;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

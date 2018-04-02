@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -23,7 +24,8 @@ public class MantisStatus implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "change_date")
+    @NotNull
+    @Column(name = "change_date", nullable = false)
     private LocalDate changeDate;
 
     @ManyToOne

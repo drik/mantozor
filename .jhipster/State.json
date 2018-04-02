@@ -4,13 +4,16 @@
     "fields": [
         {
             "fieldName": "name",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20180330030202",
     "entityTableName": "state",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
-    "service": "serviceClass",
+    "pagination": "pagination",
+    "service": "serviceImpl",
     "jpaMetamodelFiltering": true
 }

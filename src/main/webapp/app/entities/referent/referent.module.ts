@@ -13,6 +13,7 @@ import {
     ReferentDeleteDialogComponent,
     referentRoute,
     referentPopupRoute,
+    ReferentResolvePagingParams,
 } from './';
 
 const ENTITY_STATES = [
@@ -43,6 +44,7 @@ const ENTITY_STATES = [
     providers: [
         ReferentService,
         ReferentPopupService,
+        ReferentResolvePagingParams,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

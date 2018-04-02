@@ -23,7 +23,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="change_date" type="date">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="mantis_id" type="bigint">

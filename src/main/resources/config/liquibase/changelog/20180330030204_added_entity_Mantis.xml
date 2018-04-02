@@ -27,7 +27,7 @@
             </column>
 
             <column name="submission_date" type="date">
-                <constraints nullable="true" />
+                <constraints nullable="false" />
             </column>
 
             <column name="project_id" type="bigint">

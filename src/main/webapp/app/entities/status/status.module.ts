@@ -13,6 +13,7 @@ import {
     StatusDeleteDialogComponent,
     statusRoute,
     statusPopupRoute,
+    StatusResolvePagingParams,
 } from './';
 
 const ENTITY_STATES = [
@@ -43,6 +44,7 @@ const ENTITY_STATES = [
     providers: [
         StatusService,
         StatusPopupService,
+        StatusResolvePagingParams,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

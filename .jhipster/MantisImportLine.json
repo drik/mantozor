@@ -120,7 +120,7 @@
     "changelogDate": "20180330030205",
     "entityTableName": "mantis_import_line",
     "dto": "mapstruct",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": true
 }

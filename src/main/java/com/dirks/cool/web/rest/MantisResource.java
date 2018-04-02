@@ -4,12 +4,17 @@ import com.codahale.metrics.annotation.Timed;
 import com.dirks.cool.service.MantisService;
 import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
+import com.dirks.cool.web.rest.util.PaginationUtil;
 import com.dirks.cool.service.dto.MantisDTO;
 import com.dirks.cool.service.dto.MantisCriteria;
 import com.dirks.cool.service.MantisQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -85,15 +90,17 @@ public class MantisResource {
     /**
      * GET  /mantis : get all the mantis.
      *
+     * @param pageable the pagination information
      * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of mantis in body
      */
     @GetMapping("/mantis")
     @Timed
-    public ResponseEntity<List<MantisDTO>> getAllMantis(MantisCriteria criteria) {
+    public ResponseEntity<List<MantisDTO>> getAllMantis(MantisCriteria criteria, Pageable pageable) {
         log.debug("REST request to get Mantis by criteria: {}", criteria);
-        List<MantisDTO> entityList = mantisQueryService.findByCriteria(criteria);
-        return ResponseEntity.ok().body(entityList);
+        Page<MantisDTO> page = mantisQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mantis");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

@@ -1,7 +1,8 @@
 package com.dirks.cool.service;
 
 import com.dirks.cool.service.dto.MantisImportDTO;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 /**
  * Service Interface for managing MantisImport.
@@ -19,9 +20,10 @@ public interface MantisImportService {
     /**
      * Get all the mantisImports.
      *
+     * @param pageable the pagination information
      * @return the list of entities
      */
-    List<MantisImportDTO> findAll();
+    Page<MantisImportDTO> findAll(Pageable pageable);
 
     /**
      * Get the "id" mantisImport.
@@ -37,4 +39,6 @@ public interface MantisImportService {
      * @param id the id of the entity
      */
     void delete(Long id);
+
+	MantisImportDTO importMantis(MantisImportDTO mantisImportDTO);
 }

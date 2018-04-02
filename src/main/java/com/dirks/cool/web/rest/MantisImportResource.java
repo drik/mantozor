@@ -4,15 +4,21 @@ import com.codahale.metrics.annotation.Timed;
 import com.dirks.cool.service.MantisImportService;
 import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
+import com.dirks.cool.web.rest.util.PaginationUtil;
 import com.dirks.cool.service.dto.MantisImportDTO;
 import com.dirks.cool.service.dto.MantisImportCriteria;
 import com.dirks.cool.service.MantisImportQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -48,12 +54,12 @@ public class MantisImportResource {
      */
     @PostMapping("/mantis-imports")
     @Timed
-    public ResponseEntity<MantisImportDTO> createMantisImport(@RequestBody MantisImportDTO mantisImportDTO) throws URISyntaxException {
+    public ResponseEntity<MantisImportDTO> createMantisImport(@Valid @RequestBody MantisImportDTO mantisImportDTO) throws URISyntaxException {
         log.debug("REST request to save MantisImport : {}", mantisImportDTO);
         if (mantisImportDTO.getId() != null) {
             throw new BadRequestAlertException("A new mantisImport cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        MantisImportDTO result = mantisImportService.save(mantisImportDTO);
+        MantisImportDTO result = mantisImportService.importMantis(mantisImportDTO);
         return ResponseEntity.created(new URI("/api/mantis-imports/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -70,7 +76,7 @@ public class MantisImportResource {
      */
     @PutMapping("/mantis-imports")
     @Timed
-    public ResponseEntity<MantisImportDTO> updateMantisImport(@RequestBody MantisImportDTO mantisImportDTO) throws URISyntaxException {
+    public ResponseEntity<MantisImportDTO> updateMantisImport(@Valid @RequestBody MantisImportDTO mantisImportDTO) throws URISyntaxException {
         log.debug("REST request to update MantisImport : {}", mantisImportDTO);
         if (mantisImportDTO.getId() == null) {
             return createMantisImport(mantisImportDTO);
@@ -84,15 +90,17 @@ public class MantisImportResource {
     /**
      * GET  /mantis-imports : get all the mantisImports.
      *
+     * @param pageable the pagination information
      * @param criteria the criterias which the requested entities should match
      * @return the ResponseEntity with status 200 (OK) and the list of mantisImports in body
      */
     @GetMapping("/mantis-imports")
     @Timed
-    public ResponseEntity<List<MantisImportDTO>> getAllMantisImports(MantisImportCriteria criteria) {
+    public ResponseEntity<List<MantisImportDTO>> getAllMantisImports(MantisImportCriteria criteria, Pageable pageable) {
         log.debug("REST request to get MantisImports by criteria: {}", criteria);
-        List<MantisImportDTO> entityList = mantisImportQueryService.findByCriteria(criteria);
-        return ResponseEntity.ok().body(entityList);
+        Page<MantisImportDTO> page = mantisImportQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mantis-imports");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

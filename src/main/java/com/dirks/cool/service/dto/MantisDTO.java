@@ -18,6 +18,7 @@ public class MantisDTO implements Serializable {
     @NotNull
     private String mantisNumber;
 
+    @NotNull
     private LocalDate submissionDate;
 
     private Long projectId;
