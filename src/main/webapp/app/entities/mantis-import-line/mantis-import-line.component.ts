@@ -28,6 +28,7 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
+    criteria: any;
 
     constructor(
         private mantisImportLineService: MantisImportLineService,
@@ -45,13 +46,31 @@ currentAccount: any;
             this.reverse = data.pagingParams.ascending;
             this.predicate = data.pagingParams.predicate;
         });
+        this.criteria = {
+            mantisNumber: null,
+            areSet() {
+                return this.mantisNumber != null ;
+            },
+            clear() {
+                this.mantisNumber = null;
+            }
+        }
     }
 
     loadAll() {
+        const criteria = [];
+
+        if (this.criteria.areSet()) {
+            if (this.criteria.mantisNumber != null && this.criteria.mantisNumber !== '') {
+                criteria.push({key: 'mantisNumber.contains', value: this.criteria.mantisNumber});
+            }
+        }
+
         this.mantisImportLineService.query({
             page: this.page - 1,
             size: this.itemsPerPage,
-            sort: this.sort()}).subscribe(
+            sort: this.sort(),
+            criteria}).subscribe(
                 (res: HttpResponse<MantisImportLine[]>) => this.onSuccess(res.body, res.headers),
                 (res: HttpErrorResponse) => this.onError(res.message)
         );
@@ -79,8 +98,10 @@ currentAccount: any;
             page: this.page,
             sort: this.predicate + ',' + (this.reverse ? 'asc' : 'desc')
         }]);
+        this.criteria.clear();
         this.loadAll();
     }
+
     ngOnInit() {
         this.loadAll();
         this.principal.identity().then((account) => {
@@ -106,6 +127,12 @@ currentAccount: any;
             result.push('id');
         }
         return result;
+    }
+
+    search(criteria) {
+        if (criteria.areSet()) {
+            this.loadAll();
+        }
     }
 
     private onSuccess(data, headers) {
