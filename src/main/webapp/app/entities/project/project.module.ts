@@ -13,6 +13,7 @@ import {
     ProjectDeleteDialogComponent,
     projectRoute,
     projectPopupRoute,
+    ProjectResolvePagingParams,
 } from './';
 
 const ENTITY_STATES = [
@@ -43,6 +44,7 @@ const ENTITY_STATES = [
     providers: [
         ProjectService,
         ProjectPopupService,
+        ProjectResolvePagingParams,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

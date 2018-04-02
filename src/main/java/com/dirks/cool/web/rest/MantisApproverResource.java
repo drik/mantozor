@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -53,7 +54,7 @@ public class MantisApproverResource {
      */
     @PostMapping("/mantis-approvers")
     @Timed
-    public ResponseEntity<MantisApproverDTO> createMantisApprover(@RequestBody MantisApproverDTO mantisApproverDTO) throws URISyntaxException {
+    public ResponseEntity<MantisApproverDTO> createMantisApprover(@Valid @RequestBody MantisApproverDTO mantisApproverDTO) throws URISyntaxException {
         log.debug("REST request to save MantisApprover : {}", mantisApproverDTO);
         if (mantisApproverDTO.getId() != null) {
             throw new BadRequestAlertException("A new mantisApprover cannot already have an ID", ENTITY_NAME, "idexists");
@@ -75,7 +76,7 @@ public class MantisApproverResource {
      */
     @PutMapping("/mantis-approvers")
     @Timed
-    public ResponseEntity<MantisApproverDTO> updateMantisApprover(@RequestBody MantisApproverDTO mantisApproverDTO) throws URISyntaxException {
+    public ResponseEntity<MantisApproverDTO> updateMantisApprover(@Valid @RequestBody MantisApproverDTO mantisApproverDTO) throws URISyntaxException {
         log.debug("REST request to update MantisApprover : {}", mantisApproverDTO);
         if (mantisApproverDTO.getId() == null) {
             return createMantisApprover(mantisApproverDTO);

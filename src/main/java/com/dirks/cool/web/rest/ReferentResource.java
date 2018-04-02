@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -53,7 +54,7 @@ public class ReferentResource {
      */
     @PostMapping("/referents")
     @Timed
-    public ResponseEntity<ReferentDTO> createReferent(@RequestBody ReferentDTO referentDTO) throws URISyntaxException {
+    public ResponseEntity<ReferentDTO> createReferent(@Valid @RequestBody ReferentDTO referentDTO) throws URISyntaxException {
         log.debug("REST request to save Referent : {}", referentDTO);
         if (referentDTO.getId() != null) {
             throw new BadRequestAlertException("A new referent cannot already have an ID", ENTITY_NAME, "idexists");
@@ -75,7 +76,7 @@ public class ReferentResource {
      */
     @PutMapping("/referents")
     @Timed
-    public ResponseEntity<ReferentDTO> updateReferent(@RequestBody ReferentDTO referentDTO) throws URISyntaxException {
+    public ResponseEntity<ReferentDTO> updateReferent(@Valid @RequestBody ReferentDTO referentDTO) throws URISyntaxException {
         log.debug("REST request to update Referent : {}", referentDTO);
         if (referentDTO.getId() == null) {
             return createReferent(referentDTO);

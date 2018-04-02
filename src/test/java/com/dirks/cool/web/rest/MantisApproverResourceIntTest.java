@@ -143,6 +143,25 @@ public class MantisApproverResourceIntTest {
 
     @Test
     @Transactional
+    public void checkFullNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = mantisApproverRepository.findAll().size();
+        // set the field null
+        mantisApprover.setFullName(null);
+
+        // Create the MantisApprover, which fails.
+        MantisApproverDTO mantisApproverDTO = mantisApproverMapper.toDto(mantisApprover);
+
+        restMantisApproverMockMvc.perform(post("/api/mantis-approvers")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(mantisApproverDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<MantisApprover> mantisApproverList = mantisApproverRepository.findAll();
+        assertThat(mantisApproverList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllMantisApprovers() throws Exception {
         // Initialize the database
         mantisApproverRepository.saveAndFlush(mantisApprover);

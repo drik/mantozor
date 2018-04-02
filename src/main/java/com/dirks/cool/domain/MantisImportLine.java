@@ -3,6 +3,8 @@ package com.dirks.cool.domain;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
+import com.opencsv.bean.CsvDate;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -35,6 +37,7 @@ public class MantisImportLine implements Serializable {
     private String project;
 
     @Column(name = "update_date")
+    @CsvDate("yyyy-MM-dd")
     private LocalDate updateDate;
 
     @Column(name = "category")
@@ -53,28 +56,58 @@ public class MantisImportLine implements Serializable {
     private String description;
 
     @Column(name = "submission_date")
+    @CsvDate("yyyy-MM-dd")
     private LocalDate submissionDate;
 
+    @Transient
+    private String submissionDateString;
+    
     @Column(name = "desired_commitment_date")
+    @CsvDate("yyyy-MM-dd")
     private LocalDate desiredCommitmentDate;
 
+    @Transient
+    private String desiredCommitmentDateString;
+    
     @Column(name = "estimated_charge_cacf")
     private Double estimatedChargeCACF;
 
+    @Transient
+    private String estimatedChargeCACFString;
+    
     @Column(name = "commitment_date_cds")
+    @CsvDate("yyyy-MM-dd")
     private LocalDate commitmentDateCDS;
+    
+    @Transient
+    private String commitmentDateCDSString;
 
     @Column(name = "estimated_charge_cds")
     private Double estimatedChargeCDS;
+    
+    @Transient
+    private String estimatedChargeCDSString;
 
     @Column(name = "estimated_dst_delivrery_date")
+    @CsvDate("yyyy-MM-dd")
     private LocalDate estimatedDSTDelivreryDate;
 
+    @Transient
+    private String estimatedDSTDelivreryDateString;
+    
     @Column(name = "recipe_date")
+    @CsvDate("yyyy-MM-dd")
     private LocalDate recipeDate;
 
+    @Transient
+    private String recipeDateString;
+
     @Column(name = "production_date")
+    @CsvDate("yyyy-MM-dd")
     private LocalDate productionDate;
+        
+    @Transient
+    private String productionDateString;
 
     @Column(name = "dev_standards_compliance_score")
     private String devStandardsComplianceScore;
@@ -96,6 +129,9 @@ public class MantisImportLine implements Serializable {
 
     @ManyToOne
     private State state;
+    
+    @Transient
+    private String stateString;
 
     @ManyToOne
     private MantisImport mantisImport;
@@ -420,7 +456,21 @@ public class MantisImportLine implements Serializable {
         return this;
     }
 
-    public void setState(State state) {
+    /**
+	 * @return the stateString
+	 */
+	public String getStateString() {
+		return stateString;
+	}
+
+	/**
+	 * @param stateString the stateString to set
+	 */
+	public void setStateString(String stateString) {
+		this.stateString = stateString;
+	}
+
+	public void setState(State state) {
         this.state = state;
     }
 
@@ -449,9 +499,38 @@ public class MantisImportLine implements Serializable {
     public void setMantis(Mantis mantis) {
         this.mantis = mantis;
     }
+    
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-    @Override
+    /**
+	 * @return the estimatedChargeCACFString
+	 */
+	public String getEstimatedChargeCACFString() {
+		return estimatedChargeCACFString;
+	}
+
+	/**
+	 * @param estimatedChargeCACFString the estimatedChargeCACFString to set
+	 */
+	public void setEstimatedChargeCACFString(String estimatedChargeCACFString) {
+		this.estimatedChargeCACFString = estimatedChargeCACFString;
+	}
+
+	/**
+	 * @return the estimatedChargeCDSString
+	 */
+	public String getEstimatedChargeCDSString() {
+		return estimatedChargeCDSString;
+	}
+
+	/**
+	 * @param estimatedChargeCDSString the estimatedChargeCDSString to set
+	 */
+	public void setEstimatedChargeCDSString(String estimatedChargeCDSString) {
+		this.estimatedChargeCDSString = estimatedChargeCDSString;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -466,7 +545,91 @@ public class MantisImportLine implements Serializable {
         return Objects.equals(getId(), mantisImportLine.getId());
     }
 
-    @Override
+    /**
+	 * @return the submissionDateString
+	 */
+	public String getSubmissionDateString() {
+		return submissionDateString;
+	}
+
+	/**
+	 * @param submissionDateString the submissionDateString to set
+	 */
+	public void setSubmissionDateString(String submissionDateString) {
+		this.submissionDateString = submissionDateString;
+	}
+
+	/**
+	 * @return the desiredCommitmentDateString
+	 */
+	public String getDesiredCommitmentDateString() {
+		return desiredCommitmentDateString;
+	}
+
+	/**
+	 * @param desiredCommitmentDateString the desiredCommitmentDateString to set
+	 */
+	public void setDesiredCommitmentDateString(String desiredCommitmentDateString) {
+		this.desiredCommitmentDateString = desiredCommitmentDateString;
+	}
+
+	/**
+	 * @return the commitmentDateCDSString
+	 */
+	public String getCommitmentDateCDSString() {
+		return commitmentDateCDSString;
+	}
+
+	/**
+	 * @param commitmentDateCDSString the commitmentDateCDSString to set
+	 */
+	public void setCommitmentDateCDSString(String commitmentDateCDSString) {
+		this.commitmentDateCDSString = commitmentDateCDSString;
+	}
+
+	/**
+	 * @return the estimatedDSTDelivreryDateString
+	 */
+	public String getEstimatedDSTDelivreryDateString() {
+		return estimatedDSTDelivreryDateString;
+	}
+
+	/**
+	 * @param estimatedDSTDelivreryDateString the estimatedDSTDelivreryDateString to set
+	 */
+	public void setEstimatedDSTDelivreryDateString(String estimatedDSTDelivreryDateString) {
+		this.estimatedDSTDelivreryDateString = estimatedDSTDelivreryDateString;
+	}
+
+	/**
+	 * @return the recipeDateString
+	 */
+	public String getRecipeDateString() {
+		return recipeDateString;
+	}
+
+	/**
+	 * @param recipeDateString the recipeDateString to set
+	 */
+	public void setRecipeDateString(String recipeDateString) {
+		this.recipeDateString = recipeDateString;
+	}
+
+	/**
+	 * @return the productionDateString
+	 */
+	public String getProductionDateString() {
+		return productionDateString;
+	}
+
+	/**
+	 * @param productionDateString the productionDateString to set
+	 */
+	public void setProductionDateString(String productionDateString) {
+		this.productionDateString = productionDateString;
+	}
+
+	@Override
     public int hashCode() {
         return Objects.hashCode(getId());
     }

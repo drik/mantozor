@@ -161,6 +161,63 @@ public class MantisImportResourceIntTest {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = mantisImportRepository.findAll().size();
+        // set the field null
+        mantisImport.setName(null);
+
+        // Create the MantisImport, which fails.
+        MantisImportDTO mantisImportDTO = mantisImportMapper.toDto(mantisImport);
+
+        restMantisImportMockMvc.perform(post("/api/mantis-imports")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(mantisImportDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<MantisImport> mantisImportList = mantisImportRepository.findAll();
+        assertThat(mantisImportList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkImportDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = mantisImportRepository.findAll().size();
+        // set the field null
+        mantisImport.setImportDate(null);
+
+        // Create the MantisImport, which fails.
+        MantisImportDTO mantisImportDTO = mantisImportMapper.toDto(mantisImport);
+
+        restMantisImportMockMvc.perform(post("/api/mantis-imports")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(mantisImportDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<MantisImport> mantisImportList = mantisImportRepository.findAll();
+        assertThat(mantisImportList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkFileIsRequired() throws Exception {
+        int databaseSizeBeforeTest = mantisImportRepository.findAll().size();
+        // set the field null
+        mantisImport.setFile(null);
+
+        // Create the MantisImport, which fails.
+        MantisImportDTO mantisImportDTO = mantisImportMapper.toDto(mantisImport);
+
+        restMantisImportMockMvc.perform(post("/api/mantis-imports")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(mantisImportDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<MantisImport> mantisImportList = mantisImportRepository.findAll();
+        assertThat(mantisImportList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllMantisImports() throws Exception {
         // Initialize the database
         mantisImportRepository.saveAndFlush(mantisImport);

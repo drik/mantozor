@@ -4,13 +4,16 @@
     "fields": [
         {
             "fieldName": "fullName",
-            "fieldType": "String"
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20180330030201",
     "entityTableName": "mantis_approver",
     "dto": "mapstruct",
-    "pagination": "infinite-scroll",
-    "service": "serviceClass",
+    "pagination": "pagination",
+    "service": "serviceImpl",
     "jpaMetamodelFiltering": true
 }

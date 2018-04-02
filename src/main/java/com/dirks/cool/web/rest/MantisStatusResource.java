@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -53,7 +54,7 @@ public class MantisStatusResource {
      */
     @PostMapping("/mantis-statuses")
     @Timed
-    public ResponseEntity<MantisStatusDTO> createMantisStatus(@RequestBody MantisStatusDTO mantisStatusDTO) throws URISyntaxException {
+    public ResponseEntity<MantisStatusDTO> createMantisStatus(@Valid @RequestBody MantisStatusDTO mantisStatusDTO) throws URISyntaxException {
         log.debug("REST request to save MantisStatus : {}", mantisStatusDTO);
         if (mantisStatusDTO.getId() != null) {
             throw new BadRequestAlertException("A new mantisStatus cannot already have an ID", ENTITY_NAME, "idexists");
@@ -75,7 +76,7 @@ public class MantisStatusResource {
      */
     @PutMapping("/mantis-statuses")
     @Timed
-    public ResponseEntity<MantisStatusDTO> updateMantisStatus(@RequestBody MantisStatusDTO mantisStatusDTO) throws URISyntaxException {
+    public ResponseEntity<MantisStatusDTO> updateMantisStatus(@Valid @RequestBody MantisStatusDTO mantisStatusDTO) throws URISyntaxException {
         log.debug("REST request to update MantisStatus : {}", mantisStatusDTO);
         if (mantisStatusDTO.getId() == null) {
             return createMantisStatus(mantisStatusDTO);

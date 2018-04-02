@@ -40,9 +40,15 @@ export class MantisImportPopupService {
                         resolve(this.ngbModalRef);
                     });
             } else {
+                const mantisImport = new MantisImport();
+                mantisImport.importDate = {
+                    year : new Date().getFullYear(),
+                    month : new Date().getMonth() + 1,
+                    day : new Date().getDate()
+                };
                 // setTimeout used as a workaround for getting ExpressionChangedAfterItHasBeenCheckedError
                 setTimeout(() => {
-                    this.ngbModalRef = this.mantisImportModalRef(component, new MantisImport());
+                    this.ngbModalRef = this.mantisImportModalRef(component, mantisImport);
                     resolve(this.ngbModalRef);
                 }, 0);
             }

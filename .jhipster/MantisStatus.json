@@ -29,7 +29,10 @@
     "fields": [
         {
             "fieldName": "changeDate",
-            "fieldType": "LocalDate"
+            "fieldType": "LocalDate",
+            "fieldValidateRules": [
+                "required"
+            ]
         }
     ],
     "changelogDate": "20180330030208",

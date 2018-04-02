@@ -1,6 +1,7 @@
 package com.dirks.cool.service.dto;
 
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -11,6 +12,7 @@ public class MantisApproverDTO implements Serializable {
 
     private Long id;
 
+    @NotNull
     private String fullName;
 
     public Long getId() {

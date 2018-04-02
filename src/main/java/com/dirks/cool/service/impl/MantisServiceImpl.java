@@ -7,12 +7,11 @@ import com.dirks.cool.service.dto.MantisDTO;
 import com.dirks.cool.service.mapper.MantisMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing Mantis.
@@ -49,15 +48,15 @@ public class MantisServiceImpl implements MantisService {
     /**
      * Get all the mantis.
      *
+     * @param pageable the pagination information
      * @return the list of entities
      */
     @Override
     @Transactional(readOnly = true)
-    public List<MantisDTO> findAll() {
+    public Page<MantisDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Mantis");
-        return mantisRepository.findAll().stream()
-            .map(mantisMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return mantisRepository.findAll(pageable)
+            .map(mantisMapper::toDto);
     }
 
     /**

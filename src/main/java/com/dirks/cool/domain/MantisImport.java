@@ -4,6 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -23,17 +24,20 @@ public class MantisImport implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @NotNull
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "import_date")
+    @NotNull
+    @Column(name = "import_date", nullable = false)
     private LocalDate importDate;
 
+    @NotNull
     @Lob
-    @Column(name = "jhi_file")
+    @Column(name = "jhi_file", nullable = false)
     private byte[] file;
 
-    @Column(name = "jhi_file_content_type")
+    @Column(name = "jhi_file_content_type", nullable = false)
     private String fileContentType;
 
     @ManyToOne

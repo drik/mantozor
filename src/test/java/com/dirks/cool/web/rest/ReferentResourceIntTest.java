@@ -143,6 +143,25 @@ public class ReferentResourceIntTest {
 
     @Test
     @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = referentRepository.findAll().size();
+        // set the field null
+        referent.setName(null);
+
+        // Create the Referent, which fails.
+        ReferentDTO referentDTO = referentMapper.toDto(referent);
+
+        restReferentMockMvc.perform(post("/api/referents")
+            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .content(TestUtil.convertObjectToJsonBytes(referentDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<Referent> referentList = referentRepository.findAll();
+        assertThat(referentList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllReferents() throws Exception {
         // Initialize the database
         referentRepository.saveAndFlush(referent);
