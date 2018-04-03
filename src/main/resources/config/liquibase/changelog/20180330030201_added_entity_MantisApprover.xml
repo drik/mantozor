@@ -28,7 +28,15 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+        <createIndex indexName="idx_mantis_approver_full_name"
+            tableName="mantis_approver" >
+            <column name="full_name" type="varchar(255)"/>
+        </createIndex>
+		<loadData encoding="UTF-8"
+                  file="config/liquibase/mantis_approvers.csv"
+                  separator=";"
+                  tableName="mantis_approver">			
+        </loadData>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

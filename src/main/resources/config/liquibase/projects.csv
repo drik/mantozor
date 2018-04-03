@@ -1,0 +1,13 @@
+id;name;referent_id
+1;Acc-AUTRES PRODUITS (projet);2
+2;Acc-AUTRES PRODUITS (anomalie);2
+3;Acc-BigData (anomalie);1
+4;Acc-BigData (projet);3
+5;Acc-BUSINESS INTELLIGENCE (projet);3
+6;Acc-CANAUX B2B & B2C (anomalie);1
+7;Acc-CANAUX B2B & B2C (projet);1
+8;Acc-HARRY (projet);3
+9;Acc-MOYEN DE PAIEMENT (projet);2
+10;Acc-MOYEN DE PAIEMENT (anomalie);2
+11;Acc-PRODUCTION DOCUMENTS & APPLICATIONS D'ENTREPRISE (anomalie);2
+12;Acc-PRODUCTION DOCUMENTS & APPLICATIONS D'ENTREPRISE (projet);1

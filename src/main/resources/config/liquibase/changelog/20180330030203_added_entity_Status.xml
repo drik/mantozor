@@ -28,7 +28,17 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+        <createIndex indexName="idx_status_name"
+            tableName="status" >
+            <column name="name" type="varchar(255)"/>
+        </createIndex>
+		
+		<loadData encoding="UTF-8"
+                  file="config/liquibase/status.csv"
+                  separator=";"
+                  tableName="status">
+        </loadData>
+		
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

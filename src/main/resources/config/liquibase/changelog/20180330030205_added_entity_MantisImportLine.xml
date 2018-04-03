@@ -128,7 +128,22 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+        <createIndex indexName="idx_mantis_import_line_mantis_number"
+            tableName="mantis_import_line" >
+            <column name="mantis_number" type="varchar(255)"/>
+        </createIndex>
+		<createIndex indexName="idx_mantis_import_line_mantis_import_id"
+            tableName="mantis_import_line" >
+            <column name="mantis_import_id" type="bigint"/>
+        </createIndex>
+		<createIndex indexName="idx_mantis_import_line_state_id"
+            tableName="mantis_import_line" >
+            <column name="state_id" type="bigint"/>
+        </createIndex>
+		<createIndex indexName="idx_mantis_import_line_mantis_id"
+            tableName="mantis_import_line" >
+            <column name="mantis_id" type="bigint"/>
+        </createIndex>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

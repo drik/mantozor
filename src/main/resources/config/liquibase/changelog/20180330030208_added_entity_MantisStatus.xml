@@ -44,7 +44,26 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+        <createIndex indexName="idx_mantis_status_change_date"
+            tableName="mantis_status" >
+            <column name="change_date" type="date"/>
+        </createIndex>
+		<createIndex indexName="idx_mantis_status_status_id"
+            tableName="mantis_status" >
+            <column name="status_id" type="bigint"/>
+        </createIndex>
+		<createIndex indexName="idx_mantis_status_mantis_id"
+            tableName="mantis_status" >
+            <column name="mantis_id" type="bigint"/>
+        </createIndex>
+		<createIndex indexName="idx_mantis_status_user_id"
+            tableName="mantis_status" >
+            <column name="user_id" type="bigint"/>
+        </createIndex>
+		<createIndex indexName="idx_mantis_approver_id"
+            tableName="mantis_status" >
+            <column name="approver_id" type="bigint"/>
+        </createIndex>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>

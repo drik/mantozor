@@ -11,8 +11,8 @@
     <include file="config/liquibase/changelog/20180330030203_added_entity_Status.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180330030204_added_entity_Mantis.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180330030205_added_entity_MantisImportLine.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20180330030206_added_entity_Project.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20180330030207_added_entity_Referent.xml" relativeToChangelogFile="false"/>
+	<include file="config/liquibase/changelog/20180330030207_added_entity_Referent.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180330030206_added_entity_Project.xml" relativeToChangelogFile="false"/>    
     <include file="config/liquibase/changelog/20180330030208_added_entity_MantisStatus.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20180330030200_added_entity_constraints_MantisImport.xml" relativeToChangelogFile="false"/>

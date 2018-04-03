@@ -43,7 +43,14 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        
+		<createIndex indexName="idx_mantis_import_name"
+            tableName="mantis_import" >
+            <column name="name" type="varchar(255)"/>
+        </createIndex>
+        <createIndex indexName="idx_mantis_import_date"
+            tableName="mantis_import" >
+            <column name="import_date" type="date"/>
+        </createIndex>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->
 </databaseChangeLog>
