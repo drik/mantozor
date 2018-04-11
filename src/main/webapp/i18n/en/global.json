@@ -6,7 +6,8 @@
             "home": "Home",
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
-                "main": "Entities",
+                "parameters": "Parameters",
+                "operations": "Operations",
                 "mantisImport": "Mantis Import",
                 "mantisApprover": "Mantis Approver",
                 "state": "State",

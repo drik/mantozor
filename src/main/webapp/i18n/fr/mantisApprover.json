@@ -3,20 +3,20 @@
     "mantozorApp": {
         "mantisApprover" : {
             "home": {
-                "title": "MantisApprovers",
-                "createLabel": "Créer un nouveau Mantis Approver",
-                "createOrEditLabel": "Créer ou éditer un Mantis Approver"
+                "title": "Approbateurs",
+                "createLabel": "Créer un nouvel approbateur",
+                "createOrEditLabel": "Créer ou éditer un approbateur"
             },
-            "created": "Un nouveau Mantis Approver a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Mantis Approver avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Mantis Approver avec l'identifiant {{ param }} a été supprimé",
+            "created": "Un nouvel approbateur a été créé avec l'identifiant {{ param }}",
+            "updated": "L'approbateur avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "L'approbateur avec l'identifiant {{ param }} a été supprimé",
             "delete": {
                 "question": "Etes-vous certain de vouloir supprimer le Mantis Approver {{ id }} ?"
             },
             "detail": {
-                "title": "Mantis Approver"
+                "title": "Approbateur"
             },
-            "fullName": "Full Name"
+            "fullName": "Nom complet"
         }
     }
 }

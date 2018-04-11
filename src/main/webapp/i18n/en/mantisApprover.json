@@ -3,7 +3,7 @@
     "mantozorApp": {
         "mantisApprover" : {
             "home": {
-                "title": "Mantis Approvers",
+                "title": "Approvers",
                 "createLabel": "Create a new Mantis Approver",
                 "createOrEditLabel": "Create or edit a Mantis Approver"
             },
