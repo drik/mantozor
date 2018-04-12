@@ -2,9 +2,13 @@ import './vendor.ts';
 
 import { NgModule, Injector } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Ng2Webstorage, LocalStorageService, SessionStorageService  } from 'ngx-webstorage';
 import { JhiEventManager } from 'ng-jhipster';
+
+import { NgProgressModule } from '@ngx-progressbar/core';
+import { NgProgressHttpModule } from '@ngx-progressbar/http';
+import { NgProgressRouterModule } from '@ngx-progressbar/router';
 
 import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
@@ -38,6 +42,10 @@ import {
         MantozorAdminModule,
         MantozorAccountModule,
         MantozorEntityModule,
+        HttpClientModule,
+	    NgProgressModule.forRoot(),
+	    NgProgressHttpModule,
+    	NgProgressRouterModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
