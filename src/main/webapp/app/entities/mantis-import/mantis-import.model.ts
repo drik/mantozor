@@ -8,6 +8,7 @@ export class MantisImport implements BaseEntity {
         public fileContentType?: string,
         public file?: any,
         public userId?: number,
+        public user?: any,
     ) {
     }
 }

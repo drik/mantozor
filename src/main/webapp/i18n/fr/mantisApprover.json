@@ -11,7 +11,7 @@
             "updated": "L'approbateur avec l'identifiant {{ param }} a été mis à jour",
             "deleted": "L'approbateur avec l'identifiant {{ param }} a été supprimé",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Mantis Approver {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer l'approbateur {{ id }} ?"
             },
             "detail": {
                 "title": "Approbateur"

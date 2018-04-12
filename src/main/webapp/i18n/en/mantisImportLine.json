@@ -3,20 +3,20 @@
     "mantozorApp": {
         "mantisImportLine" : {
             "home": {
-                "title": "Mantis Import Lines",
+                "title": "Mantis",
                 "createLabel": "Create a new Mantis Import Line",
                 "createOrEditLabel": "Create or edit a Mantis Import Line"
             },
-            "created": "A new Mantis Import Line is created with identifier {{ param }}",
-            "updated": "A Mantis Import Line is updated with identifier {{ param }}",
-            "deleted": "A Mantis Import Line is deleted with identifier {{ param }}",
+            "created": "A new Mantis is created with identifier {{ param }}",
+            "updated": "A Mantis is updated with identifier {{ param }}",
+            "deleted": "A Mantis is deleted with identifier {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Mantis Import Line {{ id }}?"
+                "question": "Are you sure you want to delete Mantis {{ id }}?"
             },
             "detail": {
-                "title": "Mantis Import Line"
+                "title": "Mantis"
             },
-            "mantisNumber": "Mantis Number",
+            "mantisNumber": "Number",
             "validationStatus": "Validation Status",
             "project": "Project",
             "updateDate": "Update Date",

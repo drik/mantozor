@@ -16,7 +16,7 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <!--th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th-->
             <th jhiSortBy="name"><span jhiTranslate="mantozorApp.mantisImport.name">Name</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="importDate"><span jhiTranslate="mantozorApp.mantisImport.importDate">Import Date</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="file"><span jhiTranslate="mantozorApp.mantisImport.file">File</span> <span class="fa fa-sort"></span></th>
@@ -26,15 +26,15 @@
             </thead>
             <tbody>
             <tr *ngFor="let mantisImport of mantisImports ;trackBy: trackId">
-                <td><a [routerLink]="['../mantis-import', mantisImport.id ]">{{mantisImport.id}}</a></td>
-                <td>{{mantisImport.name}}</td>
+                <!--td><a [routerLink]="['../mantis-import', mantisImport.id ]">{{mantisImport.id}}</a></td-->
+                <td><a [routerLink]="['../mantis-import', mantisImport.id ]">{{mantisImport.name}}</a></td>
                 <td>{{mantisImport.importDate | date:'mediumDate'}}</td>
                 <td>
                     <a *ngIf="mantisImport.file" (click)="openFile(mantisImport.fileContentType, mantisImport.file)" jhiTranslate="entity.action.open">open</a>
                     <span *ngIf="mantisImport.file">{{mantisImport.fileContentType}}, {{byteSize(mantisImport.file)}}</span>
                 </td>
                 <td>
-                    {{mantisImport.userId}}
+                    {{mantisImport.user.firstName}} {{mantisImport.user.lastName}}
                 </td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">

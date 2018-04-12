@@ -4,17 +4,17 @@
         "mantisApprover" : {
             "home": {
                 "title": "Approvers",
-                "createLabel": "Create a new Mantis Approver",
-                "createOrEditLabel": "Create or edit a Mantis Approver"
+                "createLabel": "Create a new approver",
+                "createOrEditLabel": "Create or edit an approver"
             },
-            "created": "A new Mantis Approver is created with identifier {{ param }}",
-            "updated": "A Mantis Approver is updated with identifier {{ param }}",
-            "deleted": "A Mantis Approver is deleted with identifier {{ param }}",
+            "created": "A new Approver is created with identifier {{ param }}",
+            "updated": "A Approver is updated with identifier {{ param }}",
+            "deleted": "A Approver is deleted with identifier {{ param }}",
             "delete": {
-                "question": "Are you sure you want to delete Mantis Approver {{ id }}?"
+                "question": "Are you sure you want to delete Approver '{{ id }}'?"
             },
             "detail": {
-                "title": "Mantis Approver"
+                "title": "Approver"
             },
             "fullName": "Full Name"
         }

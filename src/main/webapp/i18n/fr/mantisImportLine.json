@@ -3,36 +3,36 @@
     "mantozorApp": {
         "mantisImportLine" : {
             "home": {
-                "title": "MantisImportLines",
-                "createLabel": "Créer un nouveau Mantis Import Line",
-                "createOrEditLabel": "Créer ou éditer un Mantis Import Line"
+                "title": "Mantis",
+                "createLabel": "Créer une nouvelle Mantis",
+                "createOrEditLabel": "Créer ou éditer une Mantis"
             },
-            "created": "Un nouveau Mantis Import Line a été créé avec l'identifiant {{ param }}",
-            "updated": "Le Mantis Import Line avec l'identifiant {{ param }} a été mis à jour",
-            "deleted": "Le Mantis Import Line avec l'identifiant {{ param }} a été supprimé",
+            "created": "Une nouvelle Mantis  a été créée avec l'identifiant {{ param }}",
+            "updated": "La Mantis  avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "La Mantis avec l'identifiant {{ param }} a été supprimé",
             "delete": {
-                "question": "Etes-vous certain de vouloir supprimer le Mantis Import Line {{ id }} ?"
+                "question": "Etes-vous certain de vouloir supprimer la Mantis {{ id }} ?"
             },
             "detail": {
-                "title": "Mantis Import Line"
+                "title": "Mantis"
             },
-            "mantisNumber": "Mantis Number",
-            "validationStatus": "Validation Status",
-            "project": "Project",
-            "updateDate": "Update Date",
-            "category": "Category",
-            "gravity": "Gravity",
-            "augeoReference": "Augeo Reference",
-            "technicalReference": "Technical Reference",
+            "mantisNumber": "Num�ror",
+            "validationStatus": "Status",
+            "project": "Projet",
+            "updateDate": "Date modification",
+            "category": "CatValidationgorie",
+            "gravity": "Gravité",
+            "augeoReference": "Référence Augeo",
+            "technicalReference": "Référent technique",
             "description": "Description",
-            "submissionDate": "Submission Date",
-            "desiredCommitmentDate": "Desired Commitment Date",
-            "estimatedChargeCACF": "Estimated Charge CACF",
-            "commitmentDateCDS": "Commitment Date CDS",
-            "estimatedChargeCDS": "Estimated Charge CDS",
-            "estimatedDSTDelivreryDate": "Estimated DST Delivrery Date",
-            "recipeDate": "Recipe Date",
-            "productionDate": "Production Date",
+            "submissionDate": "Date soumission",
+            "desiredCommitmentDate": "Date d'engagement souhait�e",
+            "estimatedChargeCACF": "Charge estim�e CACF",
+            "commitmentDateCDS": "Date d'engagement CDS",
+            "estimatedChargeCDS": "Charge estim�e CDS",
+            "estimatedDSTDelivreryDate": "Date de livraison estim�e du DST",
+            "recipeDate": "Date recette",
+            "productionDate": "Date production",
             "devStandardsComplianceScore": "Dev Standards Compliance Score",
             "devStandardsComplianceScoreComment": "Dev Standards Compliance Score Comment",
             "expressedNeedsComplianceScore": "Expressed Needs Compliance Score",
