@@ -12,9 +12,10 @@ import org.mapstruct.*;
 public interface ProjectMapper extends EntityMapper<ProjectDTO, Project> {
 
     @Mapping(source = "referent.id", target = "referentId")
+    @Mapping(source = "referent", target = "referent")
     ProjectDTO toDto(Project project);
 
-    @Mapping(source = "referentId", target = "referent")
+    @Mapping(source = "referent", target = "referent")
     Project toEntity(ProjectDTO projectDTO);
 
     default Project fromId(Long id) {

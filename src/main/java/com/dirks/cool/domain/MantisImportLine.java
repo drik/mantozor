@@ -138,6 +138,9 @@ public class MantisImportLine implements Serializable {
 
     @ManyToOne
     private Mantis mantis;
+    
+    @ManyToOne
+    private Referent referent;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -496,13 +499,22 @@ public class MantisImportLine implements Serializable {
         return this;
     }
 
-    public void setMantis(Mantis mantis) {
+    public MantisImportLine setMantis(Mantis mantis) {
         this.mantis = mantis;
+        return this;
     }
-    
+
+    public Referent getReferent() {
+		return referent;
+	}
+
+	public void setReferent(Referent referent) {
+		this.referent = referent;
+	}
+	
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-    /**
+	/**
 	 * @return the estimatedChargeCACFString
 	 */
 	public String getEstimatedChargeCACFString() {

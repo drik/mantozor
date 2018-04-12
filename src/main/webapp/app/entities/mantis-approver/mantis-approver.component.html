@@ -16,15 +16,15 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <!--th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th-->
             <th jhiSortBy="fullName"><span jhiTranslate="mantozorApp.mantisApprover.fullName">Full Name</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
             <tbody>
             <tr *ngFor="let mantisApprover of mantisApprovers ;trackBy: trackId">
-                <td><a [routerLink]="['../mantis-approver', mantisApprover.id ]">{{mantisApprover.id}}</a></td>
-                <td>{{mantisApprover.fullName}}</td>
+                <!--td><a [routerLink]="['../mantis-approver', mantisApprover.id ]">{{mantisApprover.id}}</a></td-->
+                <td><a [routerLink]="['../mantis-approver', mantisApprover.id ]">{{mantisApprover.fullName}}</a></td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

@@ -5,6 +5,7 @@ export class Project implements BaseEntity {
         public id?: number,
         public name?: string,
         public referentId?: number,
+        public referent?: any,
     ) {
     }
 }

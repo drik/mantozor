@@ -1,0 +1,16 @@
+id;name;state_color
+1;Emise;blue
+2;Prise en Compte;teal 
+3;A Compléter;navy
+4;Analysée;aqua
+5;Refusée;fuchsia 
+6;Acceptée;aqua
+7;Affectée;light-blue
+8;Suspendue;red
+9;DST livrée;lime
+10;DST validée;olive
+11;Réalisée;lime
+12;Livrée;green 
+13;Non Conforme;fuchsia
+14;Conforme;lime
+15;Cloturée;green 

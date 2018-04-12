@@ -26,6 +26,15 @@ public class Status implements Serializable {
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
+    
+    @Column(name = "mandatory_approver")
+    private boolean mandatoryApprover = false;
+    
+    @Column(name = "status_color")
+    private String statusColor;
+
+    @Column(name = "icon")
+    private String icon;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -48,9 +57,35 @@ public class Status implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public boolean isMandatoryApprover() {
+		return mandatoryApprover;
+	}
+
+	public void setMandatoryApprover(boolean mandatoryApprover) {
+		this.mandatoryApprover = mandatoryApprover;
+	}
+
+	public String getStatusColor() {
+		return statusColor;
+	}
+
+	public void setStatusColor(String statusColor) {
+		this.statusColor = statusColor;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+	
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-    @Override
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

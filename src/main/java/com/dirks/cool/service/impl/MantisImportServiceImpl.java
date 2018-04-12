@@ -1,6 +1,7 @@
 package com.dirks.cool.service.impl;
 
 import com.dirks.cool.service.MantisImportService;
+import com.dirks.cool.service.UserService;
 import com.dirks.cool.domain.Mantis;
 import com.dirks.cool.domain.MantisImport;
 import com.dirks.cool.domain.MantisImportLine;
@@ -57,6 +58,8 @@ public class MantisImportServiceImpl implements MantisImportService {
 	private final ProjectRepository projectRepository;
 	private final ReferentRepository referentRepository;
 	private final StateRepository stateRepository;
+	
+	private final UserService userService;
 
 	private final MantisImportMapper mantisImportMapper;
 
@@ -75,7 +78,7 @@ public class MantisImportServiceImpl implements MantisImportService {
 	public MantisImportServiceImpl(MantisImportRepository mantisImportRepository,
 			MantisImportLineRepository mantisImportLineRepository, MantisRepository mantisRepository,
 			ProjectRepository projectRepository, ReferentRepository referentRepository, StateRepository stateRepository,
-			MantisImportMapper mantisImportMapper) {
+			UserService userService, MantisImportMapper mantisImportMapper) {
 		super();
 		this.mantisImportRepository = mantisImportRepository;
 		this.mantisImportLineRepository = mantisImportLineRepository;
@@ -83,6 +86,7 @@ public class MantisImportServiceImpl implements MantisImportService {
 		this.projectRepository = projectRepository;
 		this.referentRepository = referentRepository;
 		this.stateRepository = stateRepository;
+		this.userService = userService;
 		this.mantisImportMapper = mantisImportMapper;
 	}
 
@@ -197,7 +201,9 @@ public class MantisImportServiceImpl implements MantisImportService {
 		builder.withMappingStrategy(strategy);
 		list = builder.build().parse();
 		
-		MantisImport mantisImport = mantisImportRepository.save(mantisImportMapper.toEntity(mantisImportDTO));
+		MantisImport mantisImport = mantisImportMapper.toEntity(mantisImportDTO);
+		mantisImport.setUser(userService.getUserWithAuthorities().get());
+		MantisImport mantisImportSaved = mantisImportRepository.save(mantisImport);
 		//Traitement mantis import 
 		list.stream().forEach(line -> {
 			// Traitemant des dates
@@ -226,8 +232,8 @@ public class MantisImportServiceImpl implements MantisImportService {
 				mantis = mantisRepository.save(mantis);
 			}
 			line.setMantis(mantis);
-			line.setMantisImport(mantisImport);
-			
+			line.setMantisImport(mantisImportSaved);
+			line.setReferent(mantis.getProject().getReferent());
 			//Traitement de state
 			State state = stateRepository.findByName(line.getStateString());
 			if(state == null) {

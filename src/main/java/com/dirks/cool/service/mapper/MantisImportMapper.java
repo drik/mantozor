@@ -12,6 +12,7 @@ import org.mapstruct.*;
 public interface MantisImportMapper extends EntityMapper<MantisImportDTO, MantisImport> {
 
     @Mapping(source = "user.id", target = "userId")
+    @Mapping(source = "user", target = "user")
     MantisImportDTO toDto(MantisImport mantisImport);
 
     @Mapping(source = "userId", target = "user")

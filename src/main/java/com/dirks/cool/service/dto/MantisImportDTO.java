@@ -28,6 +28,8 @@ public class MantisImportDTO implements Serializable {
     private String fileContentType;
 
     private Long userId;
+    
+    private UserDTO user;
 
     public Long getId() {
         return id;
@@ -77,7 +79,15 @@ public class MantisImportDTO implements Serializable {
         this.userId = userId;
     }
 
-    @Override
+    public UserDTO getUser() {
+		return user;
+	}
+
+	public void setUser(UserDTO user) {
+		this.user = user;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

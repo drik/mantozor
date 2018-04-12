@@ -11,7 +11,7 @@
         <dt><span jhiTranslate="mantozorApp.project.referent">Referent</span></dt>
         <dd>
             <div *ngIf="project.referentId">
-                <a [routerLink]="['/referent', project.referentId]">{{project.referentId}}</a>
+                <a [routerLink]="['/referent', project.referentId]">{{project.referent.name}}</a>
             </div>
         </dd>
     </dl>

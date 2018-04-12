@@ -25,7 +25,15 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-
+			<column name="mandatory_approver" type="boolean">
+                <constraints nullable="true" />
+            </column>
+			<column name="status_color" type="varchar(10)">
+                <constraints nullable="true" />
+            </column>
+			<column name="icon" type="varchar(30)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <createIndex indexName="idx_status_name"

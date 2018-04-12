@@ -16,7 +16,7 @@
         <table class="table table-striped">
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <!--th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th-->
             <th jhiSortBy="name"><span jhiTranslate="mantozorApp.project.name">Name</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="referentId"><span jhiTranslate="mantozorApp.project.referent">Referent</span> <span class="fa fa-sort"></span></th>
             <th></th>
@@ -24,11 +24,11 @@
             </thead>
             <tbody>
             <tr *ngFor="let project of projects ;trackBy: trackId">
-                <td><a [routerLink]="['../project', project.id ]">{{project.id}}</a></td>
-                <td>{{project.name}}</td>
+                <!-- td><a [routerLink]="['../project', project.id ]">{{project.id}}</a></td-->
+                <td><a [routerLink]="['../project', project.id ]">{{project.name}}</a></td>
                 <td>
                     <div *ngIf="project.referentId">
-                        <a [routerLink]="['../referent', project.referentId  ]" >{{project.referentId}}</a>
+                        <a [routerLink]="['../referent', project.referentId  ]" >{{project.referent.name}}</a>
                     </div>
                 </td>
                 <td class="text-right">

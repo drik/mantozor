@@ -39,6 +39,9 @@ public class MantisStatus implements Serializable {
 
     @ManyToOne
     private MantisApprover approver;
+    
+    @Column(name = "comments")
+    private String comments;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -113,9 +116,18 @@ public class MantisStatus implements Serializable {
     public void setApprover(MantisApprover mantisApprover) {
         this.approver = mantisApprover;
     }
+
+    public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+	
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

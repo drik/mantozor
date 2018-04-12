@@ -18,6 +18,8 @@ public class ProjectDTO implements Serializable {
     private String name;
 
     private Long referentId;
+    
+    private ReferentDTO referent;
 
     public Long getId() {
         return id;
@@ -43,7 +45,15 @@ public class ProjectDTO implements Serializable {
         this.referentId = referentId;
     }
 
-    @Override
+    public ReferentDTO getReferent() {
+		return referent;
+	}
+
+	public void setReferent(ReferentDTO referent) {
+		this.referent = referent;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
