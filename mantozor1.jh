@@ -1,23 +1,23 @@
 entity MantisImport {
-	name String 
-    importDate LocalDate
-    file Blob 
+	name String required
+    importDate LocalDate required
+    file Blob required
 }
 
 entity MantisApprover {
-    fullName String
+    fullName String required
 }
 
 entity State {
-    name String
+    name String required
 }
 entity Status {
-    name String
+    name String required
 }
 
 entity Mantis {
 	mantisNumber String required
-    submissionDate LocalDate    
+    submissionDate LocalDate required 
 }
 
 entity MantisImportLine {
@@ -29,7 +29,6 @@ entity MantisImportLine {
     gravity					String
     augeoReference				String
     technicalReference			String
-    state					String
     description				String
     submissionDate				LocalDate
     desiredCommitmentDate			LocalDate
@@ -52,11 +51,17 @@ entity Project {
 }
 
 entity Referent {
-	name String
+	name String required
 }
 
 entity MantisStatus{
-    changeDate LocalDate
+    changeDate LocalDate required
+}
+
+entity MantisConsumption{
+	submissionDate LocaleDate required
+    consumed Double required
+    toBill Double required    
 }
 
 relationship ManyToOne {
@@ -81,12 +86,16 @@ relationship ManyToOne {
 	MantisImport{user} to User
 }
 
+relationship ManyToOne {
+	MantisConsumption{user} to User
+    MantisConsumption{mantis} to Mantis
+}
+
 // Set pagination options
-paginate Project, Referent, Status, State, MantisApprover with infinite-scroll
-paginate MantisStatus with pagination
+paginate * with pagination
 
 dto * with mapstruct
 
 // Set service options to all except few
-service all with serviceImpl except Project, Referent, Status, State, MantisApprover
-
+service all with serviceImpl
+filter *
