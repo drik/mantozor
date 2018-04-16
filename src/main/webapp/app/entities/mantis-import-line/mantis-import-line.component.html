@@ -48,16 +48,21 @@
 							class="form-control ng-untouched ng-pristine ng-valid" [type]="filterForm.value.filterRows[i].concernedField.category"  /> 
 					</div>
 			
-					<div class="col-sm-2" style="margin-top: 32px;" (click)="removeCriteria(i)">
-						<button *ngIf="filterForm.controls.filterRows.controls.length > 1" class="btn btn-danger" type="button">Remove</button>
+					<div class="col-sm-2" style="margin-top: 32px;" >						
+						<button *ngIf="filterForm.controls.filterRows.controls.length > 1" class="btn btn-danger" type="button" (click)="removeCriteria(i)">
+							<span class="fa fa-times"></span>
+							Remove
+						</button>
 					</div>
 				</div>
 			</div>
 			<div class="box-footer" style="margin-top: 15px;">
 				<button class="btn btn-primary" type="button" (click)="addCriteria()">
+					<span class="fa fa-plus"></span>
 					Add criteria
 				</button>
 				<button class="btn btn-primary" type="submit" >
+					<span class="fa fa-search"></span>
 					Search
 				</button>
 			</div>

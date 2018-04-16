@@ -1,6 +1,7 @@
 package com.dirks.cool.service.impl;
 
 import com.dirks.cool.service.MantisStatusService;
+import com.dirks.cool.service.UserService;
 import com.dirks.cool.domain.MantisStatus;
 import com.dirks.cool.repository.MantisStatusRepository;
 import com.dirks.cool.service.dto.MantisStatusDTO;
@@ -23,12 +24,15 @@ public class MantisStatusServiceImpl implements MantisStatusService {
     private final Logger log = LoggerFactory.getLogger(MantisStatusServiceImpl.class);
 
     private final MantisStatusRepository mantisStatusRepository;
+    
+    private final UserService userService;
 
     private final MantisStatusMapper mantisStatusMapper;
 
-    public MantisStatusServiceImpl(MantisStatusRepository mantisStatusRepository, MantisStatusMapper mantisStatusMapper) {
+    public MantisStatusServiceImpl(MantisStatusRepository mantisStatusRepository, MantisStatusMapper mantisStatusMapper, UserService userService) {
         this.mantisStatusRepository = mantisStatusRepository;
         this.mantisStatusMapper = mantisStatusMapper;
+        this.userService = userService;
     }
 
     /**
@@ -41,6 +45,7 @@ public class MantisStatusServiceImpl implements MantisStatusService {
     public MantisStatusDTO save(MantisStatusDTO mantisStatusDTO) {
         log.debug("Request to save MantisStatus : {}", mantisStatusDTO);
         MantisStatus mantisStatus = mantisStatusMapper.toEntity(mantisStatusDTO);
+        mantisStatus.setUser(userService.getUserWithAuthorities().get());
         mantisStatus = mantisStatusRepository.save(mantisStatus);
         return mantisStatusMapper.toDto(mantisStatus);
     }

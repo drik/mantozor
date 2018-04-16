@@ -7,11 +7,18 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!mantisStatus.id">
+        <!--div class="form-group" [hidden]="!mantisStatus.id">
             <label for="id" jhiTranslate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
                    [(ngModel)]="mantisStatus.id" readonly />
-        </div>
+        </div-->
+		<div class="wizard">
+			<a class="current">Nouvelle</a>
+			<a class="current">En attente de complément</a>
+			<a>En attente de validation</a>
+			<a>Validé</a>
+			<a>Terminé</a>
+		</div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.changeDate" for="field_changeDate">Change Date</label>
             <div class="input-group">
@@ -29,13 +36,13 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <!--div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.mantis" for="field_mantis">Mantis</label>
             <select class="form-control" id="field_mantis" name="mantis" [(ngModel)]="mantisStatus.mantisId" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="mantisOption.id" *ngFor="let mantisOption of mantis; trackBy: trackMantisById">{{mantisOption.mantisNumber}}</option>
             </select>
-        </div>
+        </div-->
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.status" for="field_status">Status</label>
             <select class="form-control" id="field_status" name="status" [(ngModel)]="mantisStatus.statusId" >
@@ -43,13 +50,13 @@
                 <option [ngValue]="statusOption.id" *ngFor="let statusOption of statuses; trackBy: trackStatusById">{{statusOption.name}}</option>
             </select>
         </div>
-        <div class="form-group">
+        <!--div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.user" for="field_user">User</label>
             <select class="form-control" id="field_user" name="user" [(ngModel)]="mantisStatus.userId" >
                 <option [ngValue]="null"></option>
                 <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
             </select>
-        </div>
+        </div-->
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.approver" for="field_approver">Approver</label>
             <select class="form-control" id="field_approver" name="approver" [(ngModel)]="mantisStatus.approverId" >
@@ -57,6 +64,8 @@
                 <option [ngValue]="mantisApproverOption.id" *ngFor="let mantisApproverOption of mantisapprovers; trackBy: trackMantisApproverById">{{mantisApproverOption.fullName}}</option>
             </select>
         </div>
+		
+		
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

@@ -6,8 +6,6 @@ import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 
 import { FormArray, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 
-import { FilterModel } from '../../components/filter.model';
-
 import { MantisImportLine } from './mantis-import-line.model';
 import { MantisImportLineService } from './mantis-import-line.service';
 import { ITEMS_PER_PAGE, Principal } from '../../shared';

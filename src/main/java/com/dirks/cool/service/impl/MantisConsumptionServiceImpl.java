@@ -1,6 +1,7 @@
 package com.dirks.cool.service.impl;
 
 import com.dirks.cool.service.MantisConsumptionService;
+import com.dirks.cool.service.UserService;
 import com.dirks.cool.domain.MantisConsumption;
 import com.dirks.cool.repository.MantisConsumptionRepository;
 import com.dirks.cool.service.dto.MantisConsumptionDTO;
@@ -23,12 +24,15 @@ public class MantisConsumptionServiceImpl implements MantisConsumptionService {
     private final Logger log = LoggerFactory.getLogger(MantisConsumptionServiceImpl.class);
 
     private final MantisConsumptionRepository mantisConsumptionRepository;
+    
+    private final UserService userService;
 
     private final MantisConsumptionMapper mantisConsumptionMapper;
 
-    public MantisConsumptionServiceImpl(MantisConsumptionRepository mantisConsumptionRepository, MantisConsumptionMapper mantisConsumptionMapper) {
+    public MantisConsumptionServiceImpl(MantisConsumptionRepository mantisConsumptionRepository, MantisConsumptionMapper mantisConsumptionMapper, UserService userService) {
         this.mantisConsumptionRepository = mantisConsumptionRepository;
         this.mantisConsumptionMapper = mantisConsumptionMapper;
+        this.userService = userService;
     }
 
     /**
@@ -41,6 +45,7 @@ public class MantisConsumptionServiceImpl implements MantisConsumptionService {
     public MantisConsumptionDTO save(MantisConsumptionDTO mantisConsumptionDTO) {
         log.debug("Request to save MantisConsumption : {}", mantisConsumptionDTO);
         MantisConsumption mantisConsumption = mantisConsumptionMapper.toEntity(mantisConsumptionDTO);
+        mantisConsumption.setUser(userService.getUserWithAuthorities().get());
         mantisConsumption = mantisConsumptionRepository.save(mantisConsumption);
         return mantisConsumptionMapper.toDto(mantisConsumption);
     }
