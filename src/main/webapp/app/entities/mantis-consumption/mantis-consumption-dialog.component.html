@@ -1,0 +1,85 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myMantisConsumptionLabel" jhiTranslate="mantozorApp.mantisConsumption.home.createOrEditLabel">Create or edit a Mantis Consumption</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!mantisConsumption.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="mantisConsumption.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisConsumption.submissionDate" for="field_submissionDate">Submission Date</label>
+            <div class="input-group">
+                <input id="field_submissionDate" type="text" class="form-control" name="submissionDate" ngbDatepicker  #submissionDateDp="ngbDatepicker" [(ngModel)]="mantisConsumption.submissionDate"
+                required/>
+                <span class="input-group-append">
+                    <button type="button" class="btn btn-secondary" (click)="submissionDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.submissionDate?.dirty && editForm.controls.submissionDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.submissionDate?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisConsumption.consumed" for="field_consumed">Consumed</label>
+            <input type="number" class="form-control" name="consumed" id="field_consumed"
+                [(ngModel)]="mantisConsumption.consumed" required/>
+            <div [hidden]="!(editForm.controls.consumed?.dirty && editForm.controls.consumed?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.consumed?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.consumed?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisConsumption.toBill" for="field_toBill">To Bill</label>
+            <input type="number" class="form-control" name="toBill" id="field_toBill"
+                [(ngModel)]="mantisConsumption.toBill" required/>
+            <div [hidden]="!(editForm.controls.toBill?.dirty && editForm.controls.toBill?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.toBill?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.toBill?.errors?.number" jhiTranslate="entity.validation.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisConsumption.user" for="field_user">User</label>
+            <select class="form-control" id="field_user" name="user" [(ngModel)]="mantisConsumption.userId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisConsumption.mantis" for="field_mantis">Mantis</label>
+            <select class="form-control" id="field_mantis" name="mantis" [(ngModel)]="mantisConsumption.mantisId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="mantisOption.id" *ngFor="let mantisOption of mantis; trackBy: trackMantisById">{{mantisOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

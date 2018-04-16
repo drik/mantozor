@@ -10,6 +10,20 @@ import { NgProgressModule } from '@ngx-progressbar/core';
 import { NgProgressHttpModule } from '@ngx-progressbar/http';
 import { NgProgressRouterModule } from '@ngx-progressbar/router';
 
+import { DynamicFormsCoreModule } from '@ng-dynamic-forms/core';
+import { DynamicFormsBootstrapUIModule } from '@ng-dynamic-forms/ui-bootstrap';
+
+
+
+
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+/*import { RepeatTypeComponent } from './components/repeat-section.type';
+
+import { FormlyModule } from '@ngx-formly/core';
+import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';*/
+
 import { AuthInterceptor } from './blocks/interceptor/auth.interceptor';
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
@@ -43,9 +57,20 @@ import {
         MantozorAccountModule,
         MantozorEntityModule,
         HttpClientModule,
-	    NgProgressModule.forRoot(),
-	    NgProgressHttpModule,
-    	NgProgressRouterModule,
+        NgProgressModule.forRoot(),
+        NgProgressHttpModule,
+        NgProgressRouterModule,
+        CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        /*FormlyBootstrapModule,
+        FormlyModule.forRoot({
+          types: [
+            { name: 'repeat', component: RepeatTypeComponent },
+          ],
+        }),*/
+        DynamicFormsCoreModule.forRoot(), 
+        DynamicFormsBootstrapUIModule, 
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [
@@ -54,7 +79,8 @@ import {
         ErrorComponent,
         PageRibbonComponent,
         ActiveMenuDirective,
-        FooterComponent
+        FooterComponent,
+        //RepeatTypeComponent,
     ],
     providers: [
         ProfileService,

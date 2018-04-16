@@ -1,0 +1,44 @@
+
+<div *ngIf="mantisConsumption">
+    <h2><span jhiTranslate="mantozorApp.mantisConsumption.detail.title">Mantis Consumption</span> {{mantisConsumption.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="mantozorApp.mantisConsumption.submissionDate">Submission Date</span></dt>
+        <dd>
+            <span>{{mantisConsumption.submissionDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span jhiTranslate="mantozorApp.mantisConsumption.consumed">Consumed</span></dt>
+        <dd>
+            <span>{{mantisConsumption.consumed}}</span>
+        </dd>
+        <dt><span jhiTranslate="mantozorApp.mantisConsumption.toBill">To Bill</span></dt>
+        <dd>
+            <span>{{mantisConsumption.toBill}}</span>
+        </dd>
+        <dt><span jhiTranslate="mantozorApp.mantisConsumption.user">User</span></dt>
+        <dd>
+            {{mantisConsumption.userId}}
+        </dd>
+        <dt><span jhiTranslate="mantozorApp.mantisConsumption.mantis">Mantis</span></dt>
+        <dd>
+            <div *ngIf="mantisConsumption.mantisId">
+                <a [routerLink]="['/mantis', mantisConsumption.mantisId]">{{mantisConsumption.mantisId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'mantis-consumption/'+ mantisConsumption.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

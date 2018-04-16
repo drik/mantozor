@@ -9,6 +9,10 @@ import { MantozorMantisImportLineModule } from './mantis-import-line/mantis-impo
 import { MantozorProjectModule } from './project/project.module';
 import { MantozorReferentModule } from './referent/referent.module';
 import { MantozorMantisStatusModule } from './mantis-status/mantis-status.module';
+import { MantozorMantisConsumptionModule } from './mantis-consumption/mantis-consumption.module';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -22,6 +26,9 @@ import { MantozorMantisStatusModule } from './mantis-status/mantis-status.module
         MantozorProjectModule,
         MantozorReferentModule,
         MantozorMantisStatusModule,
+        MantozorMantisConsumptionModule,
+        FormsModule,
+        ReactiveFormsModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

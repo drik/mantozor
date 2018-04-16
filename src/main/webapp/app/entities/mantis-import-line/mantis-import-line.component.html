@@ -1,47 +1,85 @@
 <div>
-    <h2>
-        <span jhiTranslate="mantozorApp.mantisImportLine.home.title">Mantiss</span>
-        <!-- button class="btn btn-primary float-right jh-create-entity create-mantis-import-line" [routerLink]="['/', { outlets: { popup: ['mantis-import-line-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span  jhiTranslate="mantozorApp.mantisImportLine.home.createLabel">
-            Create new Mantis Import Line
-            </span>
-        </button-->
-    </h2>
-    <jhi-alert></jhi-alert>
-    <div class="row">
-        <div class="col-sm-12">
-            <form name="searchForm" class="form-inline">
-                <div class="input-group w-100 mt-3">
-                    <!--select type="text" class="form-control"
-                           [(ngModel)]="criteria.name" id="nameEquals" name="nameEquals"
-                           >
-                           <option value="-1" jhiTranslate="mantozorApp.mantisImportLine.mantisImport"></option>
-                    </select-->
-					<input typ="text" class="form-control"
-                           [(ngModel)]="criteria.mantisNumber" id="mantisNumberContains" name="mantisNumberContains"
-                           />
-                    <button class="input-group-addon btn btn-info" (click)="search(criteria)">
-                        <span class="fa fa-search"></span>
-                    </button>
-                    <button class="input-group-addon btn btn-danger" (click)="clear(criteria)" *ngIf="criteria.areSet()">
-                        <span class="fa fa-trash-o"></span>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    </br>
+	<h2>
+		<span jhiTranslate="mantozorApp.mantisImportLine.home.title">Mantiss</span>
+	</h2>
+	<jhi-alert></jhi-alert>
+	<form (ngSubmit)="loadAll()" [formGroup]="filterForm">
+		<div class="box box-default box-solid" formArrayName="filterRows">
+			<div class="box-header with-border">
+				<h3 class="box-title"><i class="fa fa-filter"></i>Filter</h3>
+	
+				<!--div class="box-tools pull-right">
+					<button type="button" class="btn btn-box-tool"
+						data-widget="collapse">
+						<i class="fa fa-minus"></i>
+					</button>
+				</div-->
+			</div>
+			<div class="box-body" style="" >
+				<div class="row" *ngFor="let filterrow of filterForm.controls.filterRows.controls; let i=index"  [formGroupName]="i">
+					<div class="col-sm-4 col-xs-6">
+						<label class="form-control-label control-label"
+							for="formly_6_input_investmentDate_1"> Field concerned </label> 
+						<select formControlName="concernedField"
+							(ngModelChange)="fieldChanged($event, i)"
+							class="form-control ng-pristine ng-valid ng-touched">
+							<option [ngValue]="null"></option>
+							<option [ngValue]="fieldOption"
+								*ngFor="let fieldOption of filterFields; trackBy: trackFieldById" jhiTranslate="mantozorApp.mantisImportLine.{{fieldOption.label}}"></option>
+						</select>
+					</div>
+			
+					<div class="col-sm-3 col-xs-6">
+						<label class="form-control-label control-label"
+							for="formly_6_input_investmentDate_1"> Comparator </label> 
+						<select formControlName="comparator"
+							(ngModelChange)="comparatorChanged($event)"
+							class="form-control ng-pristine ng-valid ng-touched" >
+							<option [ngValue]="null"></option>
+							<option [ngValue]="comparatorOption"
+								*ngFor="let comparatorOption of rowModels[i].comparators; trackBy: trackComparatorById">{{comparatorOption.label}}</option>
+						</select>
+					</div>
+			
+					<div class="col-sm-3">
+						<label class="form-control-label control-label"
+							for="formly_6_input_investmentDate_1"> Criteria value </label> 
+						<input formControlName="criteriaValue"
+							class="form-control ng-untouched ng-pristine ng-valid" [type]="filterForm.value.filterRows[i].concernedField.category"  /> 
+					</div>
+			
+					<div class="col-sm-2" style="margin-top: 32px;" (click)="removeCriteria(i)">
+						<button *ngIf="filterForm.controls.filterRows.controls.length > 1" class="btn btn-danger" type="button">Remove</button>
+					</div>
+				</div>
+			</div>
+			<div class="box-footer" style="margin-top: 15px;">
+				<button class="btn btn-primary" type="button" (click)="addCriteria()">
+					Add criteria
+				</button>
+				<button class="btn btn-primary" type="submit" >
+					Search
+				</button>
+			</div>
+		</div>
+	</form>
 
-    <div class="table-responsive" *ngIf="mantisImportLines">
-        <table class="table table-striped">
-            <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
-            <!--th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th-->
-            <!--th jhiSortBy="status"><span jhiTranslate="mantozorApp.mantisImportLine.status">Status</span> <span class="fa fa-sort"></span></th-->
-            <th jhiSortBy="mantisNumber"><span jhiTranslate="mantozorApp.mantisImportLine.mantisNumber">Mantis Number</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="validationStatus"><span jhiTranslate="mantozorApp.mantisImportLine.validationStatus">Validation Status</span> <span class="fa fa-sort"></span></th>
-            <!--th jhiSortBy="project"><span jhiTranslate="mantozorApp.mantisImportLine.project">Project</span> <span class="fa fa-sort"></span></th>
+	<br />
+
+	<div class="table-responsive" *ngIf="mantisImportLines">
+		<table class="table table-striped">
+			<thead>
+				<tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse"
+					[callback]="transition.bind(this)">
+					<!--th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th-->
+					<!--th jhiSortBy="status"><span jhiTranslate="mantozorApp.mantisImportLine.status">Status</span> <span class="fa fa-sort"></span></th-->
+					<th jhiSortBy="mantisNumber"><span
+						jhiTranslate="mantozorApp.mantisImportLine.mantisNumber">Mantis
+							Number</span> <span class="fa fa-sort"></span></th>
+					<th jhiSortBy="validationStatus"><span
+						jhiTranslate="mantozorApp.mantisImportLine.validationStatus">Validation
+							Status</span> <span class="fa fa-sort"></span></th>
+					<!--th jhiSortBy="project"><span jhiTranslate="mantozorApp.mantisImportLine.project">Project</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="updateDate"><span jhiTranslate="mantozorApp.mantisImportLine.updateDate">Update Date</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="category"><span jhiTranslate="mantozorApp.mantisImportLine.category">Category</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="gravity"><span jhiTranslate="mantozorApp.mantisImportLine.gravity">Gravity</span> <span class="fa fa-sort"></span></th>
@@ -49,12 +87,22 @@
             <th jhiSortBy="technicalReference"><span jhiTranslate="mantozorApp.mantisImportLine.technicalReference">Technical Reference</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="description"><span jhiTranslate="mantozorApp.mantisImportLine.description">Description</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="submissionDate"><span jhiTranslate="mantozorApp.mantisImportLine.submissionDate">Submission Date</span> <span class="fa fa-sort"></span></th-->
-            <th jhiSortBy="desiredCommitmentDate"><span jhiTranslate="mantozorApp.mantisImportLine.desiredCommitmentDate">Desired Commitment Date</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="estimatedChargeCACF"><span jhiTranslate="mantozorApp.mantisImportLine.estimatedChargeCACF">Estimated Charge CACF</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="commitmentDateCDS"><span jhiTranslate="mantozorApp.mantisImportLine.commitmentDateCDS">Commitment Date CDS</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="estimatedChargeCDS"><span jhiTranslate="mantozorApp.mantisImportLine.estimatedChargeCDS">Estimated Charge CDS</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="estimatedDSTDelivreryDate"><span jhiTranslate="mantozorApp.mantisImportLine.estimatedDSTDelivreryDate">Estimated DST Delivrery Date</span> <span class="fa fa-sort"></span></th>
-            <!--th jhiSortBy="recipeDate"><span jhiTranslate="mantozorApp.mantisImportLine.recipeDate">Recipe Date</span> <span class="fa fa-sort"></span></th>
+					<th jhiSortBy="desiredCommitmentDate"><span
+						jhiTranslate="mantozorApp.mantisImportLine.desiredCommitmentDate">Desired
+							Commitment Date</span> <span class="fa fa-sort"></span></th>
+					<th jhiSortBy="estimatedChargeCACF"><span
+						jhiTranslate="mantozorApp.mantisImportLine.estimatedChargeCACF">Estimated
+							Charge CACF</span> <span class="fa fa-sort"></span></th>
+					<th jhiSortBy="commitmentDateCDS"><span
+						jhiTranslate="mantozorApp.mantisImportLine.commitmentDateCDS">Commitment
+							Date CDS</span> <span class="fa fa-sort"></span></th>
+					<th jhiSortBy="estimatedChargeCDS"><span
+						jhiTranslate="mantozorApp.mantisImportLine.estimatedChargeCDS">Estimated
+							Charge CDS</span> <span class="fa fa-sort"></span></th>
+					<th jhiSortBy="estimatedDSTDelivreryDate"><span
+						jhiTranslate="mantozorApp.mantisImportLine.estimatedDSTDelivreryDate">Estimated
+							DST Delivrery Date</span> <span class="fa fa-sort"></span></th>
+					<!--th jhiSortBy="recipeDate"><span jhiTranslate="mantozorApp.mantisImportLine.recipeDate">Recipe Date</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="productionDate"><span jhiTranslate="mantozorApp.mantisImportLine.productionDate">Production Date</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="devStandardsComplianceScore"><span jhiTranslate="mantozorApp.mantisImportLine.devStandardsComplianceScore">Dev Standards Compliance Score</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="devStandardsComplianceScoreComment"><span jhiTranslate="mantozorApp.mantisImportLine.devStandardsComplianceScoreComment">Dev Standards Compliance Score Comment</span> <span class="fa fa-sort"></span></th>
@@ -62,19 +110,25 @@
             <th jhiSortBy="expressedNeedsComplianceScoreComment"><span jhiTranslate="mantozorApp.mantisImportLine.expressedNeedsComplianceScoreComment">Expressed Needs Compliance Score Comment</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="overallDeadlineRespectScore"><span jhiTranslate="mantozorApp.mantisImportLine.overallDeadlineRespectScore">Overall Deadline Respect Score</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="overallDeadlineRespectScoreComment"><span jhiTranslate="mantozorApp.mantisImportLine.overallDeadlineRespectScoreComment">Overall Deadline Respect Score Comment</span> <span class="fa fa-sort"></span></th-->
-            <th jhiSortBy="stateId"><span jhiTranslate="mantozorApp.mantisImportLine.state">State</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="mantisImportId"><span jhiTranslate="mantozorApp.mantisImportLine.mantisImport">Mantis Import</span> <span class="fa fa-sort"></span></th>
-            <!--th jhiSortBy="mantisId"><span jhiTranslate="mantozorApp.mantisImportLine.mantis">Mantis</span> <span class="fa fa-sort"></span></th-->
-            <th></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let mantisImportLine of mantisImportLines ;trackBy: trackId">
-                <!--td><a [routerLink]="['../mantis-import-line', mantisImportLine.id ]">{{mantisImportLine.id}}</a></td-->
-                <!--td>{{mantisImportLine.stateId}}</td-->
-                <td><a [routerLink]="['../mantis-import-line', mantisImportLine.id ]">{{mantisImportLine.mantisNumber}}</a></td>
-                <td>{{mantisImportLine.validationStatus}}</td>
-                <!--td>{{mantisImportLine.project}}</td>
+					<th jhiSortBy="stateId"><span
+						jhiTranslate="mantozorApp.mantisImportLine.state">State</span> <span
+						class="fa fa-sort"></span></th>
+					<th jhiSortBy="mantisImportId"><span
+						jhiTranslate="mantozorApp.mantisImportLine.mantisImport">Mantis
+							Import</span> <span class="fa fa-sort"></span></th>
+					<!--th jhiSortBy="mantisId"><span jhiTranslate="mantozorApp.mantisImportLine.mantis">Mantis</span> <span class="fa fa-sort"></span></th-->
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr
+					*ngFor="let mantisImportLine of mantisImportLines ;trackBy: trackId">
+					<!--td><a [routerLink]="['../mantis-import-line', mantisImportLine.id ]">{{mantisImportLine.id}}</a></td-->
+					<!--td>{{mantisImportLine.stateId}}</td-->
+					<td><a
+						[routerLink]="['../mantis-import-line', mantisImportLine.id ]">{{mantisImportLine.mantisNumber}}</a></td>
+					<td>{{mantisImportLine.validationStatus}}</td>
+					<!--td>{{mantisImportLine.project}}</td>
                 <td>{{mantisImportLine.updateDate | date:'mediumDate'}}</td>
                 <td>{{mantisImportLine.category}}</td>
                 <td>{{mantisImportLine.gravity}}</td>
@@ -82,12 +136,14 @@
                 <td>{{mantisImportLine.technicalReference}}</td>
                 <td>{{mantisImportLine.description}}</td>
                 <td>{{mantisImportLine.submissionDate | date:'mediumDate'}}</td-->
-                <td>{{mantisImportLine.desiredCommitmentDate | date:'mediumDate'}}</td>
-                <td>{{mantisImportLine.estimatedChargeCACF}}</td>
-                <td>{{mantisImportLine.commitmentDateCDS | date:'mediumDate'}}</td>
-                <td>{{mantisImportLine.estimatedChargeCDS}}</td>
-                <td>{{mantisImportLine.estimatedDSTDelivreryDate | date:'mediumDate'}}</td>
-                <!--td>{{mantisImportLine.recipeDate | date:'mediumDate'}}</td>
+					<td>{{mantisImportLine.desiredCommitmentDate |
+						date:'mediumDate'}}</td>
+					<td>{{mantisImportLine.estimatedChargeCACF}}</td>
+					<td>{{mantisImportLine.commitmentDateCDS | date:'mediumDate'}}</td>
+					<td>{{mantisImportLine.estimatedChargeCDS}}</td>
+					<td>{{mantisImportLine.estimatedDSTDelivreryDate |
+						date:'mediumDate'}}</td>
+					<!--td>{{mantisImportLine.recipeDate | date:'mediumDate'}}</td>
                 <td>{{mantisImportLine.productionDate | date:'mediumDate'}}</td>
                 <td>{{mantisImportLine.devStandardsComplianceScore}}</td>
                 <td>{{mantisImportLine.devStandardsComplianceScoreComment}}</td>
@@ -95,38 +151,46 @@
                 <td>{{mantisImportLine.expressedNeedsComplianceScoreComment}}</td>
                 <td>{{mantisImportLine.overallDeadlineRespectScore}}</td>
                 <td>{{mantisImportLine.overallDeadlineRespectScoreComment}}</td-->
-                <td>
-                    <div *ngIf="mantisImportLine.stateId">
-                        <a [routerLink]="['../state', mantisImportLine.stateId  ]" >{{mantisImportLine.stateId}}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="mantisImportLine.mantisImportId">
-                        <a [routerLink]="['../mantis-import', mantisImportLine.mantisImportId  ]" >{{mantisImportLine.mantisImportId}}</a>
-                    </div>
-                </td>
-                <!--td>
+					<td>
+						<div *ngIf="mantisImportLine.stateId">
+							<a [routerLink]="['../state', mantisImportLine.stateId  ]">{{mantisImportLine.stateId}}</a>
+						</div>
+					</td>
+					<td>
+						<div *ngIf="mantisImportLine.mantisImportId">
+							<a
+								[routerLink]="['../mantis-import', mantisImportLine.mantisImportId  ]">{{mantisImportLine.mantisImportId}}</a>
+						</div>
+					</td>
+					<!--td>
                     <div *ngIf="mantisImportLine.mantisId">
                         <a [routerLink]="['../mantis', mantisImportLine.mantisId  ]" >{{mantisImportLine.mantisId}}</a>
                     </div>
                 </td-->
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['../mantis-import-line', mantisImportLine.id ]"
-                                class="btn btn-info btn-sm">
-                            <span class="fa fa-eye"></span>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
-                        </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'mantis-import-line/'+ mantisImportLine.id + '/edit'} }]"
-                                replaceUrl="true"
-                                queryParamsHandling="merge"
-                                class="btn btn-primary btn-sm">
-                            <span class="fa fa-pencil"></span>
-                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
-                        </button>
-                        <!--button type="submit"
+					<td class="text-right">
+						<div class="btn-group flex-btn-group-container">
+							<button type="submit"
+								[routerLink]="['../mantis-import-line', mantisImportLine.id ]"
+								class="btn btn-info btn-sm">
+								<span class="fa fa-eye"></span> <span class="d-none d-md-inline"
+									jhiTranslate="entity.action.view">View</span>
+							</button>
+							<button type="submit"
+								[routerLink]="['/', { outlets: { popup: ['mantis-status-new'] } }]"
+								replaceUrl="true" queryParamsHandling="merge"
+								class="btn btn-primary btn-sm">
+								<span class="fa fa-pencil"></span> <span
+									class="d-none d-md-inline" jhiTranslate="mantozorApp.mantisImportLine.status">Edit</span>
+							</button>
+							<button type="submit"
+								[routerLink]="['/', { outlets: { popup: ['mantis-consumption-new'] } }]"
+								replaceUrl="true" queryParamsHandling="merge"
+								class="btn btn-primary btn-sm">
+								<span class="fa fa-pencil"></span> <span
+									class="d-none d-md-inline" jhiTranslate="mantozorApp.mantisImportLine.consumption">Edit</span>
+							</button>
+							
+							<!--button type="submit"
                                 [routerLink]="['/', { outlets: { popup: 'mantis-import-line/'+ mantisImportLine.id + '/delete'} }]"
                                 replaceUrl="true"
                                 queryParamsHandling="merge"
@@ -134,18 +198,21 @@
                             <span class="fa fa-remove"></span>
                             <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
                         </button-->
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-    <div *ngIf="mantisImportLines && mantisImportLines.length">
-        <div class="row justify-content-center">
-            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
-        </div>
-        <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
-        </div>
-    </div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div *ngIf="mantisImportLines &amp;&amp; mantisImportLines.length">
+		<div class="row justify-content-center">
+			<jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5"
+				[itemsPerPage]="itemsPerPage"></jhi-item-count>
+		</div>
+		<div class="row justify-content-center">
+			<ngb-pagination [collectionSize]="totalItems" [(page)]="page"
+				[pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true"
+				[boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+		</div>
+	</div>
 </div>

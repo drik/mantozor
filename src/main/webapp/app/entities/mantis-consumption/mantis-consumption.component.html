@@ -1,0 +1,80 @@
+<div>
+    <h2>
+        <span jhiTranslate="mantozorApp.mantisConsumption.home.title">Mantis Consumptions</span>
+        <button class="btn btn-primary float-right jh-create-entity create-mantis-consumption" [routerLink]="['/', { outlets: { popup: ['mantis-consumption-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="mantozorApp.mantisConsumption.home.createLabel">
+            Create new Mantis Consumption
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="mantisConsumptions">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="submissionDate"><span jhiTranslate="mantozorApp.mantisConsumption.submissionDate">Submission Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="consumed"><span jhiTranslate="mantozorApp.mantisConsumption.consumed">Consumed</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="toBill"><span jhiTranslate="mantozorApp.mantisConsumption.toBill">To Bill</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="userId"><span jhiTranslate="mantozorApp.mantisConsumption.user">User</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="mantisId"><span jhiTranslate="mantozorApp.mantisConsumption.mantis">Mantis</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let mantisConsumption of mantisConsumptions ;trackBy: trackId">
+                <td><a [routerLink]="['../mantis-consumption', mantisConsumption.id ]">{{mantisConsumption.id}}</a></td>
+                <td>{{mantisConsumption.submissionDate | date:'mediumDate'}}</td>
+                <td>{{mantisConsumption.consumed}}</td>
+                <td>{{mantisConsumption.toBill}}</td>
+                <td>
+                    {{mantisConsumption.userId}}
+                </td>
+                <td>
+                    <div *ngIf="mantisConsumption.mantisId">
+                        <a [routerLink]="['../mantis', mantisConsumption.mantisId  ]" >{{mantisConsumption.mantisId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../mantis-consumption', mantisConsumption.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'mantis-consumption/'+ mantisConsumption.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'mantis-consumption/'+ mantisConsumption.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="mantisConsumptions && mantisConsumptions.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>

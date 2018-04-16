@@ -16,6 +16,8 @@
             "detail": {
                 "title": "Mantis"
             },
+            "consumption": "Consumption",
+            "status": "Validation status",
             "mantisNumber": "Number",
             "validationStatus": "Validation Status",
             "project": "Project",

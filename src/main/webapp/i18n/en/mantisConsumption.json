@@ -1,0 +1,26 @@
+
+{
+    "mantozorApp": {
+        "mantisConsumption" : {
+            "home": {
+                "title": "Mantis Consumptions",
+                "createLabel": "Create a new Mantis Consumption",
+                "createOrEditLabel": "Create or edit a Mantis Consumption"
+            },
+            "created": "A new Mantis Consumption is created with identifier {{ param }}",
+            "updated": "A Mantis Consumption is updated with identifier {{ param }}",
+            "deleted": "A Mantis Consumption is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Mantis Consumption {{ id }}?"
+            },
+            "detail": {
+                "title": "Mantis Consumption"
+            },
+            "submissionDate": "Submission Date",
+            "consumed": "Consumed",
+            "toBill": "To Bill",
+            "user": "User",
+            "mantis": "Mantis"
+        }
+    }
+}

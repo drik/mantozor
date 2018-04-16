@@ -17,6 +17,7 @@
                 "project": "Projet",
                 "referent": "Référent",
                 "mantisStatus": "Mantis Statut",
+				"mantisConsumption": "Consommation",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {

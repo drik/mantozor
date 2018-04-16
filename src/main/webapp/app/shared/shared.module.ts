@@ -1,6 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { DatePipe } from '@angular/common';
 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import {
     MantozorSharedLibsModule,
     MantozorSharedCommonModule,
@@ -41,7 +43,9 @@ import {
         MantozorSharedCommonModule,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
-        DatePipe
+        DatePipe,
+        FormsModule,
+        ReactiveFormsModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

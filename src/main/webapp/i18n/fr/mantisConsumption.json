@@ -1,0 +1,26 @@
+
+{
+    "mantozorApp": {
+        "mantisConsumption" : {
+            "home": {
+                "title": "MantisConsumptions",
+                "createLabel": "Créer un nouveau Mantis Consumption",
+                "createOrEditLabel": "Créer ou éditer un Mantis Consumption"
+            },
+            "created": "Un nouveau Mantis Consumption a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Mantis Consumption avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Mantis Consumption avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Mantis Consumption {{ id }} ?"
+            },
+            "detail": {
+                "title": "Mantis Consumption"
+            },
+            "submissionDate": "Submission Date",
+            "consumed": "Consumed",
+            "toBill": "To Bill",
+            "user": "User",
+            "mantis": "Mantis"
+        }
+    }
+}

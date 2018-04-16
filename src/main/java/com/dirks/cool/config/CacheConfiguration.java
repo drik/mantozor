@@ -51,6 +51,7 @@ public class CacheConfiguration {
             cm.createCache(com.dirks.cool.domain.Project.class.getName(), jcacheConfiguration);
             cm.createCache(com.dirks.cool.domain.Referent.class.getName(), jcacheConfiguration);
             cm.createCache(com.dirks.cool.domain.MantisStatus.class.getName(), jcacheConfiguration);
+            cm.createCache(com.dirks.cool.domain.MantisConsumption.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }
