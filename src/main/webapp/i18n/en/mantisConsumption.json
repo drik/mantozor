@@ -16,6 +16,9 @@
             "detail": {
                 "title": "Mantis Consumption"
             },
+            "totalCharge": "Total charge",
+            "alreadyConsumed": "Already consumed",
+            "remainToConsume": "Remaining",
             "submissionDate": "Submission Date",
             "consumed": "Consumed",
             "toBill": "To Bill",

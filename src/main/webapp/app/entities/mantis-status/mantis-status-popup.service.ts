@@ -4,6 +4,8 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HttpResponse } from '@angular/common/http';
 import { MantisStatus } from './mantis-status.model';
 import { MantisStatusService } from './mantis-status.service';
+import { Mantis } from '../mantis/mantis.model';
+import { MantisService } from '../mantis/mantis.service';
 
 @Injectable()
 export class MantisStatusPopupService {
@@ -12,19 +14,31 @@ export class MantisStatusPopupService {
     constructor(
         private modalService: NgbModal,
         private router: Router,
+        private mantisService: MantisService,
         private mantisStatusService: MantisStatusService
 
     ) {
         this.ngbModalRef = null;
     }
 
-    open(component: Component, id?: number | any): Promise<NgbModalRef> {
+    open(component: Component, id?: number | any, idMantis?: number | any): Promise<NgbModalRef> {
         return new Promise<NgbModalRef>((resolve, reject) => {
             const isOpen = this.ngbModalRef !== null;
             if (isOpen) {
                 resolve(this.ngbModalRef);
             }
 
+          if (idMantis) {
+             this.mantisService.find(idMantis)
+                    .subscribe((mantisResponse: HttpResponse<Mantis>) => {
+                        const mantis: Mantis = mantisResponse.body;
+                        const mantiStatus = new MantisStatus();
+                        mantiStatus.mantisId = idMantis;
+                        mantiStatus.mantis = mantis;
+                        this.ngbModalRef = this.mantisStatusModalRef(component, mantiStatus);
+                        resolve(this.ngbModalRef);
+                    });
+          }else{
             if (id) {
                 this.mantisStatusService.find(id)
                     .subscribe((mantisStatusResponse: HttpResponse<MantisStatus>) => {
@@ -46,6 +60,7 @@ export class MantisStatusPopupService {
                     resolve(this.ngbModalRef);
                 }, 0);
             }
+          }
         });
     }
 

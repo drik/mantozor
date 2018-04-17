@@ -23,7 +23,7 @@ export class MantisStatusDialogComponent implements OnInit {
     mantisStatus: MantisStatus;
     isSaving: boolean;
 
-    mantis: Mantis[];
+    mantis: Mantis;
 
     statuses: Status[];
 
@@ -46,8 +46,8 @@ export class MantisStatusDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.mantisService.query()
-            .subscribe((res: HttpResponse<Mantis[]>) => { this.mantis = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
+        /*this.mantisService.find(this.mantisStatus.mantisId)
+            .subscribe((res: HttpResponse<Mantis>) => { this.mantis = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));*/
         this.statusService.query()
             .subscribe((res: HttpResponse<Status[]>) => { this.statuses = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.userService.query()
@@ -122,6 +122,10 @@ export class MantisStatusPopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
+            if (params['idMantis']) {
+                this.mantisStatusPopupService
+                    .open(MantisStatusDialogComponent as Component, null, params['idMantis']);
+            } else {
             if ( params['id'] ) {
                 this.mantisStatusPopupService
                     .open(MantisStatusDialogComponent as Component, params['id']);
@@ -129,6 +133,7 @@ export class MantisStatusPopupComponent implements OnInit, OnDestroy {
                 this.mantisStatusPopupService
                     .open(MantisStatusDialogComponent as Component);
             }
+          }
         });
     }
 

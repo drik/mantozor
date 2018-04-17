@@ -49,7 +49,7 @@ export const mantisStatusRoute: Routes = [
 
 export const mantisStatusPopupRoute: Routes = [
     {
-        path: 'mantis-status-new',
+        path: 'mantis-status-new/:idMantis',
         component: MantisStatusPopupComponent,
         data: {
             authorities: ['ROLE_USER'],

@@ -7,10 +7,46 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" [hidden]="!mantisConsumption.id">
+        <!--div class="form-group" [hidden]="!mantisConsumption.id">
             <label for="id" jhiTranslate="global.field.id">ID</label>
             <input type="text" class="form-control" id="id" name="id"
                    [(ngModel)]="mantisConsumption.id" readonly />
+        </div>
+        
+        <div class="form-group" >
+            <label for="id" jhiTranslate="mantozorApp.mantisStatus.mantis">ID</label>
+            <input type="text" class="form-control" id="field_mantis" name="mantis"
+                   [(ngModel)]="mantisConsumption.mantis.mantisNumber" readonly />
+        </div-->
+        <div class="row">
+        	<div class="form-group col-md-4">
+	            <label class="form-control-label" jhiTranslate="mantozorApp.mantisConsumption.totalCharge" for="field_consumed">Consumed</label>
+	            <div class="input-group">
+	            	<input type="number" value="10" class="form-control" name="consumeddd" id="field_consumeddd" readonly/>
+	            	<span class="input-group-append">
+	            		<button type="button" class="btn btn-secondary" ><i class="fa fa-clock-o"></i></button>
+	            	</span>
+	            </div>
+	            
+	        </div>
+	        <div class="form-group col-md-4">
+	            <label class="form-control-label" jhiTranslate="mantozorApp.mantisConsumption.alreadyConsumed" for="field_consumed">Consumed</label>
+	            <div class="input-group">
+	            <input type="number" value="4" class="form-control" name="consumedvv" id="field_consumedvv" readonly/>
+	            <span class="input-group-append">
+            		<button type="button" class="btn btn-secondary" ><i class="fa fa-clock-o"></i></button>
+            	</span>
+	            </div>
+	        </div>
+	        <div class="form-group col-md-4">
+	            <label class="form-control-label" jhiTranslate="mantozorApp.mantisConsumption.remainToConsume" for="field_consumed">Consumed</label>
+	            <div class="input-group">
+		            <input type="number" value="6" class="form-control" name="consumedcc" id="field_consumedcc" readonly/>
+		            <span class="input-group-append">
+	            		<button type="button" class="btn btn-secondary" ><i class="fa fa-clock-o"></i></button>
+	            	</span>
+	            </div>
+	        </div>
         </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisConsumption.submissionDate" for="field_submissionDate">Submission Date</label>
@@ -59,7 +95,7 @@
             </div>
         </div>
 
-        <div class="form-group">
+        <!-- div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisConsumption.user" for="field_user">User</label>
             <select class="form-control" id="field_user" name="user" [(ngModel)]="mantisConsumption.userId" >
                 <option [ngValue]="null"></option>
@@ -72,7 +108,7 @@
                 <option [ngValue]="null"></option>
                 <option [ngValue]="mantisOption.id" *ngFor="let mantisOption of mantis; trackBy: trackMantisById">{{mantisOption.id}}</option>
             </select>
-        </div>
+        </div-->
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">

@@ -19,6 +19,11 @@
 			<a>Validé</a>
 			<a>Terminé</a>
 		</div>
+		<div class="form-group" >
+            <label for="id" jhiTranslate="mantozorApp.mantisStatus.mantis">ID</label>
+            <input type="text" class="form-control" id="field_mantis" name="mantis"
+                   [(ngModel)]="mantisStatus.mantis.mantisNumber" readonly />
+        </div>
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.changeDate" for="field_changeDate">Change Date</label>
             <div class="input-group">

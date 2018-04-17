@@ -41,17 +41,16 @@
 						</select>
 					</div>
 			
-					<div class="col-sm-3">
+					<div class="col-sm-4">
 						<label class="form-control-label control-label"
 							for="formly_6_input_investmentDate_1"> Criteria value </label> 
 						<input formControlName="criteriaValue"
 							class="form-control ng-untouched ng-pristine ng-valid" [type]="filterForm.value.filterRows[i].concernedField.category"  /> 
 					</div>
 			
-					<div class="col-sm-2" style="margin-top: 32px;" >						
+					<div class="col-sm-1" style="margin-top: 32px;" >						
 						<button *ngIf="filterForm.controls.filterRows.controls.length > 1" class="btn btn-danger" type="button" (click)="removeCriteria(i)">
 							<span class="fa fa-times"></span>
-							Remove
 						</button>
 					</div>
 				</div>
@@ -181,17 +180,17 @@
 									jhiTranslate="entity.action.view">View</span>
 							</button>
 							<button type="submit"
-								[routerLink]="['/', { outlets: { popup: ['mantis-status-new'] } }]"
+								[routerLink]="['/', { outlets: { popup: 'mantis-status-new/' + mantisImportLine.mantisId } }]"
 								replaceUrl="true" queryParamsHandling="merge"
 								class="btn btn-primary btn-sm">
-								<span class="fa fa-pencil"></span> <span
+								<span class="fa fa-star"></span> <span
 									class="d-none d-md-inline" jhiTranslate="mantozorApp.mantisImportLine.status">Edit</span>
 							</button>
 							<button type="submit"
 								[routerLink]="['/', { outlets: { popup: ['mantis-consumption-new'] } }]"
 								replaceUrl="true" queryParamsHandling="merge"
 								class="btn btn-primary btn-sm">
-								<span class="fa fa-pencil"></span> <span
+								<span class="fa fa-clock-o"></span> <span
 									class="d-none d-md-inline" jhiTranslate="mantozorApp.mantisImportLine.consumption">Edit</span>
 							</button>
 							

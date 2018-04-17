@@ -8,6 +8,7 @@ export class MantisStatus implements BaseEntity {
         public statusId?: number,
         public userId?: number,
         public approverId?: number,
+        public mantis?: any,
     ) {
     }
 }
