@@ -7,6 +7,7 @@ import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
 import { FormArray, FormGroup, FormControl, FormBuilder } from '@angular/forms';
 
 import { MantisImportLine } from './mantis-import-line.model';
+import { MantisImport, MantisImportService } from '../mantis-import';
 import { MantisImportLineService } from './mantis-import-line.service';
 import { ITEMS_PER_PAGE, Principal } from '../../shared';
 
@@ -31,6 +32,8 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
     previousPage: any;
     reverse: any;
     criteria: any;
+    
+    mantisimports: MantisImport[];
 
     rowModels: any[];
     filterForm: FormGroup;
@@ -46,8 +49,11 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
         private activatedRoute: ActivatedRoute,
         private router: Router,
         private eventManager: JhiEventManager,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private mantisImportService: MantisImportService,
     ) {
+    
+
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
             this.page = data.pagingParams.page;
@@ -80,7 +86,7 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
   initFilterRows(){
     this.rowModels.push({comparators:[]});
     return this.formBuilder.group({
-        concernedField: 'mantisNumber',
+        concernedField: {label:'mantisNumber', value:'mantisNumber', category:'text'},
         comparator: {key:'contains', value:'contains', label:'Contains'},
         criteriaValue: '',
     });
@@ -113,7 +119,12 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
           if(value.concenedField !== null && value.concernedField !== '' &&
               value.comparator !== null && value.comparator !== '' && 
               value.criteriaValue !== null && value.criteriaValue !== ''){
-            criteria.push({key: value.concernedField.value + '.' + value.comparator.key, value: value.criteriaValue});
+              if(value.comparator.key === 'in'){
+              	criteria.push({key: value.concernedField.value + '.' + value.comparator.key, value: value.criteriaValue.split('|')});
+              }else{
+              	criteria.push({key: value.concernedField.value + '.' + value.comparator.key, value: value.criteriaValue});
+              }
+            
           }
         });
 
@@ -154,12 +165,26 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+    	setTimeout(() => {
+	        this.mantisImportService.query().subscribe((res: HttpResponse<MantisImport[]>) => { 
+	            	this.mantisimports = res.body; 
+	            	console.log(this.mantisimports);
+	            }, 
+	            (res: HttpErrorResponse) => this.onError(res.message)
+	        );
+        }, 0);
+       
+        
         this.loadAll();
+        
+        
+        
         this.principal.identity().then((account) => {
             this.currentAccount = account;
         });
+        
         this.registerChangeInMantisImportLines();
-
+		
     }
 
     ngOnDestroy() {
@@ -203,8 +228,9 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
     if(field !== null){
       if(field.category == "text"){
           comparators = [
+          {key:'contains', value:'contains', label:'Contains'},
             {key:'equals', value:'equals', label:'Equals (=)'},
-            {key:'contains', value:'contains', label:'Contains'}
+            {key:'in', value:'in', label:'In'},
           ];
       }else if(field.category == "number" || field.category == "date"){
         comparators = [
