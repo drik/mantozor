@@ -4,7 +4,7 @@
 	</h2>
 	<jhi-alert></jhi-alert>
 	<form (ngSubmit)="loadAll()" [formGroup]="filterForm">
-		<div class="box box-default box-solid" formArrayName="filterRows">
+		<div class="box box-default box-solid" >
 			<div class="box-header with-border">
 				<h3 class="box-title"><i class="fa fa-filter"></i>Filter</h3>
 	
@@ -21,49 +21,52 @@
 						<label class="form-control-label control-label" for="mantisImport"
 							jhiTranslate="mantozorApp.mantisImportLine.mantisImport"> 
 							Mantis import </label> 
-						<select 
-							class="form-control ng-pristine ng-valid ng-touched">							
-							<option [ngValue]="importOption"
-								*ngFor="let importOption of mantisImports; trackBy: trackMantisImportById" >{{importOption.name}}</option>
+							<!-- [ngModel]="filterMantisImport" [ngModelOptions]="{standalone: true}"-->
+						<select formControlName="filterMantisImport"
+							class="form-control">					
+							<option [ngValue]="importOption.id"
+								*ngFor="let importOption of mantisImports; let i=index; trackBy: trackMantisImportById" >{{importOption.name}} ({{importOption.importDate | date:'mediumDate'}})</option>
 						</select>
 					</div>
 				</div>
-				<div class="row" *ngFor="let filterrow of filterForm.controls.filterRows.controls; let i=index"  [formGroupName]="i">
-					<div class="col-sm-4 col-xs-6">
-						<label class="form-control-label control-label"
-							for="formly_6_input_investmentDate_1"> Field concerned </label> 
-						<select formControlName="concernedField"
-							(ngModelChange)="fieldChanged($event, i)"
-							class="form-control ng-pristine ng-valid ng-touched">
-							<option [ngValue]="null"></option>
-							<option [ngValue]="fieldOption"
-								*ngFor="let fieldOption of filterFields; trackBy: trackFieldById" jhiTranslate="mantozorApp.mantisImportLine.{{fieldOption.label}}"></option>
-						</select>
-					</div>
-			
-					<div class="col-sm-3 col-xs-6">
-						<label class="form-control-label control-label"
-							for="formly_6_input_investmentDate_1"> Comparator </label> 
-						<select formControlName="comparator"
-							(ngModelChange)="comparatorChanged($event)"
-							class="form-control ng-pristine ng-valid ng-touched" >
-							<option [ngValue]="null"></option>
-							<option [ngValue]="comparatorOption"
-								*ngFor="let comparatorOption of rowModels[i].comparators; trackBy: trackComparatorById">{{comparatorOption.label}}</option>
-						</select>
-					</div>
-			
-					<div class="col-sm-4">
-						<label class="form-control-label control-label"
-							for="formly_6_input_investmentDate_1"> Criteria value </label> 
-						<input formControlName="criteriaValue"
-							class="form-control ng-untouched ng-pristine ng-valid" [type]="filterForm.value.filterRows[i].concernedField.category"  /> 
-					</div>
-			
-					<div class="col-sm-1" style="margin-top: 32px;" >						
-						<button *ngIf="filterForm.controls.filterRows.controls.length > 1" class="btn btn-danger" type="button" (click)="removeCriteria(i)">
-							<span class="fa fa-times"></span>
-						</button>
+				<div formArrayName="filterRows">
+					<div class="row" *ngFor="let filterrow of filterForm.controls.filterRows.controls; let i=index"  [formGroupName]="i">
+						<div class="col-sm-4 col-xs-6">
+							<label class="form-control-label control-label"
+								for="formly_6_input_investmentDate_1"> Field concerned </label> 
+							<select formControlName="concernedField"
+								(ngModelChange)="fieldChanged($event, i)"
+								class="form-control ng-pristine ng-valid ng-touched">
+								<option [ngValue]="null"></option>
+								<option [ngValue]="fieldOption"
+									*ngFor="let fieldOption of filterFields; trackBy: trackFieldById" jhiTranslate="mantozorApp.mantisImportLine.{{fieldOption.label}}"></option>
+							</select>
+						</div>
+				
+						<div class="col-sm-3 col-xs-6">
+							<label class="form-control-label control-label"
+								for="formly_6_input_investmentDate_1"> Comparator </label> 
+							<select formControlName="comparator"
+								(ngModelChange)="comparatorChanged($event)"
+								class="form-control ng-pristine ng-valid ng-touched" >
+								<option [ngValue]="null"></option>
+								<option [ngValue]="comparatorOption"
+									*ngFor="let comparatorOption of rowModels[i].comparators; trackBy: trackComparatorById">{{comparatorOption.label}}</option>
+							</select>
+						</div>
+				
+						<div class="col-sm-4">
+							<label class="form-control-label control-label"
+								for="formly_6_input_investmentDate_1"> Criteria value </label> 
+							<input formControlName="criteriaValue"
+								class="form-control ng-untouched ng-pristine ng-valid" [type]="filterForm.value.filterRows[i].concernedField.category"  /> 
+						</div>
+				
+						<div class="col-sm-1" style="margin-top: 32px;" >						
+							<button *ngIf="filterForm.controls.filterRows.controls.length > 1" class="btn btn-danger" type="button" (click)="removeCriteria(i)">
+								<span class="fa fa-times"></span>
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>
