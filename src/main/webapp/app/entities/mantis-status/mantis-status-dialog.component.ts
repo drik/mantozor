@@ -32,6 +32,8 @@ export class MantisStatusDialogComponent implements OnInit {
     mantisapprovers: MantisApprover[];
     changeDateDp: any;
 
+    lastMantisStatus: MantisStatus;
+    
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
@@ -48,6 +50,8 @@ export class MantisStatusDialogComponent implements OnInit {
         this.isSaving = false;
         /*this.mantisService.find(this.mantisStatus.mantisId)
             .subscribe((res: HttpResponse<Mantis>) => { this.mantis = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));*/
+        this.mantisStatusService.findLastForMantis(this.mantisStatus.mantisId)
+            .subscribe((res: HttpResponse<MantisStatus>) => { this.lastMantisStatus = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.statusService.query()
             .subscribe((res: HttpResponse<Status[]>) => { this.statuses = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
         this.userService.query()

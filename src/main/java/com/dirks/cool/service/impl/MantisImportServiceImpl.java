@@ -1,15 +1,19 @@
 package com.dirks.cool.service.impl;
 
 import com.dirks.cool.service.MantisImportService;
+import com.dirks.cool.service.MantisStatusService;
 import com.dirks.cool.service.UserService;
 import com.dirks.cool.domain.Mantis;
 import com.dirks.cool.domain.MantisImport;
 import com.dirks.cool.domain.MantisImportLine;
+import com.dirks.cool.domain.MantisStatus;
 import com.dirks.cool.domain.Project;
 import com.dirks.cool.domain.State;
+import com.dirks.cool.domain.Status;
 import com.dirks.cool.repository.MantisImportLineRepository;
 import com.dirks.cool.repository.MantisImportRepository;
 import com.dirks.cool.repository.MantisRepository;
+import com.dirks.cool.repository.MantisStatusRepository;
 import com.dirks.cool.repository.ProjectRepository;
 import com.dirks.cool.repository.ReferentRepository;
 import com.dirks.cool.repository.StateRepository;
@@ -56,7 +60,7 @@ public class MantisImportServiceImpl implements MantisImportService {
 	private final MantisImportLineRepository mantisImportLineRepository;
 	private final MantisRepository mantisRepository;
 	private final ProjectRepository projectRepository;
-	private final ReferentRepository referentRepository;
+	private final MantisStatusRepository mantisStatusRepository;
 	private final StateRepository stateRepository;
 	
 	private final UserService userService;
@@ -77,14 +81,14 @@ public class MantisImportServiceImpl implements MantisImportService {
 	 */
 	public MantisImportServiceImpl(MantisImportRepository mantisImportRepository,
 			MantisImportLineRepository mantisImportLineRepository, MantisRepository mantisRepository,
-			ProjectRepository projectRepository, ReferentRepository referentRepository, StateRepository stateRepository,
+			ProjectRepository projectRepository, MantisStatusRepository mantisStatusRepository, StateRepository stateRepository,
 			UserService userService, MantisImportMapper mantisImportMapper) {
 		super();
 		this.mantisImportRepository = mantisImportRepository;
 		this.mantisImportLineRepository = mantisImportLineRepository;
 		this.mantisRepository = mantisRepository;
 		this.projectRepository = projectRepository;
-		this.referentRepository = referentRepository;
+		this.mantisStatusRepository = mantisStatusRepository;
 		this.stateRepository = stateRepository;
 		this.userService = userService;
 		this.mantisImportMapper = mantisImportMapper;
@@ -230,7 +234,17 @@ public class MantisImportServiceImpl implements MantisImportService {
 					mantis.setProject(project);
 				}	
 				mantis = mantisRepository.save(mantis);
+				//Gestion status nouvelle
+				if(mantisStatusRepository.findByMantisId(mantis.getId()).isEmpty()) {
+					MantisStatus status = new MantisStatus();
+					status.setMantis(mantis);
+					status.setStatus(new Status(1L));
+					status.setChangeDate(mantisImportSaved.getImportDate());
+					status.setUser(mantisImportSaved.getUser());
+					mantisStatusRepository.save(status);
+				}
 			}
+			
 			line.setMantis(mantis);
 			line.setMantisImport(mantisImportSaved);
 			line.setReferent(mantis.getProject().getReferent());

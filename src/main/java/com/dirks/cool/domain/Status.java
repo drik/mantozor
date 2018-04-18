@@ -37,11 +37,21 @@ public class Status implements Serializable {
     private String icon;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+    
+    public Status() {
+		super();
+	}
+
+    public Status(Long id) {
+		this.id = id;
+	}
+    
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+
+	public void setId(Long id) {
         this.id = id;
     }
 

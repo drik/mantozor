@@ -1,7 +1,7 @@
 id;name;mandatory_approver;status_color;icon
-1;Terminé;false;olive;fa-check
-2;Suspendue;false;red;fa-times
-3;Validé;true;green;fa-thumbs-o-up
-4;En attente de validation;false;orange;fa-legal
-5;En attente de complément;false;yellow;fa-spinner
-6;Nouvelle;false;blue;fa-bookmark-o
+1;Nouvelle;false;blue;fa-bookmark-o
+2;En attente de complément;false;yellow;fa-spinner
+3;En attente de validation;false;orange;fa-legal
+4;Validé;true;green;fa-thumbs-o-up
+5;Suspendue;false;red;fa-times
+6;Terminé;false;olive;fa-check

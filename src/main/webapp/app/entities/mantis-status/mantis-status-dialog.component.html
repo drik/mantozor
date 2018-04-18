@@ -17,7 +17,7 @@
 			<a class="current">En attente de complément</a>
 			<a>En attente de validation</a>
 			<a>Validé</a-->
-			<a *ngFor="let status of statuses?.reverse(); let i=index;" [class]="status.id > 3 ? 'current' : ''" [hidden]="status.id == 2">{{status.name}}</a>
+			<a *ngFor="let status of statuses; let i=index;" [class]="status.id < 3 ? 'current' : ''" [hidden]="status.id == 5">{{status.name}}</a>
 		</div>
 		<div class="form-group" >
             <label for="id" jhiTranslate="mantozorApp.mantisStatus.mantis">ID</label>

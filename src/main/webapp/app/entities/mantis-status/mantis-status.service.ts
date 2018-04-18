@@ -14,6 +14,7 @@ export type EntityResponseType = HttpResponse<MantisStatus>;
 export class MantisStatusService {
 
     private resourceUrl =  SERVER_API_URL + 'api/mantis-statuses';
+    private statusResourceUrl =  SERVER_API_URL + 'api/mantis-status';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) { }
 
@@ -31,6 +32,11 @@ export class MantisStatusService {
 
     find(id: number): Observable<EntityResponseType> {
         return this.http.get<MantisStatus>(`${this.resourceUrl}/${id}`, { observe: 'response'})
+            .map((res: EntityResponseType) => this.convertResponse(res));
+    }
+
+    findLastForMantis(idMantis: number): Observable<EntityResponseType> {
+        return this.http.get<MantisStatus>(`${this.statusResourceUrl}-last/${idMantis}`, { observe: 'response'})
             .map((res: EntityResponseType) => this.convertResponse(res));
     }
 

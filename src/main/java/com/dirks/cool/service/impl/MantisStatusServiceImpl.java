@@ -6,6 +6,9 @@ import com.dirks.cool.domain.MantisStatus;
 import com.dirks.cool.repository.MantisStatusRepository;
 import com.dirks.cool.service.dto.MantisStatusDTO;
 import com.dirks.cool.service.mapper.MantisStatusMapper;
+
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -45,6 +48,12 @@ public class MantisStatusServiceImpl implements MantisStatusService {
     public MantisStatusDTO save(MantisStatusDTO mantisStatusDTO) {
         log.debug("Request to save MantisStatus : {}", mantisStatusDTO);
         MantisStatus mantisStatus = mantisStatusMapper.toEntity(mantisStatusDTO);
+        if(mantisStatus.getStatus() == null) {
+        	new RuntimeException("Status must be filled in");
+        }
+        if(mantisStatus.getStatus().isMandatoryApprover() && mantisStatus.getApprover() == null) {
+        	new RuntimeException("Approver needed for this status");
+        }
         mantisStatus.setUser(userService.getUserWithAuthorities().get());
         mantisStatus = mantisStatusRepository.save(mantisStatus);
         return mantisStatusMapper.toDto(mantisStatus);
@@ -88,4 +97,19 @@ public class MantisStatusServiceImpl implements MantisStatusService {
         log.debug("Request to delete MantisStatus : {}", id);
         mantisStatusRepository.delete(id);
     }
+
+	@Override
+	public List<MantisStatusDTO> findByMantisId(Long mantisId) {
+		log.debug("Request to get all MantisStatuses for a mantis : " + mantisId);
+        return mantisStatusMapper.toDto(mantisStatusRepository.findByMantisId(mantisId));
+	}
+
+	@Override
+	public MantisStatusDTO findLastOneForMantis(Long mantisId) {
+		List<MantisStatusDTO> mantisStatuses = this.findByMantisId(mantisId);
+		if(mantisStatuses.isEmpty()) {
+			return null;
+		}
+		return mantisStatuses.get(mantisStatuses.size() - 1);
+	}
 }

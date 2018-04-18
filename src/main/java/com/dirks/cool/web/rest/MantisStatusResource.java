@@ -130,4 +130,34 @@ public class MantisStatusResource {
         mantisStatusService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    /**
+     * GET  /mantis-statuses : get all the mantisStatuses.
+     *
+     * @param pageable the pagination information
+     * @param criteria the criterias which the requested entities should match
+     * @return the ResponseEntity with status 200 (OK) and the list of mantisStatuses in body
+     */
+    @GetMapping("/mantis-statuses-mantis/{mantisId}")
+    @Timed
+    public ResponseEntity<List<MantisStatusDTO>> getAllMantisStatusesForMantis(@PathVariable Long mantisId) {
+        log.debug("REST request to get MantisStatuses by criteria: {}");
+        List<MantisStatusDTO> page = mantisStatusService.findByMantisId(mantisId);
+        //HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mantis-statuses");
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    /**
+     * GET  /mantis-statuses/:id : get the "id" mantisStatus.
+     *
+     * @param id the id of the mantisStatusDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the mantisStatusDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/mantis-statuses-last/{idMantis}")
+    @Timed
+    public ResponseEntity<MantisStatusDTO> getMantisStatusForMantis(@PathVariable Long idMantis) {
+        log.debug("REST request to get last MantisStatus : {}", idMantis);
+        MantisStatusDTO mantisStatusDTO = mantisStatusService.findOne(idMantis);
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(mantisStatusDTO));
+    }
 }

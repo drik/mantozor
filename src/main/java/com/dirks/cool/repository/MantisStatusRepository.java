@@ -16,4 +16,5 @@ public interface MantisStatusRepository extends JpaRepository<MantisStatus, Long
     @Query("select mantis_status from MantisStatus mantis_status where mantis_status.user.login = ?#{principal.username}")
     List<MantisStatus> findByUserIsCurrentUser();
 
+    List<MantisStatus> findByMantisId(Long mantisId);
 }
