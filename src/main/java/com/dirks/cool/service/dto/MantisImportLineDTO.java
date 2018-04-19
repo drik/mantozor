@@ -67,7 +67,13 @@ public class MantisImportLineDTO implements Serializable {
     private Long mantisImportId;
 
     private Long mantisId;
+        
+    private MantisImportDTO mantisImport;
+    private StateDTO state;
+    private MantisDTO mantis;
 
+    private MantisStatusDTO mantisStatus;
+    
     public Long getId() {
         return id;
     }
@@ -284,7 +290,39 @@ public class MantisImportLineDTO implements Serializable {
         this.mantisId = mantisId;
     }
 
-    @Override
+    public MantisStatusDTO getMantisStatus() {
+		return mantisStatus;
+	}
+
+	public void setMantisStatus(MantisStatusDTO mantisStatus) {
+		this.mantisStatus = mantisStatus;
+	}
+
+	public MantisImportDTO getMantisImport() {
+		return mantisImport;
+	}
+
+	public void setMantisImport(MantisImportDTO mantisImport) {
+		this.mantisImport = mantisImport;
+	}
+
+	public StateDTO getState() {
+		return state;
+	}
+
+	public void setState(StateDTO state) {
+		this.state = state;
+	}
+
+	public MantisDTO getMantis() {
+		return mantis;
+	}
+
+	public void setMantis(MantisDTO mantis) {
+		this.mantis = mantis;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

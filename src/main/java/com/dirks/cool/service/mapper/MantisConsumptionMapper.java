@@ -12,7 +12,7 @@ import org.mapstruct.*;
 public interface MantisConsumptionMapper extends EntityMapper<MantisConsumptionDTO, MantisConsumption> {
 
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(source = "mantis.id", target = "mantisId")
+    @Mapping(source = "mantis.id", target = "mantisId")    
     MantisConsumptionDTO toDto(MantisConsumption mantisConsumption);
 
     @Mapping(source = "userId", target = "user")

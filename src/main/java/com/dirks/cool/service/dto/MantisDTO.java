@@ -2,6 +2,8 @@ package com.dirks.cool.service.dto;
 
 
 import java.time.LocalDate;
+
+import javax.persistence.Transient;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -22,6 +24,10 @@ public class MantisDTO implements Serializable {
     private LocalDate submissionDate;
 
     private Long projectId;
+    
+    private Double totalCharge;
+    
+    private Double chargeAlreadyConsumed;
 
     public Long getId() {
         return id;
@@ -55,7 +61,23 @@ public class MantisDTO implements Serializable {
         this.projectId = projectId;
     }
 
-    @Override
+    public Double getTotalCharge() {
+		return totalCharge;
+	}
+
+	public void setTotalCharge(Double totalCharge) {
+		this.totalCharge = totalCharge;
+	}
+
+	public Double getChargeAlreadyConsumed() {
+		return chargeAlreadyConsumed;
+	}
+
+	public void setChargeAlreadyConsumed(Double chargeAlreadyConsumed) {
+		this.chargeAlreadyConsumed = chargeAlreadyConsumed;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

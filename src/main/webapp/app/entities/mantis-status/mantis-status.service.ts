@@ -14,7 +14,7 @@ export type EntityResponseType = HttpResponse<MantisStatus>;
 export class MantisStatusService {
 
     private resourceUrl =  SERVER_API_URL + 'api/mantis-statuses';
-    private statusResourceUrl =  SERVER_API_URL + 'api/mantis-status';
+    private statusResourceUrl =  SERVER_API_URL + 'api/mantis-statuses';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) { }
 

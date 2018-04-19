@@ -3,7 +3,9 @@ package com.dirks.cool.service.impl;
 import com.dirks.cool.service.MantisStatusService;
 import com.dirks.cool.service.UserService;
 import com.dirks.cool.domain.MantisStatus;
+import com.dirks.cool.domain.Status;
 import com.dirks.cool.repository.MantisStatusRepository;
+import com.dirks.cool.repository.StatusRepository;
 import com.dirks.cool.service.dto.MantisStatusDTO;
 import com.dirks.cool.service.mapper.MantisStatusMapper;
 
@@ -26,16 +28,19 @@ public class MantisStatusServiceImpl implements MantisStatusService {
 
     private final Logger log = LoggerFactory.getLogger(MantisStatusServiceImpl.class);
 
+    private final StatusRepository statusRepository;
+    
     private final MantisStatusRepository mantisStatusRepository;
     
     private final UserService userService;
 
     private final MantisStatusMapper mantisStatusMapper;
 
-    public MantisStatusServiceImpl(MantisStatusRepository mantisStatusRepository, MantisStatusMapper mantisStatusMapper, UserService userService) {
+    public MantisStatusServiceImpl(MantisStatusRepository mantisStatusRepository, MantisStatusMapper mantisStatusMapper, UserService userService, StatusRepository statusRepository) {
         this.mantisStatusRepository = mantisStatusRepository;
         this.mantisStatusMapper = mantisStatusMapper;
         this.userService = userService;
+        this.statusRepository = statusRepository;
     }
 
     /**
@@ -49,10 +54,12 @@ public class MantisStatusServiceImpl implements MantisStatusService {
         log.debug("Request to save MantisStatus : {}", mantisStatusDTO);
         MantisStatus mantisStatus = mantisStatusMapper.toEntity(mantisStatusDTO);
         if(mantisStatus.getStatus() == null) {
-        	new RuntimeException("Status must be filled in");
+        	throw new RuntimeException("Status must be filled in");
         }
-        if(mantisStatus.getStatus().isMandatoryApprover() && mantisStatus.getApprover() == null) {
-        	new RuntimeException("Approver needed for this status");
+        mantisStatus.setComments(mantisStatusDTO.getComments());
+        Status selectedStatus = statusRepository.findOne(mantisStatus.getStatus().getId());
+        if(selectedStatus.isMandatoryApprover() && mantisStatus.getApprover() == null) {
+        	throw new RuntimeException("Approver needed for this status");
         }
         mantisStatus.setUser(userService.getUserWithAuthorities().get());
         mantisStatus = mantisStatusRepository.save(mantisStatus);

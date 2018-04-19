@@ -14,11 +14,14 @@ public interface MantisImportLineMapper extends EntityMapper<MantisImportLineDTO
     @Mapping(source = "state.id", target = "stateId")
     @Mapping(source = "mantisImport.id", target = "mantisImportId")
     @Mapping(source = "mantis.id", target = "mantisId")
+    @Mapping(source = "state", target = "state")
+    @Mapping(source = "mantisImport", target = "mantisImport")
+    @Mapping(source = "mantis", target = "mantis")
     MantisImportLineDTO toDto(MantisImportLine mantisImportLine);
 
-    @Mapping(source = "stateId", target = "state")
-    @Mapping(source = "mantisImportId", target = "mantisImport")
-    @Mapping(source = "mantisId", target = "mantis")
+    @Mapping(source = "state", target = "state")
+    @Mapping(source = "mantisImport", target = "mantisImport")
+    @Mapping(source = "mantis", target = "mantis")
     MantisImportLine toEntity(MantisImportLineDTO mantisImportLineDTO);
 
     default MantisImportLine fromId(Long id) {

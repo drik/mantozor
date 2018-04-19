@@ -4,7 +4,6 @@ export class MantisImportLine implements BaseEntity {
     constructor(
         public id?: number,
         public mantisNumber?: string,
-        public validationStatus?: string,
         public project?: string,
         public updateDate?: any,
         public category?: string,
@@ -29,6 +28,7 @@ export class MantisImportLine implements BaseEntity {
         public stateId?: number,
         public mantisImportId?: number,
         public mantisId?: number,
+        public mantisStatus?: any,
     ) {
     }
 }

@@ -33,7 +33,7 @@ export class MantisStatusDialogComponent implements OnInit {
     changeDateDp: any;
 
     lastMantisStatus: MantisStatus;
-    
+
     constructor(
         public activeModal: NgbActiveModal,
         private jhiAlertService: JhiAlertService,
@@ -77,7 +77,7 @@ export class MantisStatusDialogComponent implements OnInit {
 
     private subscribeToSaveResponse(result: Observable<HttpResponse<MantisStatus>>) {
         result.subscribe((res: HttpResponse<MantisStatus>) =>
-            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError());
+            this.onSaveSuccess(res.body), (res: HttpErrorResponse) => this.onSaveError(res));
     }
 
     private onSaveSuccess(result: MantisStatus) {
@@ -86,7 +86,7 @@ export class MantisStatusDialogComponent implements OnInit {
         this.activeModal.dismiss(result);
     }
 
-    private onSaveError() {
+    private onSaveError(error: HttpErrorResponse) {
         this.isSaving = false;
     }
 

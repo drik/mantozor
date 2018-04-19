@@ -31,6 +31,12 @@ public class Mantis implements Serializable {
     @NotNull
     @Column(name = "submission_date", nullable = false)
     private LocalDate submissionDate;
+    
+    @Column(name = "total_charge")
+    private Double totalCharge;
+    
+    @Transient
+    private Double chargeAlreadyConsumed;
 
     @ManyToOne
     private Project project;
@@ -82,9 +88,26 @@ public class Mantis implements Serializable {
     public void setProject(Project project) {
         this.project = project;
     }
+
+    public Double getTotalCharge() {
+		return totalCharge;
+	}
+
+	public void setTotalCharge(Double totalCharge) {
+		this.totalCharge = totalCharge;
+	}
+
+	public Double getChargeAlreadyConsumed() {
+		return chargeAlreadyConsumed;
+	}
+
+	public void setChargeAlreadyConsumed(Double chargeAlreadyConsumed) {
+		this.chargeAlreadyConsumed = chargeAlreadyConsumed;
+	}
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

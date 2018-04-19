@@ -17,7 +17,7 @@
 			<a class="current">En attente de complément</a>
 			<a>En attente de validation</a>
 			<a>Validé</a-->
-			<a *ngFor="let status of statuses; let i=index;" [class]="status.id < 3 ? 'current' : ''" [hidden]="status.id == 5">{{status.name}}</a>
+			<a *ngFor="let status of statuses; let i=index;" [class]="status.id <= lastMantisStatus.statusId ? 'current' : ''" [hidden]="((status.id == 5) && (status.id != lastMantisStatus.statusId))">{{status.name}}</a>
 		</div>
 		<div class="form-group" >
             <label for="id" jhiTranslate="mantozorApp.mantisStatus.mantis">ID</label>
@@ -50,10 +50,16 @@
         </div-->
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.status" for="field_status">Status</label>
-            <select class="form-control" id="field_status" name="status" [(ngModel)]="mantisStatus.statusId" >
+            <select class="form-control" id="field_status" name="status" [(ngModel)]="mantisStatus.statusId" required>
                 <option [ngValue]="null"></option>
                 <option [ngValue]="statusOption.id" *ngFor="let statusOption of statuses; trackBy: trackStatusById">{{statusOption.name}}</option>
             </select>
+            <div [hidden]="!(editForm.controls.statusId?.dirty && editForm.controls.statusId?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.statusId?.errors?.required" jhiTranslate="entity.validation.required">
+                   This field is required.
+                </small>
+            </div>
         </div>
         <!--div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.user" for="field_user">User</label>
@@ -62,6 +68,12 @@
                 <option [ngValue]="userOption.id" *ngFor="let userOption of users; trackBy: trackUserById">{{userOption.login}}</option>
             </select>
         </div-->
+        
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.comments" for="field_comments">Comments</label>
+            <textarea class="form-control" id="field_comments" name="comments" [(ngModel)]="mantisStatus.comments"></textarea>
+        </div>
+        
         <div class="form-group">
             <label class="form-control-label" jhiTranslate="mantozorApp.mantisStatus.approver" for="field_approver">Approver</label>
             <select class="form-control" id="field_approver" name="approver" [(ngModel)]="mantisStatus.approverId" >
@@ -69,6 +81,7 @@
                 <option [ngValue]="mantisApproverOption.id" *ngFor="let mantisApproverOption of mantisapprovers; trackBy: trackMantisApproverById">{{mantisApproverOption.fullName}}</option>
             </select>
         </div>
+		
 		
 		
     </div>

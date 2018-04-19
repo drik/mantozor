@@ -16,11 +16,12 @@
             "detail": {
                 "title": "Mantis Status"
             },
-            "changeDate": "Change Date",
+            "changeDate": "Date de changement",
+            "comments": "Commentaire",
             "mantis": "Mantis",
-            "status": "Status",
+            "status": "Statut",
             "user": "User",
-            "approver": "Approver"
+            "approver": "Approbateur"
         }
     }
 }

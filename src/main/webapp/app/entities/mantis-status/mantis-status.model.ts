@@ -9,6 +9,7 @@ export class MantisStatus implements BaseEntity {
         public userId?: number,
         public approverId?: number,
         public mantis?: any,
+        public comments?: string,
     ) {
     }
 }

@@ -243,6 +243,10 @@ public class MantisImportServiceImpl implements MantisImportService {
 					status.setUser(mantisImportSaved.getUser());
 					mantisStatusRepository.save(status);
 				}
+			}else {
+				//Mettre à jour
+				mantis.setTotalCharge(line.getEstimatedChargeCDS());
+				mantis = mantisRepository.save(mantis);
 			}
 			
 			line.setMantis(mantis);

@@ -15,12 +15,14 @@ public interface MantisStatusMapper extends EntityMapper<MantisStatusDTO, Mantis
     @Mapping(source = "status.id", target = "statusId")
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "approver.id", target = "approverId")
+    @Mapping(source = "comments", target = "comments")
     MantisStatusDTO toDto(MantisStatus mantisStatus);
 
     @Mapping(source = "mantisId", target = "mantis")
     @Mapping(source = "statusId", target = "status")
     @Mapping(source = "userId", target = "user")
     @Mapping(source = "approverId", target = "approver")
+    @Mapping(source = "comments", target = "comments")
     MantisStatus toEntity(MantisStatusDTO mantisStatusDTO);
 
     default MantisStatus fromId(Long id) {

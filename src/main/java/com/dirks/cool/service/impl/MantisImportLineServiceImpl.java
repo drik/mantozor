@@ -1,9 +1,12 @@
 package com.dirks.cool.service.impl;
 
 import com.dirks.cool.service.MantisImportLineService;
+import com.dirks.cool.service.MantisStatusService;
 import com.dirks.cool.domain.MantisImportLine;
+import com.dirks.cool.domain.MantisStatus;
 import com.dirks.cool.repository.MantisImportLineRepository;
 import com.dirks.cool.service.dto.MantisImportLineDTO;
+import com.dirks.cool.service.dto.MantisStatusDTO;
 import com.dirks.cool.service.mapper.MantisImportLineMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,12 +26,15 @@ public class MantisImportLineServiceImpl implements MantisImportLineService {
     private final Logger log = LoggerFactory.getLogger(MantisImportLineServiceImpl.class);
 
     private final MantisImportLineRepository mantisImportLineRepository;
+    
+    private final MantisStatusService mantisStatusService;
 
     private final MantisImportLineMapper mantisImportLineMapper;
 
-    public MantisImportLineServiceImpl(MantisImportLineRepository mantisImportLineRepository, MantisImportLineMapper mantisImportLineMapper) {
+    public MantisImportLineServiceImpl(MantisImportLineRepository mantisImportLineRepository, MantisImportLineMapper mantisImportLineMapper, MantisStatusService mantisStatusService) {
         this.mantisImportLineRepository = mantisImportLineRepository;
         this.mantisImportLineMapper = mantisImportLineMapper;
+        this.mantisStatusService = mantisStatusService;
     }
 
     /**
@@ -55,8 +61,15 @@ public class MantisImportLineServiceImpl implements MantisImportLineService {
     @Transactional(readOnly = true)
     public Page<MantisImportLineDTO> findAll(Pageable pageable) {
         log.debug("Request to get all MantisImportLines");
-        return mantisImportLineRepository.findAll(pageable)
-            .map(mantisImportLineMapper::toDto);
+        Page<MantisImportLineDTO> page = mantisImportLineRepository.findAll(pageable)
+                .map(mantisImportLineMapper::toDto);
+        
+        for(int i = 0; i < page.getSize(); i++) {
+        	MantisStatusDTO mantisStatus = mantisStatusService.findLastOneForMantis(page.getContent().get(i).getMantisId());
+        	page.getContent().get(i).setMantisStatus(mantisStatus);
+        }
+        
+        return page;
     }
 
     /**
@@ -69,8 +82,10 @@ public class MantisImportLineServiceImpl implements MantisImportLineService {
     @Transactional(readOnly = true)
     public MantisImportLineDTO findOne(Long id) {
         log.debug("Request to get MantisImportLine : {}", id);
-        MantisImportLine mantisImportLine = mantisImportLineRepository.findOne(id);
-        return mantisImportLineMapper.toDto(mantisImportLine);
+        MantisImportLineDTO mantisImportLine = mantisImportLineMapper.toDto(mantisImportLineRepository.findOne(id));
+        MantisStatusDTO mantisStatus = mantisStatusService.findLastOneForMantis(mantisImportLine.getMantis().getId());
+        mantisImportLine.setMantisStatus(mantisStatus);
+        return mantisImportLine;
     }
 
     /**

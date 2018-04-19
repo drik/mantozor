@@ -59,10 +59,14 @@ public class MantisStatusResource {
         if (mantisStatusDTO.getId() != null) {
             throw new BadRequestAlertException("A new mantisStatus cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        MantisStatusDTO result = mantisStatusService.save(mantisStatusDTO);
-        return ResponseEntity.created(new URI("/api/mantis-statuses/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+        try {
+        	MantisStatusDTO result = mantisStatusService.save(mantisStatusDTO);
+        	return ResponseEntity.created(new URI("/api/mantis-statuses/" + result.getId()))
+                    .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
+                    .body(result);
+        } catch(RuntimeException e) {
+        	throw new BadRequestAlertException(e.getMessage(), ENTITY_NAME, e.getMessage());
+        }
     }
 
     /**
@@ -157,7 +161,7 @@ public class MantisStatusResource {
     @Timed
     public ResponseEntity<MantisStatusDTO> getMantisStatusForMantis(@PathVariable Long idMantis) {
         log.debug("REST request to get last MantisStatus : {}", idMantis);
-        MantisStatusDTO mantisStatusDTO = mantisStatusService.findOne(idMantis);
+        MantisStatusDTO mantisStatusDTO = mantisStatusService.findLastOneForMantis(idMantis);
         return ResponseUtil.wrapOrNotFound(Optional.ofNullable(mantisStatusDTO));
     }
 }

@@ -17,6 +17,7 @@
                 "title": "Mantis Status"
             },
             "changeDate": "Change Date",
+            "comments": "Comments",
             "mantis": "Mantis",
             "status": "Status",
             "user": "User",

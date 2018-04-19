@@ -146,7 +146,7 @@
 					<!--td>{{mantisImportLine.stateId}}</td-->
 					<td><a
 						[routerLink]="['../mantis-import-line', mantisImportLine.id ]">{{mantisImportLine.mantisNumber}}</a></td>
-					<td>{{mantisImportLine.validationStatus}}</td>
+					<td><span [class]="getStatusClass(mantisImportLine.mantisStatus.status.statusColor)"><i [class]="mantisImportLine.mantisStatus.status.icon"></i>{{mantisImportLine.mantisStatus.status.name}}</span></td>
 					<!--td>{{mantisImportLine.project}}</td>
                 <td>{{mantisImportLine.updateDate | date:'mediumDate'}}</td>
                 <td>{{mantisImportLine.category}}</td>
