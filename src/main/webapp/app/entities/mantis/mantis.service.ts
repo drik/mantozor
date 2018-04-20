@@ -15,6 +15,7 @@ export class MantisService {
 
     private resourceUrl =  SERVER_API_URL + 'api/mantis';
     private resourceUrlStats =  SERVER_API_URL + 'api/mantis-stats';
+    private resourceUrlTimeline =  SERVER_API_URL + 'api/mantis-timeline';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) { }
 
@@ -86,6 +87,11 @@ export class MantisService {
 
     getStatsForStatusAndState(): Observable<HttpResponse<any[]>> {
         return this.http.get<any[]>(this.resourceUrlStats + '-status-state', {observe: 'response' })
+            .map((res: HttpResponse<any[]>) => this.convertArrayResponse(res));
+    }
+    
+    getTimeline(idMantis: number): Observable<HttpResponse<any[]>> {
+        return this.http.get<any[]>(`${this.resourceUrlTimeline}/${idMantis}`, {observe: 'response' })
             .map((res: HttpResponse<any[]>) => this.convertArrayResponse(res));
     }
 }

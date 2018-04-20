@@ -1,13 +1,11 @@
 package com.dirks.cool.service;
 
-import com.dirks.cool.domain.MantisConsumption;
 import com.dirks.cool.service.dto.MantisConsumptionDTO;
 
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 /**
@@ -52,7 +50,7 @@ public interface MantisConsumptionService {
      * @param mantisId
      * @return
      */
-    List<MantisConsumption> findByMantisId(Long mantisId);
+    List<MantisConsumptionDTO> findByMantisId(Long mantisId);
     
     /**
      * calculateTotalConsumptionConsumed.

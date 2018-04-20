@@ -8,6 +8,7 @@ import com.dirks.cool.web.rest.util.PaginationUtil;
 import com.dirks.cool.service.dto.MantisDTO;
 import com.dirks.cool.service.dto.StatusStateStatsDTO;
 import com.dirks.cool.service.dto.StatusStatsDTO;
+import com.dirks.cool.service.dto.TimelineDTO;
 import com.dirks.cool.service.dto.MantisCriteria;
 import com.dirks.cool.service.MantisQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -138,7 +139,6 @@ public class MantisResource {
     public ResponseEntity<List<StatusStatsDTO>> getStatsForStatus() {
         log.debug("REST request to get stats for status");
         List<StatusStatsDTO> page = mantisService.getStatsForStatus();
-        //HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mantis");
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
@@ -147,7 +147,15 @@ public class MantisResource {
     public ResponseEntity<List<StatusStateStatsDTO>> getStatsForStatusAndState() {
         log.debug("REST request to get stats for status and state");
         List<StatusStateStatsDTO> page = mantisService.getStatsForStatusAndState();
-        //HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mantis");
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+    
+
+    @GetMapping("/mantis-timeline/{mantisId}")
+    @Timed
+    public ResponseEntity<List<TimelineDTO>> getTimelineForMantis(@PathVariable Long mantisId) {
+        log.debug("REST request to get timeline events for mantis : {}", mantisId);
+        List<TimelineDTO> page = mantisService.getTimelineEvents(mantisId);        
         return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }

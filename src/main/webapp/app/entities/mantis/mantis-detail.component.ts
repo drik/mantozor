@@ -13,7 +13,7 @@ import { MantisService } from './mantis.service';
 })
 export class MantisDetailComponent implements OnInit, OnDestroy {
 
-    mantis: Mantis;
+    mantis: Mantis;    
     private subscription: Subscription;
     private eventSubscriber: Subscription;
 
@@ -28,6 +28,7 @@ export class MantisDetailComponent implements OnInit, OnDestroy {
         this.subscription = this.route.params.subscribe((params) => {
             this.load(params['id']);
         });
+        
         this.registerChangeInMantis();
     }
 
@@ -35,7 +36,8 @@ export class MantisDetailComponent implements OnInit, OnDestroy {
         this.mantisService.find(id)
             .subscribe((mantisResponse: HttpResponse<Mantis>) => {
                 this.mantis = mantisResponse.body;
-            });
+         });
+        
     }
     previousState() {
         window.history.back();

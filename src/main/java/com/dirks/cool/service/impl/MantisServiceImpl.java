@@ -2,18 +2,26 @@ package com.dirks.cool.service.impl;
 
 import com.dirks.cool.service.MantisConsumptionService;
 import com.dirks.cool.service.MantisService;
+import com.dirks.cool.service.MantisStatusService;
 import com.dirks.cool.service.StateService;
 import com.dirks.cool.service.StatusService;
+import com.dirks.cool.service.UserService;
 import com.dirks.cool.domain.Mantis;
 import com.dirks.cool.domain.State;
 import com.dirks.cool.repository.MantisRepository;
+import com.dirks.cool.service.dto.MantisConsumptionDTO;
 import com.dirks.cool.service.dto.MantisDTO;
+import com.dirks.cool.service.dto.MantisStatusDTO;
 import com.dirks.cool.service.dto.StateDTO;
 import com.dirks.cool.service.dto.StatusDTO;
 import com.dirks.cool.service.dto.StatusStateStatsDTO;
 import com.dirks.cool.service.dto.StatusStatsDTO;
+import com.dirks.cool.service.dto.TimelineDTO;
+import com.dirks.cool.service.dto.TimelineEventDTO;
 import com.dirks.cool.service.mapper.MantisMapper;
+import com.dirks.cool.service.mapper.UserMapper;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,19 +46,28 @@ public class MantisServiceImpl implements MantisService {
 
 	private final MantisConsumptionService mantisConsumptionService;
 
+	private final UserService userService;
+	
 	private final StatusService statusService;
+	
+	private final MantisStatusService mantisStatusService;
 
 	private final StateService stateService;
 
+	private final UserMapper userMapper;
+	
 	private final MantisMapper mantisMapper;
 
-	public MantisServiceImpl(MantisRepository mantisRepository, MantisMapper mantisMapper,
-			MantisConsumptionService mantisConsumptionService, StatusService statusService, StateService stateService) {
+	public MantisServiceImpl(MantisRepository mantisRepository, MantisMapper mantisMapper, MantisStatusService mantisStatusService,
+			MantisConsumptionService mantisConsumptionService, StatusService statusService, StateService stateService, UserService userService, UserMapper userMapper) {
 		this.mantisRepository = mantisRepository;
 		this.mantisMapper = mantisMapper;
+		this.userMapper = userMapper;
 		this.mantisConsumptionService = mantisConsumptionService;
 		this.statusService = statusService;
 		this.stateService = stateService;
+		this.mantisStatusService = mantisStatusService;
+		this.userService = userService;
 	}
 
 	/**
@@ -151,5 +168,59 @@ public class MantisServiceImpl implements MantisService {
 			stats.add(stat);
 		}
 		return stats;
+	}
+	
+
+	public List<TimelineDTO> getTimelineEvents(Long mantisId) {
+		log.debug("Request to get timeline events for a mantis {}", mantisId);
+		List<TimelineDTO> timelines =  new ArrayList<>();
+		List<TimelineEventDTO> events = new ArrayList<>();
+		for(MantisStatusDTO status : mantisStatusService.findByMantisId(mantisId)) {
+			TimelineEventDTO event = new TimelineEventDTO();
+			event.setEventDate(status.getChangeDate());
+			event.setType("status");
+			event.setUser(userMapper.userToUserDTO(userService.getUserWithAuthorities(status.getUserId()).get()));
+			event.setTitle(status.getStatus().getName());
+			event.setDetails(status.getComments());
+			events.add(event);
+		}
+		for(MantisConsumptionDTO status : mantisConsumptionService.findByMantisId(mantisId)) {
+			TimelineEventDTO event = new TimelineEventDTO();
+			event.setEventDate(status.getSubmissionDate());
+			event.setType("consumption");
+			event.setUser(userMapper.userToUserDTO(userService.getUserWithAuthorities(status.getUserId()).get()));
+			event.setTitle(String.valueOf(status.getConsumed()));
+			event.setDetails(String.valueOf(status.getConsumed()) + "|" + String.valueOf(status.getToBill()));
+			events.add(event);
+		}
+		events.sort((TimelineEventDTO o1, TimelineEventDTO o2)->o1.getEventDate().compareTo(o2.getEventDate()));
+		LocalDate curentDate = null;
+		
+		TimelineDTO timeline = new TimelineDTO();
+		List<TimelineEventDTO> waitingEvents = new ArrayList<>();
+		
+		for(int i = 0; i<events.size();i++) {
+			TimelineEventDTO event = events.get(i);
+			if(i == 0) {
+				curentDate = event.getEventDate();
+			}
+			if(event.getEventDate().isEqual(curentDate)) {
+				waitingEvents.add(event);
+			}else {
+				
+				timeline.setEvents(waitingEvents);
+				timelines.add(timeline);
+				
+				waitingEvents = new ArrayList<>();
+				timeline = new TimelineDTO();
+				
+				curentDate = event.getEventDate();
+				timeline.setTimelineDate(curentDate);	
+			}			
+		}
+		timeline.setEvents(waitingEvents);
+		timelines.add(timeline);
+		
+		return timelines;
 	}
 }

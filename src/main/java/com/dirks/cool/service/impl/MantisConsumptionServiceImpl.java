@@ -5,6 +5,7 @@ import com.dirks.cool.service.UserService;
 import com.dirks.cool.domain.MantisConsumption;
 import com.dirks.cool.repository.MantisConsumptionRepository;
 import com.dirks.cool.service.dto.MantisConsumptionDTO;
+import com.dirks.cool.service.dto.TimelineEventDTO;
 import com.dirks.cool.service.mapper.MantisConsumptionMapper;
 
 import java.util.List;
@@ -93,9 +94,9 @@ public class MantisConsumptionServiceImpl implements MantisConsumptionService {
     }
 
 	@Override
-	public List<MantisConsumption> findByMantisId(Long mantisId) {
+	public List<MantisConsumptionDTO> findByMantisId(Long mantisId) {
 		log.debug("Request to get all MantisConsumption :  for a mantis {}", mantisId);
-		return mantisConsumptionRepository.findByMantisId(mantisId);
+		return mantisConsumptionMapper.toDto(mantisConsumptionRepository.findByMantisId(mantisId));
 	}
 
 	@Override
@@ -109,4 +110,5 @@ public class MantisConsumptionServiceImpl implements MantisConsumptionService {
 		log.debug("Request to calculate Total Consumption to bill :  for a mantis {}", mantisId);
 		return mantisConsumptionRepository.calculateTotalConsumptionToBill(mantisId);
 	}
+	
 }

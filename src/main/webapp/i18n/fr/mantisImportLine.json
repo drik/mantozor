@@ -43,7 +43,12 @@
             "overallDeadlineRespectScoreComment": "Overall Deadline Respect Score Comment",
             "state": "State",
             "mantisImport": "Mantis Import",
-            "mantis": "Mantis"
+            "mantis": "Mantis",
+            
+            "statusChange": "a changée statut à {{ status }}",
+            "consumptionEntered": "a saisi {{ consumption }} jour(s) de consommation",
+            "statusDetails": "Commentaires sur le changement de statut : {{statusDetails}}",
+            "consumptionDetails": "Détails sur la consommation : consommé {{consumptionDetails1}} jour(s), à facturer = {{consumptionDetails2}} jour(s)"
         }
     }
 }

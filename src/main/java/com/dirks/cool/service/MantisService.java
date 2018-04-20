@@ -3,6 +3,7 @@ package com.dirks.cool.service;
 import com.dirks.cool.service.dto.MantisDTO;
 import com.dirks.cool.service.dto.StatusStateStatsDTO;
 import com.dirks.cool.service.dto.StatusStatsDTO;
+import com.dirks.cool.service.dto.TimelineDTO;
 
 import java.util.List;
 
@@ -58,4 +59,11 @@ public interface MantisService {
      * @return
      */
     List<StatusStateStatsDTO> getStatsForStatusAndState();
+    
+    /**
+     * Get timeline events for a mantis.
+     * @param mantisId
+     * @return
+     */
+    List<TimelineDTO> getTimelineEvents(Long mantisId);
 }
