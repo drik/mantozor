@@ -6,6 +6,9 @@ export class Mantis implements BaseEntity {
         public mantisNumber?: string,
         public submissionDate?: any,
         public projectId?: number,
+        public totalCharge?: number,
+        public chargeAlreadyConsumed?: number,
+        public remainingCharge?: number,
     ) {
     }
 }

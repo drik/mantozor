@@ -6,6 +6,8 @@ import com.dirks.cool.web.rest.errors.BadRequestAlertException;
 import com.dirks.cool.web.rest.util.HeaderUtil;
 import com.dirks.cool.web.rest.util.PaginationUtil;
 import com.dirks.cool.service.dto.MantisDTO;
+import com.dirks.cool.service.dto.StatusStateStatsDTO;
+import com.dirks.cool.service.dto.StatusStatsDTO;
 import com.dirks.cool.service.dto.MantisCriteria;
 import com.dirks.cool.service.MantisQueryService;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -129,5 +131,23 @@ public class MantisResource {
         log.debug("REST request to delete Mantis : {}", id);
         mantisService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
+    }
+    
+    @GetMapping("/mantis-stats-status")
+    @Timed
+    public ResponseEntity<List<StatusStatsDTO>> getStatsForStatus() {
+        log.debug("REST request to get stats for status");
+        List<StatusStatsDTO> page = mantisService.getStatsForStatus();
+        //HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mantis");
+        return new ResponseEntity<>(page, HttpStatus.OK);
+    }
+
+    @GetMapping("/mantis-stats-status-state")
+    @Timed
+    public ResponseEntity<List<StatusStateStatsDTO>> getStatsForStatusAndState() {
+        log.debug("REST request to get stats for status and state");
+        List<StatusStateStatsDTO> page = mantisService.getStatsForStatusAndState();
+        //HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/mantis");
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 }

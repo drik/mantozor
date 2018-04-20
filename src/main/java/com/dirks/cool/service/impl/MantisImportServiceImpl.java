@@ -215,6 +215,13 @@ public class MantisImportServiceImpl implements MantisImportService {
 			// Traitement des Doubles
 			line = parseDoubles(line);
 			
+			State state = stateRepository.findByName(line.getStateString());
+			if(state == null) {
+				state = new State();
+				state.setName(line.getStateString());
+				state = stateRepository.save(state);
+			}
+			line.setState(state);
 			//traitement de mantis 
 			
 			Mantis mantis = mantisRepository.findByMantisNumber(line.getMantisNumber());
@@ -222,7 +229,7 @@ public class MantisImportServiceImpl implements MantisImportService {
 				mantis = new Mantis();
 				mantis.setMantisNumber(line.getMantisNumber());
 				mantis.setSubmissionDate(line.getSubmissionDate());
-								
+				mantis.setTotalCharge(line.getEstimatedChargeCDS());
 				if(!StringUtils.isBlank(line.getProject())) {
 					Project project = projectRepository.findByName(line.getProject());
 					if(project == null) {
@@ -232,19 +239,23 @@ public class MantisImportServiceImpl implements MantisImportService {
 						//line.get
 					}
 					mantis.setProject(project);
-				}	
+				}
+				mantis.setState(state);
 				mantis = mantisRepository.save(mantis);
 				//Gestion status nouvelle
 				if(mantisStatusRepository.findByMantisId(mantis.getId()).isEmpty()) {
-					MantisStatus status = new MantisStatus();
-					status.setMantis(mantis);
-					status.setStatus(new Status(1L));
-					status.setChangeDate(mantisImportSaved.getImportDate());
-					status.setUser(mantisImportSaved.getUser());
-					mantisStatusRepository.save(status);
+					MantisStatus mantisStatus = new MantisStatus();
+					mantisStatus.setMantis(mantis);
+					mantisStatus.setStatus(new Status(1L));
+					mantisStatus.setChangeDate(mantisImportSaved.getImportDate());
+					mantisStatus.setUser(mantisImportSaved.getUser());
+					mantisStatus = mantisStatusRepository.save(mantisStatus);
 				}
+				mantis.setStatus(new Status(1L));
+				mantis = mantisRepository.save(mantis);
 			}else {
 				//Mettre à jour
+				mantis.setState(state);
 				mantis.setTotalCharge(line.getEstimatedChargeCDS());
 				mantis = mantisRepository.save(mantis);
 			}
@@ -253,13 +264,7 @@ public class MantisImportServiceImpl implements MantisImportService {
 			line.setMantisImport(mantisImportSaved);
 			line.setReferent(mantis.getProject().getReferent());
 			//Traitement de state
-			State state = stateRepository.findByName(line.getStateString());
-			if(state == null) {
-				state = new State();
-				state.setName(line.getStateString());
-				state = stateRepository.save(state);
-			}
-			line.setState(state);
+			
 			mantisImportLineRepository.save(line);
 		});
 		

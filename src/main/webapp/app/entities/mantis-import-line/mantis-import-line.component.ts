@@ -41,6 +41,8 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
     filterFields: any;
     filterComparators: any;
 
+    filterBoxExpended: any = true;
+
     constructor(
         private mantisImportLineService: MantisImportLineService,
         private parseLinks: JhiParseLinks,
@@ -81,6 +83,7 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
     }
 
     addCriteria() {
+      this.filterBoxExpended = true;
       const control = <FormArray>this.filterForm.controls['filterRows'];
       control.push(this.initFilterRows());
     }

@@ -19,6 +19,7 @@ import com.dirks.cool.repository.MantisImportLineRepository;
 import com.dirks.cool.service.dto.MantisImportLineCriteria;
 
 import com.dirks.cool.service.dto.MantisImportLineDTO;
+import com.dirks.cool.service.dto.MantisStatusDTO;
 import com.dirks.cool.service.mapper.MantisImportLineMapper;
 
 /**
@@ -35,12 +36,15 @@ public class MantisImportLineQueryService extends QueryService<MantisImportLine>
 
 
     private final MantisImportLineRepository mantisImportLineRepository;
+    
+    private final MantisStatusService mantisStatusService;
 
     private final MantisImportLineMapper mantisImportLineMapper;
 
-    public MantisImportLineQueryService(MantisImportLineRepository mantisImportLineRepository, MantisImportLineMapper mantisImportLineMapper) {
+    public MantisImportLineQueryService(MantisImportLineRepository mantisImportLineRepository, MantisImportLineMapper mantisImportLineMapper, MantisStatusService mantisStatusService) {
         this.mantisImportLineRepository = mantisImportLineRepository;
         this.mantisImportLineMapper = mantisImportLineMapper;
+        this.mantisStatusService = mantisStatusService;
     }
 
     /**
@@ -66,7 +70,12 @@ public class MantisImportLineQueryService extends QueryService<MantisImportLine>
         log.debug("find by criteria : {}, page: {}", criteria, page);
         final Specifications<MantisImportLine> specification = createSpecification(criteria);
         final Page<MantisImportLine> result = mantisImportLineRepository.findAll(specification, page);
-        return result.map(mantisImportLineMapper::toDto);
+        Page<MantisImportLineDTO> pages = result.map(mantisImportLineMapper::toDto);
+        for(int i = 0; i < pages.getNumberOfElements(); i++) {
+        	MantisStatusDTO mantisStatus = mantisStatusService.findLastOneForMantis(pages.getContent().get(i).getMantisId());
+        	pages.getContent().get(i).setMantisStatus(mantisStatus);
+        }
+        return pages;
     }
 
     /**

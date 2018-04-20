@@ -4,6 +4,8 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { HttpResponse } from '@angular/common/http';
 import { MantisConsumption } from './mantis-consumption.model';
 import { MantisConsumptionService } from './mantis-consumption.service';
+import { Mantis } from '../mantis/mantis.model';
+import { MantisService } from '../mantis/mantis.service';
 
 @Injectable()
 export class MantisConsumptionPopupService {
@@ -12,19 +14,31 @@ export class MantisConsumptionPopupService {
     constructor(
         private modalService: NgbModal,
         private router: Router,
+        private mantisService: MantisService,
         private mantisConsumptionService: MantisConsumptionService
 
     ) {
         this.ngbModalRef = null;
     }
 
-    open(component: Component, id?: number | any): Promise<NgbModalRef> {
+    open(component: Component, id?: number | any, idMantis?: number | any): Promise<NgbModalRef> {
         return new Promise<NgbModalRef>((resolve, reject) => {
             const isOpen = this.ngbModalRef !== null;
             if (isOpen) {
                 resolve(this.ngbModalRef);
             }
 
+          if (idMantis) {
+             this.mantisService.find(idMantis)
+                    .subscribe((mantisResponse: HttpResponse<Mantis>) => {
+                        const mantis: Mantis = mantisResponse.body;
+                        const mantisConsumption = new MantisConsumption();
+                        mantisConsumption.mantisId = idMantis;
+                        mantisConsumption.mantis = mantis;
+                        this.ngbModalRef = this.mantisConsumptionModalRef(component, mantisConsumption);
+                        resolve(this.ngbModalRef);
+                    });
+          }else{
             if (id) {
                 this.mantisConsumptionService.find(id)
                     .subscribe((mantisConsumptionResponse: HttpResponse<MantisConsumption>) => {
@@ -46,6 +60,7 @@ export class MantisConsumptionPopupService {
                     resolve(this.ngbModalRef);
                 }, 0);
             }
+          }
         });
     }
 

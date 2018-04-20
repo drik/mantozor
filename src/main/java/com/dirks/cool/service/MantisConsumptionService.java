@@ -1,8 +1,14 @@
 package com.dirks.cool.service;
 
+import com.dirks.cool.domain.MantisConsumption;
 import com.dirks.cool.service.dto.MantisConsumptionDTO;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 /**
  * Service Interface for managing MantisConsumption.
@@ -39,4 +45,28 @@ public interface MantisConsumptionService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    /**
+     * Find all consumption for a mantis.
+     * 
+     * @param mantisId
+     * @return
+     */
+    List<MantisConsumption> findByMantisId(Long mantisId);
+    
+    /**
+     * calculateTotalConsumptionConsumed.
+     * 
+     * @param mantisId
+     * @return
+     */
+    Double calculateTotalConsumptionConsumed(@Param("mantisId") Long mantisId);
+    
+    /**
+     * calculateTotalConsumptionToBill.
+     * 
+     * @param mantisId
+     * @return
+     */
+    Double calculateTotalConsumptionToBill(@Param("mantisId") Long mantisId);
 }

@@ -6,6 +6,9 @@ import com.dirks.cool.domain.MantisConsumption;
 import com.dirks.cool.repository.MantisConsumptionRepository;
 import com.dirks.cool.service.dto.MantisConsumptionDTO;
 import com.dirks.cool.service.mapper.MantisConsumptionMapper;
+
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -88,4 +91,22 @@ public class MantisConsumptionServiceImpl implements MantisConsumptionService {
         log.debug("Request to delete MantisConsumption : {}", id);
         mantisConsumptionRepository.delete(id);
     }
+
+	@Override
+	public List<MantisConsumption> findByMantisId(Long mantisId) {
+		log.debug("Request to get all MantisConsumption :  for a mantis {}", mantisId);
+		return mantisConsumptionRepository.findByMantisId(mantisId);
+	}
+
+	@Override
+	public Double calculateTotalConsumptionConsumed(Long mantisId) {
+		log.debug("Request to calculate Total Consumption Consumed :  for a mantis {}", mantisId);
+		return mantisConsumptionRepository.calculateTotalConsumptionConsumed(mantisId);
+	}
+
+	@Override
+	public Double calculateTotalConsumptionToBill(Long mantisId) {
+		log.debug("Request to calculate Total Consumption to bill :  for a mantis {}", mantisId);
+		return mantisConsumptionRepository.calculateTotalConsumptionToBill(mantisId);
+	}
 }

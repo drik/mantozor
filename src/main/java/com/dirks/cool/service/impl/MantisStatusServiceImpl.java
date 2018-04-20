@@ -1,11 +1,15 @@
 package com.dirks.cool.service.impl;
 
+import com.dirks.cool.service.MantisService;
 import com.dirks.cool.service.MantisStatusService;
 import com.dirks.cool.service.UserService;
+import com.dirks.cool.domain.Mantis;
 import com.dirks.cool.domain.MantisStatus;
 import com.dirks.cool.domain.Status;
+import com.dirks.cool.repository.MantisRepository;
 import com.dirks.cool.repository.MantisStatusRepository;
 import com.dirks.cool.repository.StatusRepository;
+import com.dirks.cool.service.dto.MantisDTO;
 import com.dirks.cool.service.dto.MantisStatusDTO;
 import com.dirks.cool.service.mapper.MantisStatusMapper;
 
@@ -34,12 +38,15 @@ public class MantisStatusServiceImpl implements MantisStatusService {
     
     private final UserService userService;
 
+    private final MantisRepository mantisRepository;
+    
     private final MantisStatusMapper mantisStatusMapper;
 
-    public MantisStatusServiceImpl(MantisStatusRepository mantisStatusRepository, MantisStatusMapper mantisStatusMapper, UserService userService, StatusRepository statusRepository) {
+    public MantisStatusServiceImpl(MantisStatusRepository mantisStatusRepository, MantisStatusMapper mantisStatusMapper, UserService userService, StatusRepository statusRepository, MantisRepository mantisRepository) {
         this.mantisStatusRepository = mantisStatusRepository;
         this.mantisStatusMapper = mantisStatusMapper;
         this.userService = userService;
+        this.mantisRepository = mantisRepository;
         this.statusRepository = statusRepository;
     }
 
@@ -53,9 +60,10 @@ public class MantisStatusServiceImpl implements MantisStatusService {
     public MantisStatusDTO save(MantisStatusDTO mantisStatusDTO) {
         log.debug("Request to save MantisStatus : {}", mantisStatusDTO);
         MantisStatus mantisStatus = mantisStatusMapper.toEntity(mantisStatusDTO);
-        if(mantisStatus.getStatus() == null) {
+        if(mantisStatusDTO.getStatusId() == null) {
         	throw new RuntimeException("Status must be filled in");
         }
+        mantisStatus.setStatus(new Status(mantisStatusDTO.getStatusId()));
         mantisStatus.setComments(mantisStatusDTO.getComments());
         Status selectedStatus = statusRepository.findOne(mantisStatus.getStatus().getId());
         if(selectedStatus.isMandatoryApprover() && mantisStatus.getApprover() == null) {
@@ -63,6 +71,11 @@ public class MantisStatusServiceImpl implements MantisStatusService {
         }
         mantisStatus.setUser(userService.getUserWithAuthorities().get());
         mantisStatus = mantisStatusRepository.save(mantisStatus);
+        
+        Mantis mantis = mantisRepository.findOne(mantisStatusDTO.getMantisId());
+        mantis.setStatus(mantisStatus.getStatus());
+        mantisRepository.save(mantis);
+        
         return mantisStatusMapper.toDto(mantisStatus);
     }
 

@@ -5,6 +5,9 @@ import com.dirks.cool.domain.Status;
 import com.dirks.cool.repository.StatusRepository;
 import com.dirks.cool.service.dto.StatusDTO;
 import com.dirks.cool.service.mapper.StatusMapper;
+
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -82,5 +85,10 @@ public class StatusServiceImpl implements StatusService {
     public void delete(Long id) {
         log.debug("Request to delete Status : {}", id);
         statusRepository.delete(id);
+    }
+    
+    public List<StatusDTO> findAll() {
+    	log.debug("Request to get all Statuses");        
+        return statusMapper.toDto(statusRepository.findAll());
     }
 }

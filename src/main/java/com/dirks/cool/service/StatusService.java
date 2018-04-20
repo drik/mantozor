@@ -1,6 +1,9 @@
 package com.dirks.cool.service;
 
 import com.dirks.cool.service.dto.StatusDTO;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -39,4 +42,11 @@ public interface StatusService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    /**
+     * Find all;
+     * 
+     * @return
+     */
+    List<StatusDTO> findAll();
 }

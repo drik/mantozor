@@ -34,6 +34,14 @@
                 <constraints nullable="true" />
             </column>
             
+            <column name="state_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            
+            <column name="status_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            
             <column name="total_charge" type="double">
                 <constraints nullable="true" />
             </column>

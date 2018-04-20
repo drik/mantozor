@@ -102,12 +102,17 @@ export class MantisConsumptionPopupComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.routeSub = this.route.params.subscribe((params) => {
-            if ( params['id'] ) {
+          if (params['idMantis']) {
                 this.mantisConsumptionPopupService
-                    .open(MantisConsumptionDialogComponent as Component, params['id']);
+                    .open(MantisConsumptionDialogComponent as Component, null, params['idMantis']);
             } else {
-                this.mantisConsumptionPopupService
-                    .open(MantisConsumptionDialogComponent as Component);
+              if ( params['id'] ) {
+                  this.mantisConsumptionPopupService
+                      .open(MantisConsumptionDialogComponent as Component, params['id']);
+              } else {
+                  this.mantisConsumptionPopupService
+                      .open(MantisConsumptionDialogComponent as Component);
+              }
             }
         });
     }

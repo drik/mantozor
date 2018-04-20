@@ -1,6 +1,7 @@
 package com.dirks.cool.service.dto;
 
 
+import javax.persistence.Column;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -14,6 +15,12 @@ public class StatusDTO implements Serializable {
 
     @NotNull
     private String name;
+    
+    private boolean mandatoryApprover = false;
+    
+    private String statusColor;
+
+    private String icon;
 
     public Long getId() {
         return id;
@@ -31,7 +38,31 @@ public class StatusDTO implements Serializable {
         this.name = name;
     }
 
-    @Override
+    public boolean isMandatoryApprover() {
+		return mandatoryApprover;
+	}
+
+	public void setMandatoryApprover(boolean mandatoryApprover) {
+		this.mandatoryApprover = mandatoryApprover;
+	}
+
+	public String getStatusColor() {
+		return statusColor;
+	}
+
+	public void setStatusColor(String statusColor) {
+		this.statusColor = statusColor;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

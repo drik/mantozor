@@ -37,10 +37,19 @@ public class Mantis implements Serializable {
     
     @Transient
     private Double chargeAlreadyConsumed;
+    
+    @Transient
+    private Double remainingCharge;
 
     @ManyToOne
     private Project project;
 
+    @ManyToOne
+    private State state;
+
+    @ManyToOne
+    private Status status;
+    
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -103,6 +112,30 @@ public class Mantis implements Serializable {
 
 	public void setChargeAlreadyConsumed(Double chargeAlreadyConsumed) {
 		this.chargeAlreadyConsumed = chargeAlreadyConsumed;
+	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public Double getRemainingCharge() {
+		return remainingCharge;
+	}
+
+	public void setRemainingCharge(Double remainingCharge) {
+		this.remainingCharge = remainingCharge;
+	}
+
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
 	}
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove

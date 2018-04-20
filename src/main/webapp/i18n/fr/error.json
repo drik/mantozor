@@ -9,6 +9,7 @@
         },
         "concurrencyFailure": "Un autre utilisateur a modifié ces données en même temps que vous. Vos changements n'ont pas été sauvegardés.",
         "validation": "Erreur de validation côté serveur.",
-        "Approver needed for this status": "Ce statut a besoin d'un approbateur."
+        "Approver needed for this status": "Ce statut a besoin d'un approbateur.",
+        "Status must be filled in": "Le statut doit �tre s�lectionn�."
     }
 }

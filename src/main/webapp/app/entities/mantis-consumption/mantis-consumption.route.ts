@@ -49,6 +49,16 @@ export const mantisConsumptionRoute: Routes = [
 
 export const mantisConsumptionPopupRoute: Routes = [
     {
+        path: 'mantis-consumption-new/:idMantis',
+        component: MantisConsumptionPopupComponent,
+        data: {
+            authorities: ['ROLE_USER'],
+            pageTitle: 'mantozorApp.mantisConsumption.home.title'
+        },
+        canActivate: [UserRouteAccessService],
+        outlet: 'popup'
+    },
+    {
         path: 'mantis-consumption-new',
         component: MantisConsumptionPopupComponent,
         data: {

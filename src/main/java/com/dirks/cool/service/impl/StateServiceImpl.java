@@ -4,7 +4,11 @@ import com.dirks.cool.service.StateService;
 import com.dirks.cool.domain.State;
 import com.dirks.cool.repository.StateRepository;
 import com.dirks.cool.service.dto.StateDTO;
+import com.dirks.cool.service.dto.StatusDTO;
 import com.dirks.cool.service.mapper.StateMapper;
+
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -83,4 +87,14 @@ public class StateServiceImpl implements StateService {
         log.debug("Request to delete State : {}", id);
         stateRepository.delete(id);
     }
+
+    /**
+     * 
+     */
+	@Override
+	public List<StateDTO> findAll() {
+		log.debug("Request to get all Statuses");        
+        return stateMapper.toDto(stateRepository.findAll());
+	}
+
 }

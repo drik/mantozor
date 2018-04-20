@@ -8,14 +8,14 @@
 			<div class="box-header with-border">
 				<h3 class="box-title"><i class="fa fa-filter"></i>Filter</h3>
 	
-				<!--div class="box-tools pull-right">
+				<div class="box-tools pull-right" (click)="filterBoxExpended = !filterBoxExpended">
 					<button type="button" class="btn btn-box-tool"
 						data-widget="collapse">
 						<i class="fa fa-minus"></i>
 					</button>
-				</div-->
+				</div>
 			</div>
-			<div class="box-body" style="" >
+			<div class="box-body" style="" *ngIf="filterBoxExpended == true">
 				<div class="row">
 					<div class="col-sm-4 col-xs-6">
 						<label class="form-control-label control-label" for="mantisImport"
@@ -146,7 +146,12 @@
 					<!--td>{{mantisImportLine.stateId}}</td-->
 					<td><a
 						[routerLink]="['../mantis-import-line', mantisImportLine.id ]">{{mantisImportLine.mantisNumber}}</a></td>
-					<td><span [class]="getStatusClass(mantisImportLine.mantisStatus.status.statusColor)"><i [class]="mantisImportLine.mantisStatus.status.icon"></i>{{mantisImportLine.mantisStatus.status.name}}</span></td>
+					<td>
+						<span [class]="getStatusClass(mantisImportLine.mantisStatus?.status?.statusColor)">
+							<i [class]="'fa '+mantisImportLine.mantisStatus?.status?.icon"></i> 
+							{{mantisImportLine.mantisStatus?.status?.name}}
+						</span>
+					</td>
 					<!--td>{{mantisImportLine.project}}</td>
                 <td>{{mantisImportLine.updateDate | date:'mediumDate'}}</td>
                 <td>{{mantisImportLine.category}}</td>
@@ -202,7 +207,7 @@
 									class="d-none d-md-inline" jhiTranslate="mantozorApp.mantisImportLine.status">Edit</span>
 							</button>
 							<button type="submit"
-								[routerLink]="['/', { outlets: { popup: ['mantis-consumption-new'] } }]"
+								[routerLink]="['/', { outlets: { popup: 'mantis-consumption-new/' + mantisImportLine.mantisId  } }]"
 								replaceUrl="true" queryParamsHandling="merge"
 								class="btn btn-primary btn-sm">
 								<span class="fa fa-clock-o"></span> <span

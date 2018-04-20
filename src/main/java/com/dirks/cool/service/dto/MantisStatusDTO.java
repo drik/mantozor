@@ -27,6 +27,8 @@ public class MantisStatusDTO implements Serializable {
     private Long approverId;
     
     private String comments;
+    
+    private StatusDTO status;
 
     public Long getId() {
         return id;
@@ -82,6 +84,14 @@ public class MantisStatusDTO implements Serializable {
 
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+	public StatusDTO getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusDTO status) {
+		this.status = status;
 	}
 
 	@Override

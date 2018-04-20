@@ -5,6 +5,9 @@ import java.time.LocalDate;
 
 import javax.persistence.Transient;
 import javax.validation.constraints.*;
+
+import com.dirks.cool.domain.State;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -25,9 +28,15 @@ public class MantisDTO implements Serializable {
 
     private Long projectId;
     
+    private Long stateId;
+    
     private Double totalCharge;
     
     private Double chargeAlreadyConsumed;
+    
+    private Double remainingCharge;
+    
+    private State state;
 
     public Long getId() {
         return id;
@@ -75,6 +84,30 @@ public class MantisDTO implements Serializable {
 
 	public void setChargeAlreadyConsumed(Double chargeAlreadyConsumed) {
 		this.chargeAlreadyConsumed = chargeAlreadyConsumed;
+	}
+
+	public Double getRemainingCharge() {
+		return remainingCharge;
+	}
+
+	public void setRemainingCharge(Double remainingCharge) {
+		this.remainingCharge = remainingCharge;
+	}
+
+	public State getState() {
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public Long getStateId() {
+		return stateId;
+	}
+
+	public void setStateId(Long stateId) {
+		this.stateId = stateId;
 	}
 
 	@Override

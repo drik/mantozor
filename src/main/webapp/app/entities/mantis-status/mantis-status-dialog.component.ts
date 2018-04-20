@@ -130,14 +130,14 @@ export class MantisStatusPopupComponent implements OnInit, OnDestroy {
                 this.mantisStatusPopupService
                     .open(MantisStatusDialogComponent as Component, null, params['idMantis']);
             } else {
-            if ( params['id'] ) {
-                this.mantisStatusPopupService
-                    .open(MantisStatusDialogComponent as Component, params['id']);
-            } else {
-                this.mantisStatusPopupService
-                    .open(MantisStatusDialogComponent as Component);
+              if ( params['id'] ) {
+                  this.mantisStatusPopupService
+                      .open(MantisStatusDialogComponent as Component, params['id']);
+              } else {
+                  this.mantisStatusPopupService
+                      .open(MantisStatusDialogComponent as Component);
+              }
             }
-          }
         });
     }
 

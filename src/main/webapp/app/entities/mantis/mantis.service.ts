@@ -14,6 +14,7 @@ export type EntityResponseType = HttpResponse<Mantis>;
 export class MantisService {
 
     private resourceUrl =  SERVER_API_URL + 'api/mantis';
+    private resourceUrlStats =  SERVER_API_URL + 'api/mantis-stats';
 
     constructor(private http: HttpClient, private dateUtils: JhiDateUtils) { }
 
@@ -76,5 +77,15 @@ export class MantisService {
         copy.submissionDate = this.dateUtils
             .convertLocalDateToServer(mantis.submissionDate);
         return copy;
+    }
+
+    getStatsForStatus(): Observable<HttpResponse<any[]>> {
+        return this.http.get<any[]>(this.resourceUrlStats + '-status', {observe: 'response' })
+            .map((res: HttpResponse<any[]>) => this.convertArrayResponse(res));
+    }
+
+    getStatsForStatusAndState(): Observable<HttpResponse<any[]>> {
+        return this.http.get<any[]>(this.resourceUrlStats + '-status-state', {observe: 'response' })
+            .map((res: HttpResponse<any[]>) => this.convertArrayResponse(res));
     }
 }

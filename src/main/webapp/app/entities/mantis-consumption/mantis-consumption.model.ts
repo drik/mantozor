@@ -8,6 +8,7 @@ export class MantisConsumption implements BaseEntity {
         public toBill?: number,
         public userId?: number,
         public mantisId?: number,
+        public mantis?: any,
     ) {
     }
 }

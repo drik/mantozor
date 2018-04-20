@@ -1,6 +1,11 @@
 package com.dirks.cool.service;
 
 import com.dirks.cool.service.dto.MantisDTO;
+import com.dirks.cool.service.dto.StatusStateStatsDTO;
+import com.dirks.cool.service.dto.StatusStatsDTO;
+
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -39,4 +44,18 @@ public interface MantisService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    /**
+     * Get stats for status.
+     * 
+     * @return
+     */
+    List<StatusStatsDTO> getStatsForStatus();
+    
+    /**
+     * Get stats for status and state.
+     * 
+     * @return
+     */
+    List<StatusStateStatsDTO> getStatsForStatusAndState();
 }
