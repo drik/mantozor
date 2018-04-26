@@ -5,7 +5,7 @@
             "home": {
                 "title": "Mantis Consumptions",
                 "createLabel": "Create a new Mantis Consumption",
-                "createOrEditLabel": "Create or edit a Mantis Consumption"
+                "createOrEditLabel": "Enter a consumption"
             },
             "created": "A new Mantis Consumption is created with identifier {{ param }}",
             "updated": "A Mantis Consumption is updated with identifier {{ param }}",

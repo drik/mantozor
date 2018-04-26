@@ -130,4 +130,18 @@ public class ReferentResource {
         referentService.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
     }
+    
+    /**
+     * GET  /referents/:id : get the "id" referent.
+     *
+     * @param id the id of the referentDTO to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the referentDTO, or with status 404 (Not Found)
+     */
+    @GetMapping("/referents/current-user")
+    @Timed
+    public ResponseEntity<ReferentDTO> getReferentRelatedToCurrentUser() {
+        log.debug("REST request to getReferentRelatedToCurrentUser");
+        ReferentDTO referentDTO = referentService.findByUserIsCurrentUser();
+        return ResponseUtil.wrapOrNotFound(Optional.ofNullable(referentDTO));
+    }
 }

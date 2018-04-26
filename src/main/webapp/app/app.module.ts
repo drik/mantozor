@@ -35,6 +35,8 @@ import {
     ErrorComponent
 } from './layouts';
 
+import { NgSelectModule } from '@ng-select/ng-select';
+
 @NgModule({
     imports: [
         BrowserModule,
@@ -51,7 +53,8 @@ import {
         NgProgressRouterModule,
         CommonModule,
         FormsModule,
-        ReactiveFormsModule,        
+        ReactiveFormsModule,
+        NgSelectModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [

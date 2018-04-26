@@ -4,11 +4,12 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 
 import { Observable } from 'rxjs/Observable';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 
 import { Referent } from './referent.model';
 import { ReferentPopupService } from './referent-popup.service';
 import { ReferentService } from './referent.service';
+import { User, UserService } from '../../shared';
 
 @Component({
     selector: 'jhi-referent-dialog',
@@ -19,15 +20,21 @@ export class ReferentDialogComponent implements OnInit {
     referent: Referent;
     isSaving: boolean;
 
+    users: User[];
+
     constructor(
         public activeModal: NgbActiveModal,
         private referentService: ReferentService,
-        private eventManager: JhiEventManager
+        private jhiAlertService: JhiAlertService,
+        private eventManager: JhiEventManager,
+        private userService: UserService,
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
+      this.userService.query()
+            .subscribe((res: HttpResponse<User[]>) => { this.users = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
     }
 
     clear() {
@@ -58,6 +65,10 @@ export class ReferentDialogComponent implements OnInit {
 
     private onSaveError() {
         this.isSaving = false;
+    }
+
+    private onError(error: any) {
+        this.jhiAlertService.error(error.message, null, null);
     }
 }
 

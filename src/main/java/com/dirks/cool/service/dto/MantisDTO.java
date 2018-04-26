@@ -28,6 +28,8 @@ public class MantisDTO implements Serializable {
 
     private Long projectId;
     
+    private Long referentId;
+    
     private Long stateId;
     
     private Double totalCharge;
@@ -36,7 +38,11 @@ public class MantisDTO implements Serializable {
     
     private Double remainingCharge;
     
-    private State state;
+    private StateDTO state;
+    
+    private ProjectDTO project;
+    
+    private ReferentDTO referent;
 
     public Long getId() {
         return id;
@@ -94,11 +100,11 @@ public class MantisDTO implements Serializable {
 		this.remainingCharge = remainingCharge;
 	}
 
-	public State getState() {
+	public StateDTO getState() {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(StateDTO state) {
 		this.state = state;
 	}
 
@@ -108,6 +114,30 @@ public class MantisDTO implements Serializable {
 
 	public void setStateId(Long stateId) {
 		this.stateId = stateId;
+	}
+
+	public ProjectDTO getProject() {
+		return project;
+	}
+
+	public void setProject(ProjectDTO project) {
+		this.project = project;
+	}
+
+	public Long getReferentId() {
+		return referentId;
+	}
+
+	public void setReferentId(Long referentId) {
+		this.referentId = referentId;
+	}
+
+	public ReferentDTO getReferent() {
+		return referent;
+	}
+
+	public void setReferent(ReferentDTO referent) {
+		this.referent = referent;
 	}
 
 	@Override

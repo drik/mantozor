@@ -71,4 +71,9 @@ export class ReferentService {
         const copy: Referent = Object.assign({}, referent);
         return copy;
     }
+
+    findForCurrentUser(): Observable<EntityResponseType> {
+        return this.http.get<Referent>(`${this.resourceUrl}/current-user`, { observe: 'response'})
+            .map((res: EntityResponseType) => this.convertResponse(res));
+    }
 }

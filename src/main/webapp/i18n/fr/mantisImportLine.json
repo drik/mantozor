@@ -22,7 +22,7 @@
             "validationStatus": "Status",
             "project": "Projet",
             "updateDate": "Date modification",
-            "category": "CatValidationgorie",
+            "category": "Catégorie",
             "gravity": "Gravité",
             "augeoReference": "Référence Augeo",
             "technicalReference": "Référent technique",
@@ -35,20 +35,22 @@
             "estimatedDSTDelivreryDate": "Date de livraison estimée du DST",
             "recipeDate": "Date recette",
             "productionDate": "Date production",
-            "devStandardsComplianceScore": "Dev Standards Compliance Score",
-            "devStandardsComplianceScoreComment": "Dev Standards Compliance Score Comment",
-            "expressedNeedsComplianceScore": "Expressed Needs Compliance Score",
-            "expressedNeedsComplianceScoreComment": "Expressed Needs Compliance Score Comment",
-            "overallDeadlineRespectScore": "Overall Deadline Respect Score",
-            "overallDeadlineRespectScoreComment": "Overall Deadline Respect Score Comment",
-            "state": "State",
-            "mantisImport": "Mantis Import",
+            "devStandardsComplianceScore": "Score conformité standards dev.",
+            "devStandardsComplianceScoreComment": "Commentaires score conformité standards dev.",
+            "expressedNeedsComplianceScore": "Score conformité aux besoins exprimés",
+            "expressedNeedsComplianceScoreComment": "Commentaires score conformité aux besoins exprimés",
+            "overallDeadlineRespectScore": "Score conformité au respect global des délais",
+            "overallDeadlineRespectScoreComment": "Commentaires score conformité au respect global des délais",
+            "state": "Etat",
+            "mantisImport": "Importation",
             "mantis": "Mantis",
             
-            "statusChange": "a changée statut à {{ status }}",
+            "statusChange": "a changé le statut à '{{ status }}'",
             "consumptionEntered": "a saisi {{ consumption }} jour(s) de consommation",
             "statusDetails": "Commentaires sur le changement de statut : {{statusDetails}}",
-            "consumptionDetails": "Détails sur la consommation : consommé {{consumptionDetails1}} jour(s), à facturer = {{consumptionDetails2}} jour(s)"
+            "consumptionDetails": "Détails sur la consommation : consommé {{consumptionDetails1}} jour(s), à facturer = {{consumptionDetails2}} jour(s)",
+            
+            "onlyUserMantis": "Seules mes mantis"
         }
     }
 }

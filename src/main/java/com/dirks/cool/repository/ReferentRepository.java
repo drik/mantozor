@@ -1,7 +1,10 @@
 package com.dirks.cool.repository;
 
+import com.dirks.cool.domain.MantisStatus;
 import com.dirks.cool.domain.Referent;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 import org.springframework.data.jpa.repository.*;
 
@@ -13,4 +16,7 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface ReferentRepository extends JpaRepository<Referent, Long>, JpaSpecificationExecutor<Referent> {
 	Referent findByName(String name);
+
+    @Query("select referent from Referent referent where referent.user.login = ?#{principal.username}")
+    Referent findByUserIsCurrentUser();
 }

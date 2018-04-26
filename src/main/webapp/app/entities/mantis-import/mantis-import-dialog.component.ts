@@ -73,6 +73,7 @@ export class MantisImportDialogComponent implements OnInit {
 
     private onSaveSuccess(result: MantisImport) {
         this.eventManager.broadcast({ name: 'mantisImportListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'mantisImportLineListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }

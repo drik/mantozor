@@ -14,9 +14,10 @@
                 "question": "Etes-vous certain de vouloir supprimer le Referent {{ id }} ?"
             },
             "detail": {
-                "title": "Referent"
+                "title": "Référent"
             },
-            "name": "Name"
+            "name": "Nom complet",
+            "user": "Utilisateur associé"
         }
     }
 }

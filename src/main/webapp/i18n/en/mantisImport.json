@@ -4,8 +4,8 @@
         "mantisImport" : {
             "home": {
                 "title": "Mantis Imports",
-                "createLabel": "Create a new Mantis Import",
-                "createOrEditLabel": "Create or edit a Mantis Import"
+                "createLabel": "Make an import",
+                "createOrEditLabel": "Make an import"
             },
             "created": "A new Mantis Import is created with identifier {{ param }}",
             "updated": "A Mantis Import is updated with identifier {{ param }}",

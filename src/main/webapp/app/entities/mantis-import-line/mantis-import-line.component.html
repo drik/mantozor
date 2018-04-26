@@ -1,6 +1,13 @@
 <div>
 	<h2>
 		<span jhiTranslate="mantozorApp.mantisImportLine.home.title">Mantiss</span>
+		<button class="btn btn-primary float-right jh-create-entity create-mantis-import" 
+			[routerLink]="['/', { outlets: { popup: ['mantis-import-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span  jhiTranslate="mantozorApp.mantisImport.home.createLabel">
+            Create new Mantis Import
+            </span>
+        </button>
 	</h2>
 	<jhi-alert></jhi-alert>
 	<form (ngSubmit)="loadAll()" [formGroup]="filterForm">
@@ -28,14 +35,25 @@
 								*ngFor="let importOption of mantisImports; let i=index; trackBy: trackMantisImportById" >{{importOption.name}} ({{importOption.importDate | date:'mediumDate'}})</option>
 						</select>
 					</div>
+					<div class="col-sm-4 col-xs-6" style="padding-top: 20px;" *ngIf="referent">
+						<label class="form-control-label control-label" for="userMantis"
+							jhiTranslate="mantozorApp.mantisImportLine.onlyUserMantis"
+							style="padding-top: 10px; padding-left: 10px;"> 
+							Only my mantis </label> 
+						<input formControlName="filterReferentMantisOnly" type="checkbox" style="width: 40px; height: 50px; float: left;"
+								class="form-control ng-untouched ng-pristine ng-valid" />
+								
+					</div>
+					
 				</div>
 				<div formArrayName="filterRows">
 					<div class="row" *ngFor="let filterrow of filterForm.controls.filterRows.controls; let i=index"  [formGroupName]="i">
 						<div class="col-sm-4 col-xs-6">
 							<label class="form-control-label control-label"
-								for="formly_6_input_investmentDate_1"> Field concerned </label> 
-							<select formControlName="concernedField"
+								[attr.for]="concernedField"> Field concerned </label> 
+							<select formControlName="concernedField" 
 								(ngModelChange)="fieldChanged($event, i)"
+								[id]="concernedField"
 								class="form-control ng-pristine ng-valid ng-touched">
 								<option [ngValue]="null"></option>
 								<option [ngValue]="fieldOption"
@@ -45,9 +63,10 @@
 				
 						<div class="col-sm-3 col-xs-6">
 							<label class="form-control-label control-label"
-								for="formly_6_input_investmentDate_1"> Comparator </label> 
+								[attr.for]="comparator"> Comparator </label> 
 							<select formControlName="comparator"
 								(ngModelChange)="comparatorChanged($event)"
+								[id]="comparator"
 								class="form-control ng-pristine ng-valid ng-touched" >
 								<option [ngValue]="null"></option>
 								<option [ngValue]="comparatorOption"
@@ -57,8 +76,9 @@
 				
 						<div class="col-sm-4">
 							<label class="form-control-label control-label"
-								for="formly_6_input_investmentDate_1"> Criteria value </label> 
+								[attr.for]="criteriaValue"> Criteria value </label> 
 							<input formControlName="criteriaValue"
+								[id]="criteriaValue"
 								class="form-control ng-untouched ng-pristine ng-valid" [type]="filterForm.value.filterRows[i].concernedField.category"  /> 
 						</div>
 				
@@ -66,6 +86,34 @@
 							<button *ngIf="filterForm.controls.filterRows.controls.length > 1" class="btn btn-danger" type="button" (click)="removeCriteria(i)">
 								<span class="fa fa-times"></span>
 							</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-3 col-xs-6">
+							<label class="form-control-label control-label"
+								[attr.for]="stateId"> Field concerned </label> 
+							<!--select formControlName="concernedField" 
+								(ngModelChange)="fieldChanged($event, i)"
+								[id]="concernedField"
+								class="form-control ng-pristine ng-valid ng-touched">
+								<option [ngValue]="null"></option>
+								<option [ngValue]="fieldOption"
+									*ngFor="let fieldOption of filterFields; trackBy: trackFieldById" jhiTranslate="mantozorApp.mantisImportLine.{{fieldOption.label}}"></option>
+							</select-->
+							<!--select2 [data]="exampleData"
+						         [options]="options"
+						         [width]="500"
+								 [value]="value"
+								 (onSelect)="onSelect2($event)">
+							</select2-->
+							<ng-select [items]="states"
+					                   bindLabel="name"
+					                   bindValue="id"
+					                   [multiple]="true"
+					                   placeholder="Select states"
+					                   [(ngModel)]="value"
+					                   [ngModelOptions]="{standalone: true}">
+					        </ng-select>
 						</div>
 					</div>
 				</div>
@@ -132,9 +180,9 @@
 					<th jhiSortBy="stateId"><span
 						jhiTranslate="mantozorApp.mantisImportLine.state">State</span> <span
 						class="fa fa-sort"></span></th>
-					<th jhiSortBy="mantisImportId"><span
+					<!--th jhiSortBy="mantisImportId"><span
 						jhiTranslate="mantozorApp.mantisImportLine.mantisImport">Mantis
-							Import</span> <span class="fa fa-sort"></span></th>
+							Import</span> <span class="fa fa-sort"></span></th-->
 					<!--th jhiSortBy="mantisId"><span jhiTranslate="mantozorApp.mantisImportLine.mantis">Mantis</span> <span class="fa fa-sort"></span></th-->
 					<th></th>
 				</tr>
@@ -146,7 +194,7 @@
 					<!--td>{{mantisImportLine.stateId}}</td-->
 					<td><a
 						[routerLink]="['../mantis-import-line', mantisImportLine.id ]">{{mantisImportLine.mantisNumber}}</a></td>
-					<td>
+					<td data-toggle="popover" data-content="Some content inside the popover">
 						<span [class]="getStatusClass(mantisImportLine.mantisStatus?.status?.statusColor)">
 							<i [class]="'fa '+mantisImportLine.mantisStatus?.status?.icon"></i> 
 							{{mantisImportLine.mantisStatus?.status?.name}}
@@ -177,15 +225,15 @@
                 <td>{{mantisImportLine.overallDeadlineRespectScoreComment}}</td-->
 					<td>
 						<div *ngIf="mantisImportLine.stateId">
-							<a [routerLink]="['../state', mantisImportLine.stateId  ]">{{mantisImportLine.stateId}}</a>
+							<a [routerLink]="['../state', mantisImportLine.stateId  ]">{{mantisImportLine.state.name}}</a>
 						</div>
 					</td>
-					<td>
+					<!--td>
 						<div *ngIf="mantisImportLine.mantisImportId">
 							<a
 								[routerLink]="['../mantis-import', mantisImportLine.mantisImportId  ]">{{mantisImportLine.mantisImportId}}</a>
 						</div>
-					</td>
+					</td-->
 					<!--td>
                     <div *ngIf="mantisImportLine.mantisId">
                         <a [routerLink]="['../mantis', mantisImportLine.mantisId  ]" >{{mantisImportLine.mantisId}}</a>

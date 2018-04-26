@@ -5,7 +5,7 @@
             "home": {
                 "title": "MantisStatuses",
                 "createLabel": "Créer un nouveau Mantis Status",
-                "createOrEditLabel": "Créer ou éditer un Mantis Status"
+                "createOrEditLabel": "Changer de statut"
             },
             "created": "Un nouveau Mantis Status a été créé avec l'identifiant {{ param }}",
             "updated": "Le Mantis Status avec l'identifiant {{ param }} a été mis à jour",

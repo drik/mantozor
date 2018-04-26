@@ -28,7 +28,7 @@ public class State implements Serializable {
     private String name;
 
     @Column(name = "state_color")
-    private String statusColor;
+    private String stateColor;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -52,12 +52,12 @@ public class State implements Serializable {
         this.name = name;
     }
 
-    public String getStatusColor() {
-		return statusColor;
+	public String getStateColor() {
+		return stateColor;
 	}
 
-	public void setStatusColor(String statusColor) {
-		this.statusColor = statusColor;
+	public void setStateColor(String stateColor) {
+		this.stateColor = stateColor;
 	}
 	
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove

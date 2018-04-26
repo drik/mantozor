@@ -8,7 +8,9 @@ import { FormArray, FormGroup, FormBuilder } from '@angular/forms';
 
 import { MantisImportLine } from './mantis-import-line.model';
 import { MantisImport, MantisImportService } from '../mantis-import';
+import { Referent, ReferentService } from '../referent';
 import { MantisImportLineService } from './mantis-import-line.service';
+import { State, StateService } from '../state';
 import { ITEMS_PER_PAGE, Principal } from '../../shared';
 
 @Component({
@@ -33,6 +35,8 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
     reverse: any;
     criteria: any;
 
+    referent: Referent;
+
     mantisImports: MantisImport[];
 
     rowModels: any[];
@@ -43,8 +47,13 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
 
     filterBoxExpended: any = true;
 
+    states: State[];
+
+    statesSelected: any[];
+
     constructor(
         private mantisImportLineService: MantisImportLineService,
+        private referentService: ReferentService,
         private parseLinks: JhiParseLinks,
         private jhiAlertService: JhiAlertService,
         private principal: Principal,
@@ -53,6 +62,7 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
         private eventManager: JhiEventManager,
         private formBuilder: FormBuilder,
         private mantisImportService: MantisImportService,
+        private stateService: StateService,
     ) {
 
         this.itemsPerPage = ITEMS_PER_PAGE;
@@ -69,6 +79,7 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
         this.rowModels = [{}];
         this.filterForm = this.formBuilder.group({
           filterMantisImport: [1],
+          filterReferentMantisOnly: [true],
           filterRows: this.formBuilder.array([this.initFilterRows()])
         });
     }
@@ -104,10 +115,17 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
     loadAll() {
         const criteria = [];
 
+        //Gestion critere importation
         if (this.filterForm.value.filterMantisImport !== '') {
           criteria.push({key: 'mantisImportId.equals', value: this.filterForm.value.filterMantisImport});
         }
-
+        //Gestion mantis utilisateur
+        console.log(this.referent);
+        console.log(this.filterForm.value.filterReferentMantisOnly );
+        if(this.referent !== null && this.filterForm.value.filterReferentMantisOnly === true){
+           
+        }
+        //Gestion critere formulaire champs dynamiques
         this.filterForm.value.filterRows.forEach(function(value) {
           console.log(value);
           if (value.concenedField !== null && value.concernedField !== '' &&
@@ -158,11 +176,20 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-      this.mantisImportService.query().subscribe((res: HttpResponse<MantisImport[]>) => {
+        this.mantisImportService.query().subscribe((res: HttpResponse<MantisImport[]>) => {
                 this.mantisImports = res.body;
               },
               (res: HttpErrorResponse) => this.onError(res.message)
           );
+
+        this.referentService.findForCurrentUser().subscribe((res: HttpResponse<Referent>) => {
+                this.referent = res.body;
+              },
+              (res: HttpErrorResponse) => this.onError(res.message)
+          );
+
+      this.stateService.query()
+            .subscribe((res: HttpResponse<State[]>) => { this.states = res.body; }, (res: HttpErrorResponse) => this.onError(res.message));
 
         this.loadAll();
 
@@ -277,4 +304,8 @@ export class MantisImportLineComponent implements OnInit, OnDestroy {
         return 'label bg-olive';
       }
     }
+  
+  onSelect2(event:any){
+    
+  }
 }

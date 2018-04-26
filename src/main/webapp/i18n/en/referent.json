@@ -16,7 +16,8 @@
             "detail": {
                 "title": "Referent"
             },
-            "name": "Name"
+            "name": "Name",
+            "user": "Related user"
         }
     }
 }

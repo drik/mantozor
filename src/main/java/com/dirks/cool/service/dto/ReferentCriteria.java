@@ -29,6 +29,8 @@ public class ReferentCriteria implements Serializable {
     private LongFilter id;
 
     private StringFilter name;
+    
+    private LongFilter userId;
 
     public ReferentCriteria() {
     }
@@ -49,7 +51,15 @@ public class ReferentCriteria implements Serializable {
         this.name = name;
     }
 
-    @Override
+    public LongFilter getUserId() {
+		return userId;
+	}
+
+	public void setUserId(LongFilter userId) {
+		this.userId = userId;
+	}
+
+	@Override
     public String toString() {
         return "ReferentCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +

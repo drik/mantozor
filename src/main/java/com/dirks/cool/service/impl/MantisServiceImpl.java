@@ -207,17 +207,19 @@ public class MantisServiceImpl implements MantisService {
 			if(event.getEventDate().isEqual(curentDate)) {
 				waitingEvents.add(event);
 			}else {
-				
+				timeline.setTimelineDate(curentDate);
 				timeline.setEvents(waitingEvents);
 				timelines.add(timeline);
 				
 				waitingEvents = new ArrayList<>();
+				waitingEvents.add(event);
 				timeline = new TimelineDTO();
 				
 				curentDate = event.getEventDate();
 				timeline.setTimelineDate(curentDate);	
 			}			
 		}
+		timeline.setTimelineDate(curentDate);	
 		timeline.setEvents(waitingEvents);
 		timelines.add(timeline);
 		

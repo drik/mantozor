@@ -13,10 +13,6 @@
                    [(ngModel)]="mantisStatus.id" readonly />
         </div-->
 		<div class="wizard">
-			<!--a class="current">Nouvelle</a>
-			<a class="current">En attente de complément</a>
-			<a>En attente de validation</a>
-			<a>Validé</a-->
 			<a *ngFor="let status of statuses; let i=index;" [class]="status.id <= lastMantisStatus.statusId ? 'current' : ''" [hidden]="((status.id == 5) && (status.id != lastMantisStatus.statusId))">{{status.name}}</a>
 		</div>
 		<div class="form-group" >

@@ -5,7 +5,7 @@
             "home": {
                 "title": "Importation de mantis",
                 "createLabel": "Effectuer une importation",
-                "createOrEditLabel": "Créer ou éditer une importation"
+                "createOrEditLabel": "Effectuer une importation"
             },
             "created": "Une nouvelle importation a été effectuée avec l'identifiant {{ param }}",
             "updated": "L'importation avec l'identifiant {{ param }} a été mise à jour",

@@ -14,6 +14,10 @@ public class ReferentDTO implements Serializable {
 
     @NotNull
     private String name;
+    
+    private Long userId;
+    
+    private UserDTO user;
 
     public Long getId() {
         return id;
@@ -31,7 +35,23 @@ public class ReferentDTO implements Serializable {
         this.name = name;
     }
 
-    @Override
+    public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public UserDTO getUser() {
+		return user;
+	}
+
+	public void setUser(UserDTO user) {
+		this.user = user;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

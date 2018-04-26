@@ -45,6 +45,9 @@ public class Mantis implements Serializable {
     private Project project;
 
     @ManyToOne
+    private Referent referent;
+
+    @ManyToOne
     private State state;
 
     @ManyToOne
@@ -136,6 +139,14 @@ public class Mantis implements Serializable {
 
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public Referent getReferent() {
+		return referent;
+	}
+
+	public void setReferent(Referent referent) {
+		this.referent = referent;
 	}
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove

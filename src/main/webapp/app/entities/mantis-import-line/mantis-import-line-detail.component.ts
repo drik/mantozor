@@ -64,4 +64,20 @@ export class MantisImportLineDetailComponent implements OnInit, OnDestroy {
             (response) => this.load(this.mantisImportLine.id)
         );
     }
+
+    getStatusClass(color: string){
+        if (color === 'red') {
+          return 'label label-danger';
+        } else if (color === 'yellow') {
+          return 'label label-warning';
+        } else if (color === 'green') {
+          return 'label label-success';
+        } else if (color === 'blue') {
+          return 'label label-info';
+        } else if (color === 'orange') {
+          return 'label bg-orange';
+        } else if (color === 'olive') {
+          return 'label bg-olive';
+        }
+      }
 }

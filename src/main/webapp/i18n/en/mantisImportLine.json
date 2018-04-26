@@ -45,10 +45,11 @@
             "mantisImport": "Mantis Import",
             "mantis": "Mantis",
             
-            "statusChange": "changed status to {{ status }}",
+            "statusChange": "changed status to '{{ status }}'",
             "consumptionEntered": "entered {{ consumption }} day(s) of consumption",
             "statusDetails": "Comments on the status change : {{statusDetails}}",
-            "consumptionDetails": "Consumption details : consumed = {{consumptionDetails1}} day(s), to be billed = {{consumptionDetails2}} day(s)"
+            "consumptionDetails": "Consumption details : consumed = {{consumptionDetails1}} day(s), to be billed = {{consumptionDetails2}} day(s)",
+            "onlyUserMantis": "Only my mantis"
        }
     }
 }

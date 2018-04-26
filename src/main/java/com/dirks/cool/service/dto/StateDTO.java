@@ -14,6 +14,8 @@ public class StateDTO implements Serializable {
 
     @NotNull
     private String name;
+    
+    private String stateColor;
 
     public Long getId() {
         return id;
@@ -31,7 +33,15 @@ public class StateDTO implements Serializable {
         this.name = name;
     }
 
-    @Override
+    public String getStateColor() {
+		return stateColor;
+	}
+
+	public void setStateColor(String stateColor) {
+		this.stateColor = stateColor;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

@@ -3,8 +3,10 @@ import { Router } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiLanguageService } from 'ng-jhipster';
 
+import { JhiEventManager } from 'ng-jhipster';
+
 import { ProfileService } from '../profiles/profile.service';
-import { JhiLanguageHelper, Principal, LoginModalService, LoginService } from '../../shared';
+import { Account, JhiLanguageHelper, Principal, LoginModalService, LoginService } from '../../shared';
 
 import { VERSION } from '../../app.constants';
 
@@ -23,9 +25,12 @@ export class NavbarComponent implements OnInit {
     modalRef: NgbModalRef;
     version: string;
 
+    account: Account;
+
     constructor(
         private loginService: LoginService,
         private languageService: JhiLanguageService,
+        private eventManager: JhiEventManager,
         private languageHelper: JhiLanguageHelper,
         private principal: Principal,
         private loginModalService: LoginModalService,
@@ -45,8 +50,20 @@ export class NavbarComponent implements OnInit {
             this.inProduction = profileInfo.inProduction;
             this.swaggerEnabled = profileInfo.swaggerEnabled;
         });
+
+        this.principal.identity().then((account) => {
+            this.account = account;
+        });
+        this.registerAuthenticationSuccess();
     }
 
+    registerAuthenticationSuccess() {
+        this.eventManager.subscribe('authenticationSuccess', (message) => {
+            this.principal.identity().then((account) => {
+                this.account = account;
+            });
+        });
+    }
     changeLanguage(languageKey: string) {
       this.languageService.changeLanguage(languageKey);
     }
@@ -67,6 +84,7 @@ export class NavbarComponent implements OnInit {
         this.collapseNavbar();
         this.loginService.logout();
         this.router.navigate(['']);
+        this.account = null;
     }
 
     toggleNavbar() {

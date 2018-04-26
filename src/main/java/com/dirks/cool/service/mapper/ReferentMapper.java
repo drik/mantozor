@@ -8,9 +8,15 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Referent and its DTO ReferentDTO.
  */
-@Mapper(componentModel = "spring", uses = {})
+@Mapper(componentModel = "spring", uses = {UserMapper.class})
 public interface ReferentMapper extends EntityMapper<ReferentDTO, Referent> {
 
+    @Mapping(source = "user.id", target = "userId")
+	ReferentDTO toDto(Referent referent);
+
+    
+    @Mapping(source = "userId", target = "user")
+    Referent toEntity(ReferentDTO referentDTO);
 
 
     default Referent fromId(Long id) {

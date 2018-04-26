@@ -82,6 +82,7 @@ export class MantisStatusDialogComponent implements OnInit {
 
     private onSaveSuccess(result: MantisStatus) {
         this.eventManager.broadcast({ name: 'mantisStatusListModification', content: 'OK'});
+        this.eventManager.broadcast({ name: 'mantisImportLineListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
     }

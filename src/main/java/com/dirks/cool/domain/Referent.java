@@ -26,6 +26,9 @@ public class Referent implements Serializable {
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
+    
+    @OneToOne
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -48,9 +51,18 @@ public class Referent implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
-    @Override
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

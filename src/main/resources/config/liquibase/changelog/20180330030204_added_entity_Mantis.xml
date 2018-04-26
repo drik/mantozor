@@ -41,6 +41,10 @@
             <column name="status_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+                        
+            <column name="referent_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
             
             <column name="total_charge" type="double">
                 <constraints nullable="true" />

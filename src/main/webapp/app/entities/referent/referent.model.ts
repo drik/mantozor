@@ -4,6 +4,8 @@ export class Referent implements BaseEntity {
     constructor(
         public id?: number,
         public name?: string,
+        public userId?: number,
+        public user?: any,
     ) {
     }
 }

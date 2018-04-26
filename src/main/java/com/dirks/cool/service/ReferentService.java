@@ -1,5 +1,6 @@
 package com.dirks.cool.service;
 
+import com.dirks.cool.domain.Referent;
 import com.dirks.cool.service.dto.ReferentDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,4 +40,11 @@ public interface ReferentService {
      * @param id the id of the entity
      */
     void delete(Long id);
+    
+    /**
+     * Find Referent associeted with current connected user.
+     * 
+     * @return
+     */
+    ReferentDTO findByUserIsCurrentUser();
 }

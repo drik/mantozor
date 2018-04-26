@@ -19,7 +19,11 @@ import java.util.stream.Collectors;
 public class UserMapper {
 
     public UserDTO userToUserDTO(User user) {
+    	if (user == null) {
+            return null;
+        } else {
         return new UserDTO(user);
+        }
     }
 
     public List<UserDTO> usersToUserDTOs(List<User> users) {

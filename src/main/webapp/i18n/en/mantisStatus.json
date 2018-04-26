@@ -5,7 +5,7 @@
             "home": {
                 "title": "Mantis Statuses",
                 "createLabel": "Create a new Mantis Status",
-                "createOrEditLabel": "Create or edit a Mantis Status"
+                "createOrEditLabel": "Change status"
             },
             "created": "A new Mantis Status is created with identifier {{ param }}",
             "updated": "A Mantis Status is updated with identifier {{ param }}",

@@ -3,6 +3,8 @@ import { DatePipe } from '@angular/common';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { NgSelectModule } from '@ng-select/ng-select';
+
 import {
     MantozorSharedLibsModule,
     MantozorSharedCommonModule,
@@ -21,7 +23,7 @@ import {
 @NgModule({
     imports: [
         MantozorSharedLibsModule,
-        MantozorSharedCommonModule
+        MantozorSharedCommonModule,
     ],
     declarations: [
         JhiLoginModalComponent,
@@ -45,7 +47,8 @@ import {
         HasAnyAuthorityDirective,
         DatePipe,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        NgSelectModule
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 

@@ -83,4 +83,12 @@ public class ReferentServiceImpl implements ReferentService {
         log.debug("Request to delete Referent : {}", id);
         referentRepository.delete(id);
     }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public ReferentDTO findByUserIsCurrentUser() {
+    	log.debug("Request to findByUserIsCurrentUser");
+        Referent referent = referentRepository.findByUserIsCurrentUser();
+        return referentMapper.toDto(referent);
+    }
 }

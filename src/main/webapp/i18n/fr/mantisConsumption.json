@@ -5,7 +5,7 @@
             "home": {
                 "title": "Consommations",
                 "createLabel": "Créer une nouvelle Consommation",
-                "createOrEditLabel": "Créer ou éditer une Consommation"
+                "createOrEditLabel": "Saisir une consommation"
             },
             "created": "Une nouvelle Consommation a été créé avec l'identifiant {{ param }}",
             "updated": "Le Mantis Consommation avec l'identifiant {{ param }} a été mis à jour",
